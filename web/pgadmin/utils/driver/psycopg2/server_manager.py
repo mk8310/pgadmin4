@@ -197,13 +197,13 @@ class ServerManager(object):
 
                     if conn.connected():
                         status, res = conn.execute_dict(u"""
-SELECT
-    db.oid as did, db.datname, db.datallowconn,
-    sys_encoding_to_char(db.encoding) AS serverencoding,
-    has_database_privilege(db.oid, 'CREATE') as cancreate, datlastsysoid
-FROM
-    sys_database db
-WHERE db.oid = {0}""".format(did))
+                                SELECT
+                                    db.oid as did, db.datname, db.datallowconn,
+                                    sys_encoding_to_char(db.encoding) AS serverencoding,
+                                    has_database_privilege(db.oid, 'CREATE') as cancreate, datlastsysoid
+                                FROM
+                                    sys_database db
+                                WHERE db.oid = {0}""".format(did))
 
                         if status and len(res['rows']) > 0:
                             for row in res['rows']:

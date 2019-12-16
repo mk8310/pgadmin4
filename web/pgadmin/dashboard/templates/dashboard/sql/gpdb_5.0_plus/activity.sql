@@ -7,7 +7,7 @@ SELECT
     client_addr,
     to_char(backend_start, 'YYYY-MM-DD HH24:MI:SS TZ') AS backend_start,
     CASE WHEN current_query LIKE '<IDLE>%' THEN 'idle' ELSE 'active' END AS state,
-    CASE WHEN waiting THEN '{{ _('yes') }}' ELSE '{{ _('no') }}' END AS waiting
+    CASE WHEN wait_event THEN '{{ _('yes') }}' ELSE '{{ _('no') }}' END AS waiting
 FROM
     sys_stat_activity
 {% if did %}WHERE

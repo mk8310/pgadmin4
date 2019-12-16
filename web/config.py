@@ -119,6 +119,7 @@ NODE_BLACKLIST = []
 #       you may also need to redefine any values below that are derived
 #       from it, notably various paths such as LOG_FILE and anything
 #       using DATA_DIR.
+builtins.SERVER_MODE = False
 
 if (not hasattr(builtins, 'SERVER_MODE')) or builtins.SERVER_MODE is None:
     SERVER_MODE = True
@@ -228,7 +229,7 @@ LOGIN_BANNER = ""
 ##########################################################################
 
 # Debug mode?
-DEBUG = False
+DEBUG = True
 
 # Application log level - one of:
 #   CRITICAL 50
@@ -239,7 +240,7 @@ DEBUG = False
 #   DEBUG    10
 #   NOTSET    0
 CONSOLE_LOG_LEVEL = logging.WARNING
-FILE_LOG_LEVEL = logging.WARNING
+FILE_LOG_LEVEL = 25  # logging.WARNING
 
 # Log format.
 CONSOLE_LOG_FORMAT = '%(asctime)s: %(levelname)s\t%(name)s:\t%(message)s'
@@ -345,7 +346,7 @@ SECURITY_EMAIL_SUBJECT_PASSWORD_CHANGE_NOTICE = \
 ##########################################################################
 
 # Check for new versions of the application?
-UPGRADE_CHECK_ENABLED = True
+UPGRADE_CHECK_ENABLED = False
 
 # Where should we get the data from?
 UPGRADE_CHECK_URL = 'https://www.pgadmin.org/versions.json'
@@ -486,7 +487,6 @@ try:
     from config_local import *
 except ImportError:
     pass
-
 
 # SUPPORT_SSH_TUNNEL can be override in local config file and if that
 # setting is False in local config then we should not check the Python version.

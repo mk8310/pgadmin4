@@ -42,9 +42,11 @@ from pgadmin.utils.master_password import get_crypt_key
 
 if sys.version_info < (3,):
     from StringIO import StringIO
+
     IS_PY2 = True
 else:
     from io import StringIO
+
     IS_PY2 = False
 
 _ = gettext
@@ -272,9 +274,9 @@ class Connection(BaseConnection):
                 manager.stop_ssh_tunnel()
                 current_app.logger.exception(e)
                 return False, \
-                    _(
-                        "Failed to decrypt the saved password.\nError: {0}"
-                    ).format(str(e))
+                       _(
+                           "Failed to decrypt the saved password.\nError: {0}"
+                       ).format(str(e))
 
         # If no password credential is found then connect request might
         # come from Query tool, ViewData grid, debugger etc tools.
@@ -443,9 +445,9 @@ class Connection(BaseConnection):
                     )
                 )
                 return False, \
-                    _(
-                        "Failed to setup the role with error message:\n{0}"
-                    ).format(status)
+                       _(
+                           "Failed to setup the role with error message:\n{0}"
+                       ).format(status)
 
         if manager.ver is None:
             status = _execute(cur, "SELECT version()")
@@ -509,7 +511,7 @@ WHERE
 
         server_types = None
         if 'server_types' in kwargs and isinstance(
-                kwargs['server_types'], list):
+            kwargs['server_types'], list):
             server_types = manager.server_types = kwargs['server_types']
 
         if server_types is None:
@@ -628,16 +630,16 @@ WHERE
         # unicode_escape helps in escaping and unescaping
         if self.conn:
             if self.conn.encoding in ('SQL_ASCII', 'SQLASCII',
-                                      'MULE_INTERNAL', 'MULEINTERNAL')\
-               and params is not None and type(params) == dict:
+                                      'MULE_INTERNAL', 'MULEINTERNAL') \
+                and params is not None and type(params) == dict:
                 for key, val in params.items():
                     modified_val = val
                     # "unicode_escape" will convert single backslash to double
                     # backslash, so we will have to replace/revert them again
                     # to store the correct value into the database.
                     if isinstance(val, six.string_types):
-                        modified_val = val.encode('unicode_escape')\
-                            .decode('raw_unicode_escape')\
+                        modified_val = val.encode('unicode_escape') \
+                            .decode('raw_unicode_escape') \
                             .replace("\\\\", "\\")
 
                     params[key] = modified_val
@@ -719,7 +721,7 @@ WHERE
         # to avoid no-op
         if cur.description is None:
             return False, \
-                gettext('The query executed did not return any data.')
+                   gettext('The query executed did not return any data.')
 
         def handle_json_data(json_columns, results):
             """
@@ -1130,7 +1132,7 @@ WHERE
             cur.close()
             if not self.connected():
                 if self.auto_reconnect and \
-                        not self.reconnecting:
+                    not self.reconnecting:
                     return self.__attempt_execution_reconnect(
                         self.execute_2darray, query, params,
                         formatted_exception_msg
@@ -1216,6 +1218,10 @@ WHERE
         self.row_count = cur.rowcount
         if cur.rowcount > 0:
             for row in cur:
+                # row_dict = dict()
+                # if isinstance(row, dict):
+                #     for k, v in row.items():
+                #         row_dict[k.lower()] = v
                 rows.append(dict(row))
 
         return True, {'columns': columns, 'rows': rows}
@@ -1585,7 +1591,7 @@ Failed to reset the connection to the server due to following error:
                 if not crypt_key_present:
                     return False, crypt_key
 
-                password = decrypt(password, crypt_key)\
+                password = decrypt(password, crypt_key) \
                     .decode()
 
             try:
@@ -1687,8 +1693,8 @@ Failed to reset the connection to the server due to following error:
                 try:
                     import locale
                     pref_encoding = locale.getpreferredencoding()
-                    value = value.decode(pref_encoding)\
-                        .encode('utf-8')\
+                    value = value.decode(pref_encoding) \
+                        .encode('utf-8') \
                         .decode('utf-8')
                 except Exception:
                     is_error = True
@@ -1733,7 +1739,7 @@ Failed to reset the connection to the server due to following error:
             errmsg = u'ERROR:  ' + errmsg + u'\n\n'
 
         if exception_obj.diag.severity is not None \
-                and exception_obj.diag.message_primary is not None:
+            and exception_obj.diag.message_primary is not None:
             ex_diag_message = u"{0}:  {1}".format(
                 self.decode_to_utf8(exception_obj.diag.severity),
                 self.decode_to_utf8(exception_obj.diag.message_primary)
@@ -1741,7 +1747,7 @@ Failed to reset the connection to the server due to following error:
             # If both errors are different then only append it
             if errmsg and ex_diag_message and \
                 ex_diag_message.strip().strip('\n').lower() not in \
-                    errmsg.strip().strip('\n').lower():
+                errmsg.strip().strip('\n').lower():
                 errmsg += ex_diag_message
         elif exception_obj.diag.message_primary is not None:
             message_primary = self.decode_to_utf8(
@@ -1846,7 +1852,7 @@ Failed to reset the connection to the server due to following error:
             self.conn.poll()
 
         if self.conn and hasattr(self.conn, 'notifies') and \
-                len(self.conn.notifies) > 0:
+            len(self.conn.notifies) > 0:
             self.__notifies.extend(self.conn.notifies)
             self.conn.notifies = []
         else:
@@ -1894,7 +1900,7 @@ Failed to reset the connection to the server due to following error:
         """
         enc_password = None
         if psycopg2.__libpq_version__ >= 100000 and \
-                hasattr(psycopg2.extensions, 'encrypt_password'):
+            hasattr(psycopg2.extensions, 'encrypt_password'):
             if self.connected():
                 status, enc_algorithm = \
                     self.execute_scalar("SHOW password_encryption")
