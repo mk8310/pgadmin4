@@ -719,8 +719,8 @@ msgstr "Greenplum Database 실행 경로"
 #: pgadmin/browser/server_groups/servers/gpdb.py:16
 msgid ""
 "Path to the directory containing the Greenplum Database utility programs "
-"(pg_dump, pg_restore etc)."
-msgstr "Greenplum 데이터베이스 응용 프로그램 (pg_dump, pg_restore 같은 것들)이 있는 디렉터리 경로를 지정하세요."
+"(sys_dump, sys_restore etc)."
+msgstr "Greenplum 데이터베이스 응용 프로그램 (sys_dump, sys_restore 같은 것들)이 있는 디렉터리 경로를 지정하세요."
 
 #: pgadmin/browser/server_groups/servers/gpdb.py:30
 msgid "Greenplum Database"
@@ -733,9 +733,9 @@ msgstr "EDB Advanced Server 실행 경로"
 #: pgadmin/browser/server_groups/servers/ppas.py:16
 msgid ""
 "Path to the directory containing the EDB Advanced Server utility programs"
-" (pg_dump, pg_restore etc)."
+" (sys_dump, sys_restore etc)."
 msgstr ""
-"EDB Advanced Server 응용 프로그램 (pg_dump, pg_restore 같은 것들)이 있는 디렉터리 경로를 "
+"EDB Advanced Server 응용 프로그램 (sys_dump, sys_restore 같은 것들)이 있는 디렉터리 경로를 "
 "지정하세요."
 
 #: pgadmin/browser/server_groups/servers/ppas.py:26
@@ -749,8 +749,8 @@ msgstr "PostgreSQL 실행 경로"
 #: pgadmin/browser/server_groups/servers/types.py:31
 msgid ""
 "Path to the directory containing the PostgreSQL utility programs "
-"(pg_dump, pg_restore etc)."
-msgstr "PostgreSQL 응용 프로그램 (pg_dump, pg_restore 같은 것들)이 있는 디렉터리 경로를 지정하세요."
+"(sys_dump, sys_restore etc)."
+msgstr "PostgreSQL 응용 프로그램 (sys_dump, sys_restore 같은 것들)이 있는 디렉터리 경로를 지정하세요."
 
 #: pgadmin/browser/server_groups/servers/types.py:59
 #: pgadmin/help/__init__.py:53

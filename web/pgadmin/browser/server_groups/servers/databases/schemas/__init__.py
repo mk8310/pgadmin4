@@ -144,7 +144,7 @@ def check_precondition(f):
         elif self.manager.server_type == 'ppas':
             _temp = self.ppas_template_path(self.manager.version)
         else:
-            _temp = self.pg_template_path(self.manager.version)
+            _temp = self.sys_template_path(self.manager.version)
         self.template_path = self.template_initial + '/' + _temp
 
         return f(*args, **kwargs)
@@ -247,7 +247,7 @@ class SchemaView(PGChildNodeView):
         return 'ppas/#{0}#'.format(ver)
 
     @staticmethod
-    def pg_template_path(ver):
+    def sys_template_path(ver):
         """
         Returns the template path for PostgreSQL servers.
         """

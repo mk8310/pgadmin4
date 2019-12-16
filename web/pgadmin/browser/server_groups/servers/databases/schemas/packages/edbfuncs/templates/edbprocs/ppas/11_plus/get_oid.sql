@@ -1,15 +1,15 @@
 SELECT
-    pr.oid, pr.proname || '(' || COALESCE(pg_catalog
-    .pg_get_function_identity_arguments(pr.oid), '') || ')' as name,
-    lanname, pg_get_userbyid(proowner) as funcowner
+    pr.oid, pr.proname || '(' || COALESCE(sys_catalog
+    .sys_get_function_identity_arguments(pr.oid), '') || ')' as name,
+    lanname, sys_get_userbyid(proowner) as funcowner
 FROM
-    pg_proc pr
+    sys_proc pr
 JOIN
-    pg_type typ ON typ.oid=prorettype
+    sys_type typ ON typ.oid=prorettype
 JOIN
-    pg_language lng ON lng.oid=prolang
+    sys_language lng ON lng.oid=prolang
 JOIN
-    pg_namespace nsp ON nsp.oid=pr.pronamespace
+    sys_namespace nsp ON nsp.oid=pr.pronamespace
     AND nsp.nspname={{ nspname|qtLiteral }}
 WHERE
     pr.prokind = 'p'

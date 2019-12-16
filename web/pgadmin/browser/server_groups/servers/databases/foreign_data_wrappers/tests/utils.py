@@ -62,15 +62,15 @@ def create_fdw(server, db_name, fdw_name):
                                        server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute('''CREATE FOREIGN DATA WRAPPER "%s"''' % fdw_name)
+        sys_cursor = connection.cursor()
+        sys_cursor.execute('''CREATE FOREIGN DATA WRAPPER "%s"''' % fdw_name)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get 'oid' from newly created foreign data wrapper
-        pg_cursor.execute(
-            "SELECT oid FROM pg_foreign_data_wrapper WHERE fdwname = '%s'"
+        sys_cursor.execute(
+            "SELECT oid FROM sys_foreign_data_wrapper WHERE fdwname = '%s'"
             % fdw_name)
-        oid = pg_cursor.fetchone()
+        oid = sys_cursor.fetchone()
         fdw_id = ''
         if oid:
             fdw_id = oid[0]
@@ -99,11 +99,11 @@ def verify_fdw(server, db_name, fdw_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
-            "SELECT oid FROM pg_foreign_data_wrapper WHERE fdwname = '%s'"
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
+            "SELECT oid FROM sys_foreign_data_wrapper WHERE fdwname = '%s'"
             % fdw_name)
-        fdw = pg_cursor.fetchone()
+        fdw = sys_cursor.fetchone()
         connection.close()
         return fdw
     except Exception:
@@ -127,7 +127,7 @@ def delete_fdw(server, db_name, fdw_name):
                                    server['host'],
                                    server['port'],
                                    server['sslmode'])
-    pg_cursor = connection.cursor()
-    pg_cursor.execute("DROP FOREIGN DATA WRAPPER %s CASCADE" % fdw_name)
+    sys_cursor = connection.cursor()
+    sys_cursor.execute("DROP FOREIGN DATA WRAPPER %s CASCADE" % fdw_name)
     connection.commit()
     connection.close()

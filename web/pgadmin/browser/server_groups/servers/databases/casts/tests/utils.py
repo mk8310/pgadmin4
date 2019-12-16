@@ -47,20 +47,20 @@ def create_cast(server, source_type, target_type):
                                        server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("CREATE CAST (%s AS %s) WITHOUT"
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("CREATE CAST (%s AS %s) WITHOUT"
                           " FUNCTION AS IMPLICIT" % (source_type, target_type))
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
 
         # Get 'oid' from newly created cast
-        pg_cursor.execute(
-            "SELECT ca.oid FROM pg_cast ca WHERE ca.castsource = "
-            "(SELECT t.oid FROM pg_type t "
+        sys_cursor.execute(
+            "SELECT ca.oid FROM sys_cast ca WHERE ca.castsource = "
+            "(SELECT t.oid FROM sys_type t "
             "WHERE format_type(t.oid, NULL)='%s') "
-            "AND ca.casttarget = (SELECT t.oid FROM pg_type t WHERE "
+            "AND ca.casttarget = (SELECT t.oid FROM sys_type t WHERE "
             "format_type(t.oid, NULL) = '%s')" % (source_type, target_type))
-        oid = pg_cursor.fetchone()
+        oid = sys_cursor.fetchone()
         cast_id = ''
         if oid:
             cast_id = oid[0]
@@ -73,14 +73,14 @@ def create_cast(server, source_type, target_type):
 def verify_cast(connection, source_type, target_type):
     """ This function will verify current cast."""
     try:
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
-            "SELECT * FROM pg_cast ca WHERE ca.castsource = "
-            "(SELECT t.oid FROM pg_type t "
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
+            "SELECT * FROM sys_cast ca WHERE ca.castsource = "
+            "(SELECT t.oid FROM sys_type t "
             "WHERE format_type(t.oid, NULL)='%s') "
-            "AND ca.casttarget = (SELECT t.oid FROM pg_type t WHERE "
+            "AND ca.casttarget = (SELECT t.oid FROM sys_type t WHERE "
             "format_type(t.oid, NULL) = '%s')" % (source_type, target_type))
-        casts = pg_cursor.fetchall()
+        casts = sys_cursor.fetchall()
         connection.close()
         return casts
     except Exception:
@@ -91,15 +91,15 @@ def drop_cast(connection, source_type, target_type):
     """This function used to drop the cast"""
 
     try:
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
-            "SELECT * FROM pg_cast ca WHERE ca.castsource = "
-            "(SELECT t.oid FROM pg_type t "
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
+            "SELECT * FROM sys_cast ca WHERE ca.castsource = "
+            "(SELECT t.oid FROM sys_type t "
             "WHERE format_type(t.oid, NULL)='%s') "
-            "AND ca.casttarget = (SELECT t.oid FROM pg_type t WHERE "
+            "AND ca.casttarget = (SELECT t.oid FROM sys_type t WHERE "
             "format_type(t.oid, NULL) = '%s')" % (source_type, target_type))
-        if pg_cursor.fetchall():
-            pg_cursor.execute(
+        if sys_cursor.fetchall():
+            sys_cursor.execute(
                 "DROP CAST (%s AS %s) CASCADE" % (source_type, target_type))
             connection.commit()
             connection.close()

@@ -63,7 +63,7 @@ Use the fields on the *Display* panel to specify general display preferences:
 +---------------------+-------------------------------------------------------------------+
 
 * When the *Show system objects?* switch is set to *True*, the client will
-  display system objects such as system schemas (for example, *pg_temp*) or
+  display system objects such as system schemas (for example, *sys_temp*) or
   system columns (for example,  *xmin* or *ctid*) in the tree control.
 
 Use the fields on the *Keyboard shortcuts* panel to configure shortcuts for the
@@ -197,7 +197,7 @@ files.
     :align: center
 
 Use the fields on the *Binary paths* panel to specify the path to the directory
-that contains the utility programs (pg_dump, pg_restore, and pg_dumpall) for
+that contains the utility programs (sys_dump, sys_restore, and sys_dumpall) for
 monitored databases:
 
 * Use the *EDB Advanced Server Binary Path* field to specify the location of the

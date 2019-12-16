@@ -26,19 +26,19 @@ class PGUtilitiesMaintenanceFeatureTest(BaseFeatureTest):
 
     scenarios = [
         ("Test for PG maintenance: database", dict(
-            database_name='pg_maintenance_',
+            database_name='sys_maintenance_',
             table_name='table_',
             test_level='database',
             is_xss_check=False,
         )),
         ("Test for PG maintenance: table", dict(
-            database_name='pg_maintenance_',
+            database_name='sys_maintenance_',
             table_name='table_',
             test_level='table',
             is_xss_check=False,
         )),
         ("Test for XSS in maintenance dialog", dict(
-            database_name='pg_maintenance_',
+            database_name='sys_maintenance_',
             table_name='<h1>test_me</h1>',
             test_level='table',
             is_xss_check=True,

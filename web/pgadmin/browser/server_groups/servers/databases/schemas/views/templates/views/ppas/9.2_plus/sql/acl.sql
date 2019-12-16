@@ -23,9 +23,9 @@ FROM
         (SELECT
             relacl
         FROM
-            pg_class cl
-        LEFT OUTER JOIN pg_shdescription descr ON (
-            cl.oid=descr.objoid AND descr.classoid='pg_class'::regclass)
+            sys_class cl
+        LEFT OUTER JOIN sys_shdescription descr ON (
+            cl.oid=descr.objoid AND descr.classoid='sys_class'::regclass)
         WHERE
             cl.oid = {{ vid }}::OID AND relkind = 'v'
         ) acl,
@@ -38,14 +38,14 @@ FROM
             (SELECT
                 aclexplode(relacl) AS d
              FROM
-                pg_class cl1
+                sys_class cl1
              WHERE
                 cl1.oid = {{ vid }}
             ) a
         ) d
     ) d
-LEFT JOIN pg_catalog.pg_roles g ON (d.grantor = g.oid)
-LEFT JOIN pg_catalog.pg_roles gt ON (d.grantee = gt.oid)
+LEFT JOIN sys_catalog.sys_roles g ON (d.grantor = g.oid)
+LEFT JOIN sys_catalog.sys_roles gt ON (d.grantee = gt.oid)
 GROUP BY
     g.rolname,
     gt.rolname

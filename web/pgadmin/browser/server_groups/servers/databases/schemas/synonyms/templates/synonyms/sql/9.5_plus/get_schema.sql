@@ -2,6 +2,6 @@
 SELECT
     c.relnamespace as scid
 FROM
-    pg_class c
+    sys_class c
 WHERE
     c.oid = {{syid|qtLiteral}}::oid;

@@ -54,19 +54,19 @@ def create_tablespace(server, test_tablespace_name, test_tablespace_dir=None):
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         if test_tablespace_dir is None:
             test_tablespace_dir = server['tablespace_path']
-        pg_cursor.execute("CREATE TABLESPACE %s LOCATION '%s'" %
+        sys_cursor.execute("CREATE TABLESPACE %s LOCATION '%s'" %
                           (test_tablespace_name, test_tablespace_dir))
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
 
         # Get 'oid' from newly created tablespace
-        pg_cursor.execute(
-            "SELECT ts.oid from pg_tablespace ts WHERE ts.spcname='%s'" %
+        sys_cursor.execute(
+            "SELECT ts.oid from sys_tablespace ts WHERE ts.spcname='%s'" %
             test_tablespace_name)
-        oid = pg_cursor.fetchone()
+        oid = sys_cursor.fetchone()
         tspc_id = ''
         if oid:
             tspc_id = oid[0]
@@ -93,10 +93,10 @@ def verify_table_space(server, test_tablespace_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT * FROM pg_tablespace ts WHERE"
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT * FROM sys_tablespace ts WHERE"
                           " ts.spcname='%s'" % test_tablespace_name)
-        tablespace_count = len(pg_cursor.fetchall())
+        tablespace_count = len(sys_cursor.fetchall())
         connection.close()
         return tablespace_count
     except Exception as exception:
@@ -107,14 +107,14 @@ def verify_table_space(server, test_tablespace_name):
 
 def delete_tablespace(connection, test_tablespace_name):
     try:
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT * FROM pg_tablespace ts WHERE"
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT * FROM sys_tablespace ts WHERE"
                           " ts.spcname='%s'" % test_tablespace_name)
-        tablespace_count = len(pg_cursor.fetchall())
+        tablespace_count = len(sys_cursor.fetchall())
         if tablespace_count:
             old_isolation_level = connection.isolation_level
             connection.set_isolation_level(0)
-            pg_cursor.execute("DROP TABLESPACE %s" % test_tablespace_name)
+            sys_cursor.execute("DROP TABLESPACE %s" % test_tablespace_name)
             connection.set_isolation_level(old_isolation_level)
             connection.commit()
         connection.close()

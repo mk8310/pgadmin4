@@ -83,13 +83,13 @@ def create_database(connection, db_name):
     try:
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             '''CREATE DATABASE "%s" TEMPLATE template0''' % db_name
         )
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
-        return pg_cursor
+        return sys_cursor
     except Exception as exception:
         raise Exception("Error while creating database. %s" % exception)
 

@@ -147,25 +147,25 @@ def register_global_typecasters():
     psycopg2.extensions.register_type(unicode_array_type_for_record_array)
 
     # define type caster to convert various pg types into string type
-    pg_types_to_string_type = psycopg2.extensions.new_type(
+    sys_types_to_string_type = psycopg2.extensions.new_type(
         TO_STRING_DATATYPES + PSYCOPG_SUPPORTED_RANGE_TYPES,
         'TYPECAST_TO_STRING', _STRING
     )
 
     # define type caster to convert pg array types of above types into
     # array of string type
-    pg_array_types_to_array_of_string_type = \
+    sys_array_types_to_array_of_string_type = \
         psycopg2.extensions.new_array_type(
             TO_ARRAY_OF_STRING_DATATYPES,
-            'TYPECAST_TO_ARRAY_OF_STRING', pg_types_to_string_type
+            'TYPECAST_TO_ARRAY_OF_STRING', sys_types_to_string_type
         )
 
     # This registers a type caster to convert various pg types into string type
-    psycopg2.extensions.register_type(pg_types_to_string_type)
+    psycopg2.extensions.register_type(sys_types_to_string_type)
 
     # This registers a type caster to convert various pg array types into
     # array of string type
-    psycopg2.extensions.register_type(pg_array_types_to_array_of_string_type)
+    psycopg2.extensions.register_type(sys_array_types_to_array_of_string_type)
 
     # Treat JSON data as text because converting it to dict alters the data
     # which should not happen as per postgres docs

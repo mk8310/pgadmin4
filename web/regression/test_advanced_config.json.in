@@ -289,7 +289,7 @@
 
   "collation_credentials":[
   {
-    "copy_collation": "pg_catalog.\"POSIX\"",
+    "copy_collation": "sys_catalog.\"POSIX\"",
     "name": "test_collation",
     "owner": "postgres",
     "schema": ""

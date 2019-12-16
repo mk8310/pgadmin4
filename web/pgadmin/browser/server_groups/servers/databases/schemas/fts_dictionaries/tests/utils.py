@@ -28,20 +28,20 @@ def create_fts_dictionary(server, db_name, schema_name, fts_dict_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
         query = "CREATE TEXT SEARCH DICTIONARY %s.%s (TEMPLATE = simple)" % (
             schema_name, fts_dict_name)
 
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
 
         # Get 'oid' from newly created dictionary
-        pg_cursor.execute("select oid from pg_catalog.pg_ts_dict where "
+        sys_cursor.execute("select oid from sys_catalog.sys_ts_dict where "
                           "dictname = '%s' order by oid ASC limit 1"
                           % fts_dict_name)
 
-        oid = pg_cursor.fetchone()
+        oid = sys_cursor.fetchone()
         fts_dict_id = ''
         if oid:
             fts_dict_id = oid[0]
@@ -71,13 +71,13 @@ def verify_fts_dict(server, db_name, fts_dict_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
-        pg_cursor.execute(
-            "select oid from pg_catalog.pg_ts_dict where "
+        sys_cursor.execute(
+            "select oid from sys_catalog.sys_ts_dict where "
             "dictname = '%s' order by oid ASC limit 1"
             % fts_dict_name)
-        fts_dict = pg_cursor.fetchone()
+        fts_dict = sys_cursor.fetchone()
         connection.close()
         return fts_dict
     except Exception:
@@ -103,8 +103,8 @@ def delete_fts_dictionaries(server, db_name, schema_name, fts_dict_name):
                                    server['host'],
                                    server['port'],
                                    server['sslmode'])
-    pg_cursor = connection.cursor()
-    pg_cursor.execute("DROP TEXT SEARCH DICTIONARY %s.%s" % (schema_name,
+    sys_cursor = connection.cursor()
+    sys_cursor.execute("DROP TEXT SEARCH DICTIONARY %s.%s" % (schema_name,
                                                              fts_dict_name))
     connection.commit()
     connection.close()

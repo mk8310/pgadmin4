@@ -4,8 +4,8 @@ CASE WHEN nspname NOT LIKE 'pg\_%' THEN
  quote_ident(nspname)||'.'||quote_ident(c.relname)
 ELSE quote_ident(c.relname)
 END AS inherits
-FROM pg_class c
-JOIN pg_namespace n
+FROM sys_class c
+JOIN sys_namespace n
 ON n.oid=c.relnamespace
 WHERE relkind='r' AND NOT relispartition
 {% if not show_system_objects %}

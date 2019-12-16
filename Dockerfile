@@ -103,34 +103,34 @@ FROM postgres:12-alpine as pg12-builder
 FROM alpine:3.10 as tool-builder
 
 # Copy the PG binaries
-COPY --from=pg94-builder /usr/local/bin/pg_dump /usr/local/pgsql/pgsql-9.4/
-COPY --from=pg94-builder /usr/local/bin/pg_dumpall /usr/local/pgsql/pgsql-9.4/
-COPY --from=pg94-builder /usr/local/bin/pg_restore /usr/local/pgsql/pgsql-9.4/
+COPY --from=pg94-builder /usr/local/bin/sys_dump /usr/local/pgsql/pgsql-9.4/
+COPY --from=pg94-builder /usr/local/bin/sys_dumpall /usr/local/pgsql/pgsql-9.4/
+COPY --from=pg94-builder /usr/local/bin/sys_restore /usr/local/pgsql/pgsql-9.4/
 COPY --from=pg94-builder /usr/local/bin/psql /usr/local/pgsql/pgsql-9.4/
 
-COPY --from=pg95-builder /usr/local/bin/pg_dump /usr/local/pgsql/pgsql-9.5/
-COPY --from=pg95-builder /usr/local/bin/pg_dumpall /usr/local/pgsql/pgsql-9.5/
-COPY --from=pg95-builder /usr/local/bin/pg_restore /usr/local/pgsql/pgsql-9.5/
+COPY --from=pg95-builder /usr/local/bin/sys_dump /usr/local/pgsql/pgsql-9.5/
+COPY --from=pg95-builder /usr/local/bin/sys_dumpall /usr/local/pgsql/pgsql-9.5/
+COPY --from=pg95-builder /usr/local/bin/sys_restore /usr/local/pgsql/pgsql-9.5/
 COPY --from=pg95-builder /usr/local/bin/psql /usr/local/pgsql/pgsql-9.5/
 
-COPY --from=pg96-builder /usr/local/bin/pg_dump /usr/local/pgsql/pgsql-9.6/
-COPY --from=pg96-builder /usr/local/bin/pg_dumpall /usr/local/pgsql/pgsql-9.6/
-COPY --from=pg96-builder /usr/local/bin/pg_restore /usr/local/pgsql/pgsql-9.6/
+COPY --from=pg96-builder /usr/local/bin/sys_dump /usr/local/pgsql/pgsql-9.6/
+COPY --from=pg96-builder /usr/local/bin/sys_dumpall /usr/local/pgsql/pgsql-9.6/
+COPY --from=pg96-builder /usr/local/bin/sys_restore /usr/local/pgsql/pgsql-9.6/
 COPY --from=pg96-builder /usr/local/bin/psql /usr/local/pgsql/pgsql-9.6/
 
-COPY --from=pg10-builder /usr/local/bin/pg_dump /usr/local/pgsql/pgsql-10/
-COPY --from=pg10-builder /usr/local/bin/pg_dumpall /usr/local/pgsql/pgsql-10/
-COPY --from=pg10-builder /usr/local/bin/pg_restore /usr/local/pgsql/pgsql-10/
+COPY --from=pg10-builder /usr/local/bin/sys_dump /usr/local/pgsql/pgsql-10/
+COPY --from=pg10-builder /usr/local/bin/sys_dumpall /usr/local/pgsql/pgsql-10/
+COPY --from=pg10-builder /usr/local/bin/sys_restore /usr/local/pgsql/pgsql-10/
 COPY --from=pg10-builder /usr/local/bin/psql /usr/local/pgsql/pgsql-10/
 
-COPY --from=pg11-builder /usr/local/bin/pg_dump /usr/local/pgsql/pgsql-11/
-COPY --from=pg11-builder /usr/local/bin/pg_dumpall /usr/local/pgsql/pgsql-11/
-COPY --from=pg11-builder /usr/local/bin/pg_restore /usr/local/pgsql/pgsql-11/
+COPY --from=pg11-builder /usr/local/bin/sys_dump /usr/local/pgsql/pgsql-11/
+COPY --from=pg11-builder /usr/local/bin/sys_dumpall /usr/local/pgsql/pgsql-11/
+COPY --from=pg11-builder /usr/local/bin/sys_restore /usr/local/pgsql/pgsql-11/
 COPY --from=pg11-builder /usr/local/bin/psql /usr/local/pgsql/pgsql-11/
 
-COPY --from=pg12-builder /usr/local/bin/pg_dump /usr/local/pgsql/pgsql-12/
-COPY --from=pg12-builder /usr/local/bin/pg_dumpall /usr/local/pgsql/pgsql-12/
-COPY --from=pg12-builder /usr/local/bin/pg_restore /usr/local/pgsql/pgsql-12/
+COPY --from=pg12-builder /usr/local/bin/sys_dump /usr/local/pgsql/pgsql-12/
+COPY --from=pg12-builder /usr/local/bin/sys_dumpall /usr/local/pgsql/pgsql-12/
+COPY --from=pg12-builder /usr/local/bin/sys_restore /usr/local/pgsql/pgsql-12/
 COPY --from=pg12-builder /usr/local/bin/psql /usr/local/pgsql/pgsql-12/
 
 #########################################################################

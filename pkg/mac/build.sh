@@ -167,9 +167,9 @@ _complete_bundle() {
 
     # Copy the binary utilities into place
     mkdir -p "${BUILDROOT}/${APP_BUNDLE_NAME}/Contents/SharedSupport/" || exit 1
-    cp "${PGDIR}/bin/pg_dump" "${BUILDROOT}/${APP_BUNDLE_NAME}/Contents/SharedSupport/" || exit 1
-    cp "${PGDIR}/bin/pg_dumpall" "${BUILDROOT}/${APP_BUNDLE_NAME}/Contents/SharedSupport/" || exit 1
-    cp "${PGDIR}/bin/pg_restore" "${BUILDROOT}/${APP_BUNDLE_NAME}/Contents/SharedSupport/" || exit 1
+    cp "${PGDIR}/bin/sys_dump" "${BUILDROOT}/${APP_BUNDLE_NAME}/Contents/SharedSupport/" || exit 1
+    cp "${PGDIR}/bin/sys_dumpall" "${BUILDROOT}/${APP_BUNDLE_NAME}/Contents/SharedSupport/" || exit 1
+    cp "${PGDIR}/bin/sys_restore" "${BUILDROOT}/${APP_BUNDLE_NAME}/Contents/SharedSupport/" || exit 1
     cp "${PGDIR}/bin/psql" "${BUILDROOT}/${APP_BUNDLE_NAME}/Contents/SharedSupport/" || exit 1
     
     # Replace the place holders with the current version

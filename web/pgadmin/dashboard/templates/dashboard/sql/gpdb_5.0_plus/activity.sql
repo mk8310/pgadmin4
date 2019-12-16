@@ -9,7 +9,7 @@ SELECT
     CASE WHEN current_query LIKE '<IDLE>%' THEN 'idle' ELSE 'active' END AS state,
     CASE WHEN waiting THEN '{{ _('yes') }}' ELSE '{{ _('no') }}' END AS waiting
 FROM
-    pg_stat_activity
+    sys_stat_activity
 {% if did %}WHERE
     datid = {{ did }} {% endif %}
 ORDER BY pid

@@ -23,17 +23,17 @@ class SchemaChildModule(CollectionNodeModule):
 
     Some of the node may be/may not be allowed in certain catalog nodes.
     i.e.
-    Do not show the schema objects under pg_catalog, pgAgent, etc.
+    Do not show the schema objects under sys_catalog, pgAgent, etc.
 
     Looks at two parameters CATALOG_DB_SUPPORTED, SUPPORTED_SCHEMAS.
 
     Schema child objects like catalog_objects are only supported for
-    'pg_catalog', and objects like 'jobs' & 'schedules' are only supported for
+    'sys_catalog', and objects like 'jobs' & 'schedules' are only supported for
     the 'pgagent' schema.
 
     For catalog_objects, we should set:
         CATALOG_DB_SUPPORTED = False
-        SUPPORTED_SCHEMAS = ['pg_catalog']
+        SUPPORTED_SCHEMAS = ['sys_catalog']
 
     For jobs & schedules, we should set:
         CATALOG_DB_SUPPORTED = False
@@ -295,7 +295,7 @@ class DataTypeReader:
             if len(length) > 0:
                 length += ')'
 
-        if name == 'char' and schema == 'pg_catalog':
+        if name == 'char' and schema == 'sys_catalog':
             return '"char"' + array
         elif name == 'time with time zone':
             return 'time' + length + ' with time zone' + array

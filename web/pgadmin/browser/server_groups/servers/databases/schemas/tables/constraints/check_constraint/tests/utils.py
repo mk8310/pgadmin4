@@ -40,21 +40,21 @@ def create_check_constraint(server, db_name, schema_name, table_name,
                                              server['port'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "ALTER TABLE %s.%s ADD CONSTRAINT %s CHECK ( (id > 0)) " \
                 "NOT VALID; COMMENT ON CONSTRAINT %s ON %s.%s IS " \
                 "'this is test comment'" % (schema_name, table_name,
                                             check_constraint_name,
                                             check_constraint_name,
                                             schema_name, table_name)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get oid of newly added check constraint
-        pg_cursor.execute(
-            "SELECT oid FROM pg_constraint where conname='%s'" %
+        sys_cursor.execute(
+            "SELECT oid FROM sys_constraint where conname='%s'" %
             check_constraint_name)
-        chk_constraint_record = pg_cursor.fetchone()
+        chk_constraint_record = sys_cursor.fetchone()
         connection.close()
         chk_constraint_id = chk_constraint_record[0]
         return chk_constraint_id
@@ -80,11 +80,11 @@ def verify_check_constraint(server, db_name, check_constraint_name):
                                              server['db_password'],
                                              server['host'],
                                              server['port'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
-            "SELECT oid FROM pg_constraint where conname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
+            "SELECT oid FROM sys_constraint where conname='%s'" %
             check_constraint_name)
-        chk_constraint_record = pg_cursor.fetchone()
+        chk_constraint_record = sys_cursor.fetchone()
         connection.close()
         return chk_constraint_record
     except Exception:

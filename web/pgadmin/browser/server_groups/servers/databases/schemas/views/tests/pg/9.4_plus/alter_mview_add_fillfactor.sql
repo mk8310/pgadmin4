@@ -7,7 +7,7 @@ WITH (
     FILLFACTOR = 18,
     autovacuum_enabled = false
 )
-TABLESPACE pg_default
+TABLESPACE sys_default
 AS
  SELECT 12
 WITH DATA;

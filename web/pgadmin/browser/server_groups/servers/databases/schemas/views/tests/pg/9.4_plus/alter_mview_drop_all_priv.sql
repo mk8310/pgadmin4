@@ -3,7 +3,7 @@
 -- DROP MATERIALIZED VIEW public."testmview_$%{}[]()&*^!/@`#";
 
 CREATE MATERIALIZED VIEW public."testmview_$%{}[]()&*^!/@`#"
-TABLESPACE pg_default
+TABLESPACE sys_default
 AS
  SELECT 1
 WITH NO DATA;

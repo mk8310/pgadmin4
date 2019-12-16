@@ -14,11 +14,11 @@ FROM
         END AS privilege_type
     FROM
         (SELECT aclexplode(nsp.nspacl) as d
-        FROM pg_namespace nsp
+        FROM sys_namespace nsp
         WHERE nsp.oid = {{ scid|qtLiteral }}::OID
         ) a
     ) b
-    LEFT JOIN pg_catalog.pg_roles g ON (b.grantor = g.oid)
-    LEFT JOIN pg_catalog.pg_roles gt ON (b.grantee = gt.oid)
+    LEFT JOIN sys_catalog.sys_roles g ON (b.grantor = g.oid)
+    LEFT JOIN sys_catalog.sys_roles gt ON (b.grantee = gt.oid)
 GROUP BY g.rolname, gt.rolname
 ORDER BY grantee;

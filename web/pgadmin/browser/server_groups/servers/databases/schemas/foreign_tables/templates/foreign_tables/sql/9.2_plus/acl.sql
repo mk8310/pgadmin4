@@ -26,11 +26,11 @@ FROM
             (d).is_grantable AS is_grantable,
             (d).privilege_type AS privilege_type
         FROM
-            (SELECT aclexplode(db.relacl) AS d FROM pg_class db
+            (SELECT aclexplode(db.relacl) AS d FROM sys_class db
             WHERE db.oid = {{foid}}::OID) a
         ) d
     ) d
-    LEFT JOIN pg_catalog.pg_roles g ON (d.grantor = g.oid)
-    LEFT JOIN pg_catalog.pg_roles gt ON (d.grantee = gt.oid)
+    LEFT JOIN sys_catalog.sys_roles g ON (d.grantor = g.oid)
+    LEFT JOIN sys_catalog.sys_roles gt ON (d.grantee = gt.oid)
 GROUP BY g.rolname, gt.rolname
 ORDER BY grantee;

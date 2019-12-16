@@ -720,10 +720,10 @@ msgstr "Ścieżka Binariów Bazy Danych Greenplum"
 #: pgadmin/browser/server_groups/servers/gpdb.py:16
 msgid ""
 "Path to the directory containing the Greenplum Database utility programs "
-"(pg_dump, pg_restore etc)."
+"(sys_dump, sys_restore etc)."
 msgstr ""
-"Ścieżka zawierająca programy narzędziowe Bazy Danych Greenplum (pg_dump, "
-"pg_restore itd)."
+"Ścieżka zawierająca programy narzędziowe Bazy Danych Greenplum (sys_dump, "
+"sys_restore itd)."
 
 #: pgadmin/browser/server_groups/servers/gpdb.py:30
 msgid "Greenplum Database"
@@ -736,10 +736,10 @@ msgstr "Ścieżka Binariów Zaawansowanego Serwera EDB"
 #: pgadmin/browser/server_groups/servers/ppas.py:16
 msgid ""
 "Path to the directory containing the EDB Advanced Server utility programs"
-" (pg_dump, pg_restore etc)."
+" (sys_dump, sys_restore etc)."
 msgstr ""
 "Ścieżka zawierająca programy narzędziowe Zaawansowanego Serwera EDB "
-"(pg_dump, pg_restore itd)."
+"(sys_dump, sys_restore itd)."
 
 #: pgadmin/browser/server_groups/servers/ppas.py:26
 msgid "EDB Advanced Server"
@@ -752,9 +752,9 @@ msgstr "Ścieżka Binariów PostgreSQL"
 #: pgadmin/browser/server_groups/servers/types.py:31
 msgid ""
 "Path to the directory containing the PostgreSQL utility programs "
-"(pg_dump, pg_restore etc)."
+"(sys_dump, sys_restore etc)."
 msgstr ""
-"Ścieżka zawierająca programy narzędziowe PostgreSQL (pg_dump, pg_restore "
+"Ścieżka zawierająca programy narzędziowe PostgreSQL (sys_dump, sys_restore "
 "itd)."
 
 #: pgadmin/browser/server_groups/servers/types.py:59

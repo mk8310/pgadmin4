@@ -43,11 +43,11 @@ class RestoreMessageTest(BaseTestGenerator):
                      '--database',
                      'postgres'
                  ],
-                 cmd="/test_path/pg_restore"
+                 cmd="/test_path/sys_restore"
              ),
              extected_msg="Restoring backup on the server "
                           "'test_restore_server (localhost:5444)'",
-             expetced_details_cmd='/test_path/pg_restore --file '
+             expetced_details_cmd='/test_path/sys_restore --file '
                                   '"restore_file" --host "localhost"'
                                   ' --port "5444" --username "postgres" '
                                   '--no-password --database "postgres"'

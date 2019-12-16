@@ -3,11 +3,11 @@ SELECT
     quote_ident(n.nspname)||'.'||quote_ident(c.relname) as inheritedfrom,
     c.oid as inheritedid
 FROM
-    pg_class c
+    sys_class c
 JOIN
-    pg_namespace n ON c.relnamespace=n.oid
+    sys_namespace n ON c.relnamespace=n.oid
 JOIN
-    pg_attribute a ON a.attrelid = c.oid AND NOT a.attisdropped AND a.attnum > 0
+    sys_attribute a ON a.attrelid = c.oid AND NOT a.attisdropped AND a.attnum > 0
 WHERE
 {% if tid %}
     c.oid = {{tid}}::OID

@@ -47,17 +47,17 @@ def create_extension(server, db_name, extension_name, schema_name):
                                        server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             '''CREATE EXTENSION "%s" SCHEMA "%s"''' % (extension_name,
                                                        schema_name))
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get 'oid' from newly created extension
-        pg_cursor.execute(
-            "SELECT oid FROM pg_extension WHERE extname = '%s'" %
+        sys_cursor.execute(
+            "SELECT oid FROM sys_extension WHERE extname = '%s'" %
             extension_name)
-        oid = pg_cursor.fetchone()
+        oid = sys_cursor.fetchone()
         extension_id = ''
         if oid:
             extension_id = oid[0]
@@ -86,11 +86,11 @@ def verify_extension(server, db_name, extension_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
-        pg_cursor.execute(
-            "select * from pg_extension where extname='%s'" % extension_name)
-        extension = pg_cursor.fetchone()
+        sys_cursor.execute(
+            "select * from sys_extension where extname='%s'" % extension_name)
+        extension = sys_cursor.fetchone()
         connection.close()
         return extension
     except Exception:
@@ -115,12 +115,12 @@ def drop_extension(server, db_name, extension_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
-            "SELECT * FROM pg_extension WHERE extname='%s'"
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
+            "SELECT * FROM sys_extension WHERE extname='%s'"
             % extension_name)
-        if pg_cursor.fetchall():
-            pg_cursor.execute(
+        if sys_cursor.fetchall():
+            sys_cursor.execute(
                 "DROP EXTENSION %s CASCADE" % extension_name)
             connection.commit()
         connection.close()

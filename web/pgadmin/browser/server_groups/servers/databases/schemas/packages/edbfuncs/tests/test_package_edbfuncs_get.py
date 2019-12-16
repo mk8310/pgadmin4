@@ -49,7 +49,7 @@ class PackageEDBFuncsGetTestCase(BaseTestGenerator):
                                              self.server['host'],
                                              self.server['port'],
                                              self.server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = """
         CREATE OR REPLACE PACKAGE %s.%s
 IS
@@ -76,13 +76,13 @@ END %s;""" % (self.schema_name, self.pkg_name, self.proc_name,
               self.pkg_name, self.proc_name, self.func_name,
               self.pkg_name)
 
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
         # Get 'oid' from newly created package
-        pg_cursor.execute("SELECT oid FROM pg_namespace"
+        sys_cursor.execute("SELECT oid FROM sys_namespace"
                           " WHERE nspname='%s'" %
                           self.pkg_name)
-        self.package_id = pg_cursor.fetchone()[0]
+        self.package_id = sys_cursor.fetchone()[0]
         connection.close()
 
     def runTest(self):

@@ -11,7 +11,7 @@ pgAdmin can be deployed in a container using the image at:
 PostgreSQL Utilities
 ********************
 
-The PostgreSQL utilities *pg_dump*, *pg_dumpall*, *pg_restore* and *psql* are
+The PostgreSQL utilities *sys_dump*, *sys_dumpall*, *sys_restore* and *psql* are
 included in the container to allow backups to be created and restored and other
 maintenance functions to be executed. Multiple versions are included in the
 following directories to allow use with different versions of the database

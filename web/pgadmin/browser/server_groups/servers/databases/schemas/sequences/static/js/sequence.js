@@ -121,8 +121,8 @@ define('pgadmin.node.sequence', [
           id: 'schema', label: gettext('Schema'), cell: 'string',
           control: 'node-list-by-name', node: 'schema',
           type: 'text', mode: ['create', 'edit'], filter: function(d) {
-            // If schema name start with pg_* then we need to exclude them
-            if(d && d.label.match(/^pg_/))
+            // If schema name start with sys_* then we need to exclude them
+            if(d && d.label.match(/^sys_/))
             {
               return false;
             }

@@ -25,9 +25,9 @@ class TestDependentsSql(SQLTemplateTestBase):
         self.table_id = -1
 
     def test_setup(self, connection, cursor):
-        cursor.execute("SELECT pg_class.oid AS table_id "
-                       "FROM pg_class "
-                       "WHERE pg_class.relname='test_table'")
+        cursor.execute("SELECT sys_class.oid AS table_id "
+                       "FROM sys_class "
+                       "WHERE sys_class.relname='test_table'")
         self.table_id = cursor.fetchone()[0]
 
     def generate_sql(self, version):

@@ -443,7 +443,7 @@ define([
       }
 
       var module = 'paths',
-        preference_name = 'pg_bin_dir',
+        preference_name = 'sys_bin_dir',
         msg = gettext('Please configure the PostgreSQL Binary Path in the Preferences dialog.');
 
       if ((server_data.type && server_data.type == 'ppas') ||
@@ -480,9 +480,9 @@ define([
           return {
             main: function(title, node, item, data) {
               this.set('title', title);
-              this.setting('pg_node', node);
-              this.setting('pg_item', item);
-              this.setting('pg_item_data', data);
+              this.setting('sys_node', node);
+              this.setting('sys_item', item);
+              this.setting('sys_item_data', data);
             },
 
             build: function() {
@@ -512,17 +512,17 @@ define([
             },
 
             settings: {
-              pg_node: null,
-              pg_item: null,
-              pg_item_data: null,
+              sys_node: null,
+              sys_item: null,
+              sys_item_data: null,
             },
 
             // Callback functions when click on the buttons of the Alertify dialogs
             callback: function(e) {
               if (e.button['data-btn-name'] === 'ok') {
 
-                var n = this.settings['pg_node'],
-                  i = this.settings['pg_item'],
+                var n = this.settings['sys_node'],
+                  i = this.settings['sys_item'],
                   treeInfo = n.getTreeNodeHierarchy.apply(n, [i]);
 
                 this.view.model.set({
@@ -607,8 +607,8 @@ define([
               this.__internal.buttons[1].element.disabled = true;
 
               var $container = $('<div class=\'import_dlg\'></div>'),
-                n = this.settings.pg_node,
-                i = this.settings.pg_item,
+                n = this.settings.sys_node,
+                i = this.settings.sys_item,
                 treeInfo = n.getTreeNodeHierarchy.apply(n, [i]),
                 newModel = new ImportExportModel({}, {
                   node_info: treeInfo,

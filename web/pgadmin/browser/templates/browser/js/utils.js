@@ -54,7 +54,7 @@ define('pgadmin.browser.utils',
 
   pgBrowser.utils = {
     layout: '{{ layout }}',
-    pg_help_path: '{{ pg_help_path }}',
+    sys_help_path: '{{ sys_help_path }}',
     edbas_help_path: '{{ edbas_help_path }}',
     tabSize: '{{ editor_tab_size }}',
     wrapCode: '{{ editor_wrap_code }}' == 'True',
@@ -63,7 +63,7 @@ define('pgadmin.browser.utils',
     braceMatching: '{{ editor_brace_matching }}' == 'True',
     is_indent_with_tabs: '{{ editor_indent_with_tabs }}' == 'True',
     app_name: '{{ app_name }}',
-    pg_libpq_version: {{pg_libpq_version|e}},
+    sys_libpq_version: {{sys_libpq_version|e}},
     support_ssh_tunnel: '{{ support_ssh_tunnel }}' == 'True',
 
     counter: {total: 0, loaded: 0},

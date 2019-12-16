@@ -82,7 +82,7 @@ export class Dialog {
 
   hasBinariesConfiguration(serverInformation) {
     const module = 'paths';
-    let preference_name = 'pg_bin_dir';
+    let preference_name = 'sys_bin_dir';
     let msg = gettext('Please configure the PostgreSQL Binary Path in the Preferences dialog.');
 
     if ((serverInformation.type && serverInformation.type === 'ppas') ||

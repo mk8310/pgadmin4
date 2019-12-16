@@ -166,9 +166,9 @@ def check_precondition(f):
 
         # Here args[0] will hold self & kwargs will hold gid,sid,did
         self = args[0]
-        pg_driver = get_driver(PG_DEFAULT_DRIVER)
-        self.qtIdent = pg_driver.qtIdent
-        self.manager = pg_driver.connection_manager(
+        sys_driver = get_driver(PG_DEFAULT_DRIVER)
+        self.qtIdent = sys_driver.qtIdent
+        self.manager = sys_driver.connection_manager(
             kwargs['sid']
         )
         self.conn = self.manager.connection(did=kwargs['did'])
@@ -186,7 +186,7 @@ def check_precondition(f):
         elif self.manager.server_type == 'ppas':
             _temp = self.ppas_template_path(self.manager.version)
         else:
-            _temp = self.pg_template_path(self.manager.version)
+            _temp = self.sys_template_path(self.manager.version)
         self.template_path = self.template_initial + '/' + _temp
 
         self.column_template_path = 'columns/sql/#{0}#'.format(
@@ -310,7 +310,7 @@ class ViewNode(PGChildNodeView, VacuumSettings):
         return 'ppas/#{0}#'.format(ver)
 
     @staticmethod
-    def pg_template_path(ver):
+    def sys_template_path(ver):
         """
         Returns the template path for PostgreSQL servers.
         """
@@ -1410,7 +1410,7 @@ class MViewNode(ViewNode, VacuumSettings):
         return 'ppas/9.3_plus'
 
     @staticmethod
-    def pg_template_path(ver):
+    def sys_template_path(ver):
         """
         Returns the template path for PostgreSQL servers.
         """

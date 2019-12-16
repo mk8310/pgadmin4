@@ -17,9 +17,9 @@ class _PGCSRFProtect(CSRFProtect):
 
     def init_app(self, app):
         res = super(_PGCSRFProtect, self).init_app(app)
-        self._pg_csrf_exempt(app)
+        self._sys_csrf_exempt(app)
 
-    def _pg_csrf_exempt(self, app):
+    def _sys_csrf_exempt(self, app):
         """Exempt some of the Views/blueprints from CSRF protection
         """
 

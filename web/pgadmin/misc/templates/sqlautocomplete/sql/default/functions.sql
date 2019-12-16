@@ -8,9 +8,9 @@ SELECT n.nspname schema_name,
     p.proisagg is_aggregate,
     p.proiswindow is_window,
     p.proretset is_set_returning,
-    pg_get_expr(proargdefaults, 0) AS arg_defaults
-FROM pg_catalog.pg_proc p
-    INNER JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
+    sys_get_expr(proargdefaults, 0) AS arg_defaults
+FROM sys_catalog.sys_proc p
+    INNER JOIN sys_catalog.sys_namespace n ON n.oid = p.pronamespace
 WHERE p.prorettype::regtype != 'trigger'::regtype
     AND n.nspname IN ({{schema_names}})
 ORDER BY 1, 2

@@ -85,9 +85,9 @@ class QueryToolAutoCompleteFeatureTest(BaseFeatureTest):
         print("OK.", file=sys.stderr)
         self.page.clear_query_tool()
 
-        print("Auto complete pg_backend_pid() function ... ",
+        print("Auto complete sys_backend_pid() function ... ",
               file=sys.stderr, end="")
-        self._auto_complete("SELECT pg_", "pg_backend_pid()")
+        self._auto_complete("SELECT sys_", "sys_backend_pid()")
         print("OK.", file=sys.stderr)
         self.page.clear_query_tool()
 
@@ -99,7 +99,7 @@ class QueryToolAutoCompleteFeatureTest(BaseFeatureTest):
 
         print("Auto complete function with argument ... ",
               file=sys.stderr, end="")
-        self._auto_complete("SELECT pg_st", "pg_stat_file(filename)")
+        self._auto_complete("SELECT sys_st", "sys_stat_file(filename)")
         print("OK.", file=sys.stderr)
         self.page.clear_query_tool()
 

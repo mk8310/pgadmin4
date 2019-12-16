@@ -725,8 +725,8 @@ msgstr "Greenplum数据库二进制路径"
 #: pgadmin/browser/server_groups/servers/gpdb.py:16
 msgid ""
 "Path to the directory containing the Greenplum Database utility programs "
-"(pg_dump, pg_restore etc)."
-msgstr "此路径为包含Greenplum 数据库使用程序的目录 (pg_dump, pg_restore 等等)."
+"(sys_dump, sys_restore etc)."
+msgstr "此路径为包含Greenplum 数据库使用程序的目录 (sys_dump, sys_restore 等等)."
 
 #: pgadmin/browser/server_groups/servers/gpdb.py:30
 msgid "Greenplum Database"
@@ -739,8 +739,8 @@ msgstr "EDB 高级服务器二进制路径"
 #: pgadmin/browser/server_groups/servers/ppas.py:16
 msgid ""
 "Path to the directory containing the EDB Advanced Server utility programs"
-" (pg_dump, pg_restore etc)."
-msgstr "包含 EDB 高级服务器实用程序 (pg_dump, pg_restore 等)的目录的路径。"
+" (sys_dump, sys_restore etc)."
+msgstr "包含 EDB 高级服务器实用程序 (sys_dump, sys_restore 等)的目录的路径。"
 
 #: pgadmin/browser/server_groups/servers/ppas.py:26
 msgid "EDB Advanced Server"
@@ -753,8 +753,8 @@ msgstr "PostgreSQL 二进制路径"
 #: pgadmin/browser/server_groups/servers/types.py:31
 msgid ""
 "Path to the directory containing the PostgreSQL utility programs "
-"(pg_dump, pg_restore etc)."
-msgstr "包含 PostgreSQL 实用程序的目录的路径(pg_dump, pg_restore 等)."
+"(sys_dump, sys_restore etc)."
+msgstr "包含 PostgreSQL 实用程序的目录的路径(sys_dump, sys_restore 等)."
 
 #: pgadmin/browser/server_groups/servers/types.py:59
 #: pgadmin/help/__init__.py:53

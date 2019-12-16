@@ -713,7 +713,7 @@ msgstr ""
 #: pgadmin/browser/server_groups/servers/gpdb.py:16
 msgid ""
 "Path to the directory containing the Greenplum Database utility programs "
-"(pg_dump, pg_restore etc)."
+"(sys_dump, sys_restore etc)."
 msgstr ""
 
 #: pgadmin/browser/server_groups/servers/gpdb.py:30
@@ -727,7 +727,7 @@ msgstr ""
 #: pgadmin/browser/server_groups/servers/ppas.py:16
 msgid ""
 "Path to the directory containing the EDB Advanced Server utility programs"
-" (pg_dump, pg_restore etc)."
+" (sys_dump, sys_restore etc)."
 msgstr ""
 
 #: pgadmin/browser/server_groups/servers/ppas.py:26
@@ -741,7 +741,7 @@ msgstr ""
 #: pgadmin/browser/server_groups/servers/types.py:31
 msgid ""
 "Path to the directory containing the PostgreSQL utility programs "
-"(pg_dump, pg_restore etc)."
+"(sys_dump, sys_restore etc)."
 msgstr ""
 
 #: pgadmin/browser/server_groups/servers/types.py:59

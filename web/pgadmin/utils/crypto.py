@@ -89,7 +89,7 @@ def pqencryptpassword(password, user):
     commands like ALTER USER joe PASSWORD 'pwd'.  The password need not
     be sent in cleartext if it is encrypted on the client side.  This is
     good because it ensures the cleartext password won't end up in logs,
-    pg_stat displays, etc. We export the function so that clients won't
+    sys_stat displays, etc. We export the function so that clients won't
     be dependent on low-level details like whether the enceyption is MD5
     or something else.
 

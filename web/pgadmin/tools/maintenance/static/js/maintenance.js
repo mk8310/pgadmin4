@@ -217,7 +217,7 @@ define([
       }
 
       var module = 'paths',
-        preference_name = 'pg_bin_dir',
+        preference_name = 'sys_bin_dir',
         msg = gettext('Please configure the PostgreSQL Binary Path in the Preferences dialog.');
 
       if ((server_data.type && server_data.type == 'ppas') ||

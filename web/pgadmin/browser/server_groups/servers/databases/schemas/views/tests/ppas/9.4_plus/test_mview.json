@@ -7,7 +7,7 @@
       "sql_endpoint": "NODE-mview.sql_id",
       "msql_endpoint": "NODE-mview.msql",
       "data": {
-        "spcname": "pg_default",
+        "spcname": "sys_default",
         "toast_autovacuum_enabled": false,
         "autovacuum_enabled": false,
         "schema": "public",

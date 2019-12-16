@@ -2,10 +2,10 @@ SELECT
   table_class.oid,
   partitions.partitiontablename                                                   AS name,
   (SELECT count(*)
-   FROM pg_trigger
+   FROM sys_trigger
    WHERE tgrelid = table_class.oid AND tgisconstraint = FALSE)                     AS triggercount,
   (SELECT count(*)
-   FROM pg_trigger
+   FROM sys_trigger
    WHERE tgrelid = table_class.oid AND tgisconstraint = FALSE AND tgenabled = 'O') AS has_enable_triggers,
   partitions.partitionboundary                                                    AS partition_value,
   partitions.partitionschemaname                                                  AS schema_id,
@@ -21,10 +21,10 @@ FROM
      partitions.partitiontablename,
      partitions.partitionboundary,
      partitions.partitionschemaname
-   FROM pg_class table_class
-     INNER JOIN pg_partitions partitions
+   FROM sys_class table_class
+     INNER JOIN sys_partitions partitions
        ON (relname = tablename AND parentpartitiontablename IS NULL) OR relname = parentpartitiontablename
-     LEFT JOIN pg_namespace nsp ON table_class.relnamespace = nsp.oid
+     LEFT JOIN sys_namespace nsp ON table_class.relnamespace = nsp.oid
    WHERE
     {% if ptid %} table_class.oid = {{ ptid }}::OID {% endif %}
     {% if not ptid %} table_class.oid = {{ tid }}::OID {% endif %}
@@ -32,8 +32,8 @@ FROM
   LEFT JOIN (SELECT
                parentpartitiontablename,
                count(*) AS n
-             FROM pg_partitions
+             FROM sys_partitions
              GROUP BY parentpartitiontablename) sub_partitions
     ON partitions.partitiontablename = sub_partitions.parentpartitiontablename
-  LEFT JOIN pg_class table_class ON partitions.relnamespace = table_class.relnamespace AND partitions.partitiontablename = table_class.relname
+  LEFT JOIN sys_class table_class ON partitions.relnamespace = table_class.relnamespace AND partitions.partitiontablename = table_class.relname
 ORDER BY partitions.partitiontablename;

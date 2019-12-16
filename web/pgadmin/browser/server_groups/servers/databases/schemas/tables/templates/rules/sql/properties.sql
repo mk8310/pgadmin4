@@ -10,12 +10,12 @@ SELECT
     {# ===== Check whether it is system rule or not ===== #}
     CASE WHEN rw.rulename = '_RETURN' THEN True ELSE False END AS system_rule,
     CASE WHEN rw.ev_enabled != 'D' THEN True ELSE False END AS enabled,
-    pg_get_ruledef(rw.oid, true) AS definition
+    sys_get_ruledef(rw.oid, true) AS definition
 FROM
-    pg_rewrite rw
-JOIN pg_class cl ON cl.oid=rw.ev_class
-JOIN pg_namespace nsp ON nsp.oid=cl.relnamespace
-LEFT OUTER JOIN pg_description des ON (des.objoid=rw.oid AND des.classoid='pg_rewrite'::regclass)
+    sys_rewrite rw
+JOIN sys_class cl ON cl.oid=rw.ev_class
+JOIN sys_namespace nsp ON nsp.oid=cl.relnamespace
+LEFT OUTER JOIN sys_description des ON (des.objoid=rw.oid AND des.classoid='sys_rewrite'::regclass)
 WHERE
   {% if tid %}
       ev_class = {{ tid }}

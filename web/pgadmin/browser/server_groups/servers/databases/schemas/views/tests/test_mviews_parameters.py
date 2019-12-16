@@ -71,7 +71,7 @@ class MViewsUpdateParameterTestCase(BaseTestGenerator):
             raise Exception("Could not find the schema to update a mview.")
 
         self.m_view_name = "test_mview_put_%s" % (str(uuid.uuid4())[1:8])
-        m_view_sql = "CREATE MATERIALIZED VIEW %s.%s TABLESPACE pg_default " \
+        m_view_sql = "CREATE MATERIALIZED VIEW %s.%s TABLESPACE sys_default " \
                      "AS SELECT 'test_pgadmin' WITH NO DATA;ALTER TABLE " \
                      "%s.%s OWNER TO %s"
 

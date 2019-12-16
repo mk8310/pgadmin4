@@ -30,7 +30,7 @@ class ViewsAddTestCase(BaseTestGenerator):
               "definition": "SELECT 'Hello World';"
               }
     m_view_name = "test_mview_add_%s" % (str(uuid.uuid4())[1:8])
-    m_view_data = {"spcname": "pg_default",
+    m_view_data = {"spcname": "sys_default",
                    "toast_autovacuum_enabled": False,
                    "autovacuum_enabled": False,
                    "schema": "",

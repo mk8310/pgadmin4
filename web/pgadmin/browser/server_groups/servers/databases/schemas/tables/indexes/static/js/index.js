@@ -297,8 +297,8 @@ define('pgadmin.node.index', [
           select2: {'allowClear': true},
           type: 'text', mode: ['properties', 'create', 'edit'],
           disabled: 'inSchema', filter: function(d) {
-            // If tablespace name is not "pg_global" then we need to exclude them
-            if(d && d.label.match(/pg_global/))
+            // If tablespace name is not "sys_global" then we need to exclude them
+            if(d && d.label.match(/sys_global/))
             {
               return false;
             }

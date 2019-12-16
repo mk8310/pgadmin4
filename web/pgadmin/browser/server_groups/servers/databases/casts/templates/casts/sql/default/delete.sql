@@ -4,7 +4,7 @@ SELECT
     format_type(ca.castsource, null) as castsource,
     format_type(ca.casttarget, null) as casttarget
 FROM
-    pg_cast ca
+    sys_cast ca
 WHERE
     ca.oid = {{cid}}::OID;
 {% endif %}

@@ -28,9 +28,9 @@ FROM
             grantee.oid AS grantee,
             pr.type AS privilege_type,
             aclcontains(c.datacl, makeaclitem(grantee.oid, u_grantor.oid, pr.type, true)) AS is_grantable
-        FROM pg_database c, pg_authid u_grantor, (
-            SELECT pg_authid.oid, pg_authid.rolname
-            FROM pg_authid
+        FROM sys_database c, sys_authid u_grantor, (
+            SELECT sys_authid.oid, sys_authid.rolname
+            FROM sys_authid
                 UNION ALL
             SELECT 0::oid AS oid, 'PUBLIC') grantee(oid, rolname),
             (     SELECT 'SELECT'
@@ -47,13 +47,13 @@ FROM
                           UNION ALL
                   SELECT 'TRIGGER') pr(type)
         WHERE aclcontains(c.datacl, makeaclitem(grantee.oid, u_grantor.oid, pr.type, false))
-        AND (pg_has_role(u_grantor.oid, 'USAGE'::text) OR pg_has_role(grantee.oid, 'USAGE'::text)
+        AND (sys_has_role(u_grantor.oid, 'USAGE'::text) OR sys_has_role(grantee.oid, 'USAGE'::text)
         OR grantee.rolname = 'PUBLIC'::name)
         AND c.oid = {{ did|qtLiteral }}::OID
         ) d
     ) d
-    LEFT JOIN pg_catalog.pg_roles g ON (d.grantor = g.oid)
-    LEFT JOIN pg_catalog.pg_roles gt ON (d.grantee = gt.oid)
+    LEFT JOIN sys_catalog.sys_roles g ON (d.grantor = g.oid)
+    LEFT JOIN sys_catalog.sys_roles gt ON (d.grantee = gt.oid)
 GROUP BY g.rolname, gt.rolname;
 
 

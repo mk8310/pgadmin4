@@ -754,11 +754,11 @@ class SQLAutoComplete(object):
         schema_names = self.dbmetadata['tables'].keys()
 
         # Unless we're sure the user really wants them, hide schema names
-        # starting with pg_, which are mostly temporary schemas
-        if not word_before_cursor.startswith('pg_'):
+        # starting with sys_, which are mostly temporary schemas
+        if not word_before_cursor.startswith('sys_'):
             schema_names = [s
                             for s in schema_names
-                            if not s.startswith('pg_')]
+                            if not s.startswith('sys_')]
 
         if suggestion.quoted:
             schema_names = [self.escape_schema(s) for s in schema_names]
@@ -858,10 +858,10 @@ class SQLAutoComplete(object):
             SchemaObject(tbl.name) for tbl in suggestion.local_tables)
 
         # Unless we're sure the user really wants them, don't suggest the
-        # pg_catalog tables that are implicitly on the search path
+        # sys_catalog tables that are implicitly on the search path
         if not suggestion.schema and (
-                not word_before_cursor.startswith('pg_')):
-            tables = [t for t in tables if not t.name.startswith('pg_')]
+                not word_before_cursor.startswith('sys_')):
+            tables = [t for t in tables if not t.name.startswith('sys_')]
         tables = [self._make_cand(t, alias, suggestion) for t in tables]
         return self.find_matches(word_before_cursor, tables,
                                  mode='strict', meta='table')
@@ -870,8 +870,8 @@ class SQLAutoComplete(object):
         views = self.populate_schema_objects(suggestion.schema, 'views')
 
         if not suggestion.schema and (
-                not word_before_cursor.startswith('pg_')):
-            views = [v for v in views if not v.name.startswith('pg_')]
+                not word_before_cursor.startswith('sys_')):
+            views = [v for v in views if not v.name.startswith('sys_')]
         views = [self._make_cand(v, alias, suggestion) for v in views]
         return self.find_matches(word_before_cursor, views,
                                  mode='strict', meta='view')

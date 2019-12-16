@@ -44,7 +44,7 @@ class TestProperties(BaseTestGenerator):
                      rejectlimittype=None,
                      errtblname=None,
                      errortofile=None,
-                     pg_encoding_to_char='UTF8',
+                     sys_encoding_to_char='UTF8',
                      writable=False,
                      options=None,
                      distribution=None,

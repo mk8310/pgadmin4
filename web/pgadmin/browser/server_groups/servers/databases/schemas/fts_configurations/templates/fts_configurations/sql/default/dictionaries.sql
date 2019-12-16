@@ -2,6 +2,6 @@
 SELECT
     dictname
 FROM
-    pg_ts_dict
+    sys_ts_dict
 ORDER BY
     dictname

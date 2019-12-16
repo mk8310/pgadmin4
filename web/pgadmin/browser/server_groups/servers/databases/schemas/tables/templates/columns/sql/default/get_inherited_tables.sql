@@ -3,8 +3,8 @@ FROM
  (SELECT
    inhparent::regclass AS inhrelname,
    a.attname AS attrname
-  FROM pg_inherits i
-  LEFT JOIN pg_attribute a ON
+  FROM sys_inherits i
+  LEFT JOIN sys_attribute a ON
    (attrelid = inhparent AND attnum > 0)
   WHERE inhrelid = {{tid}}::oid
   ORDER BY inhseqno

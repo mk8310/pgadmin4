@@ -13,7 +13,7 @@
         "basensp": "public",
         "description": "test_comment",
         "basetype": "text",
-	    "collname": "pg_catalog.\"C\"",
+	    "collname": "sys_catalog.\"C\"",
         "typdefault": "5",
         "typnotnull": "true",
         "constraints": [{

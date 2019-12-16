@@ -10,4 +10,4 @@ CREATE ROLE "Role1_$%{}[]()&*^!@""'`\/#" WITH
   REPLICATION;
 
 
-UPDATE pg_authid SET rolcatupdate=false WHERE rolname = 'Role1_$%{}[]()&*^!@"''`\/#'';
+UPDATE sys_authid SET rolcatupdate=false WHERE rolname = 'Role1_$%{}[]()&*^!@"''`\/#'';

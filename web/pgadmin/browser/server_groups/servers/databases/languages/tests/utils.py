@@ -35,15 +35,15 @@ def create_language(server, db_name, lang_name):
                                        server['port'],
                                        server['sslmode'])
 
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = ("CREATE TRUSTED PROCEDURAL LANGUAGE %s "
                  "HANDLER plpgsql_call_handler" % lang_name)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
         # Get 'oid' from newly created language
-        pg_cursor.execute("SELECT oid from pg_language where lanname='%s'" %
+        sys_cursor.execute("SELECT oid from sys_language where lanname='%s'" %
                           lang_name)
-        language = pg_cursor.fetchone()
+        language = sys_cursor.fetchone()
         language_id = language[0]
         connection.close()
         return language_id
@@ -70,10 +70,10 @@ def verify_language(server, db_name, lang_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT oid from pg_language where lanname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT oid from sys_language where lanname='%s'" %
                           lang_name)
-        language = pg_cursor.fetchall()
+        language = sys_cursor.fetchall()
         connection.close()
         return language
     except Exception:
@@ -98,14 +98,14 @@ def delete_language(server, db_name, lang_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT * from pg_language where lanname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT * from sys_language where lanname='%s'" %
                           lang_name)
-        languages = pg_cursor.fetchall()
+        languages = sys_cursor.fetchall()
         language_count = len(languages)
         if language_count:
-            pg_cursor.execute(
-                "DELETE FROM pg_language where lanname='%s'" %
+            sys_cursor.execute(
+                "DELETE FROM sys_language where lanname='%s'" %
                 lang_name)
             connection.commit()
         connection.close()

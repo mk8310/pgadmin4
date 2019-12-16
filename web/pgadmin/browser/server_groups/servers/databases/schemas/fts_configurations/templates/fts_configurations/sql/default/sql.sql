@@ -17,7 +17,7 @@ FROM
             WHEN description IS NOT NULL THEN
                 E'\n\nCOMMENT ON TEXT SEARCH CONFIGURATION ' ||
                 quote_ident(nspname) || E'.' || quote_ident(cfg.cfgname) ||
-                E' IS ' || pg_catalog.quote_literal(description) || E';'
+                E' IS ' || sys_catalog.quote_literal(description) || E';'
             ELSE ''
         END || E'\n' ||
 
@@ -29,37 +29,37 @@ FROM
 	            t.alias  || ' WITH ' ||
 	            array_to_string(array_agg(dict.dictname), ', ') || ';'
             FROM
-                pg_ts_config_map map
+                sys_ts_config_map map
                 LEFT JOIN (
                           SELECT
                               tokid,
                               alias
                           FROM
-                              pg_catalog.ts_token_type(cfg.cfgparser)
+                              sys_catalog.ts_token_type(cfg.cfgparser)
                           ) t ON (t.tokid = map.maptokentype)
-                LEFT OUTER JOIN pg_ts_dict dict ON (map.mapdict = dict.oid)
+                LEFT OUTER JOIN sys_ts_dict dict ON (map.mapdict = dict.oid)
             WHERE
                 map.mapcfg = cfg.oid
             GROUP BY t.alias
             ORDER BY t.alias)
         , E'\n') as sql
     FROM
-        pg_ts_config cfg
+        sys_ts_config cfg
     LEFT JOIN (
         SELECT
             des.description as description,
             des.objoid as descoid
         FROM
-            pg_description des
+            sys_description des
         WHERE
-            des.objoid={{cfgid}}::OID AND des.classoid='pg_ts_config'::regclass
+            des.objoid={{cfgid}}::OID AND des.classoid='sys_ts_config'::regclass
     ) a ON (a.descoid = cfg.oid)
     LEFT JOIN (
         SELECT
             nspname,
             nsp.oid as noid
         FROM
-            pg_namespace nsp
+            sys_namespace nsp
         WHERE
             oid = {{scid}}::OID
     ) b ON (b.noid = cfg.cfgnamespace)
@@ -68,7 +68,7 @@ FROM
             prs.prsname as parsername,
             prs.oid as oid
         FROM
-            pg_ts_parser prs
+            sys_ts_parser prs
     )c ON (c.oid = cfg.cfgparser)
     WHERE
        cfg.oid={{cfgid}}::OID

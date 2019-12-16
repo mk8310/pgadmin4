@@ -16,7 +16,7 @@
           "cltype": "text"
         }],
         "is_partitioned": false,
-        "spcname": "pg_default",
+        "spcname": "sys_default",
         "schema": "public"
       },
       "store_object_id": true
@@ -28,7 +28,7 @@
       "msql_endpoint": "NODE-index.msql",
       "data": {
         "name":"Idx_$%{}[]()&*^!@\"'`\\/#",
-        "spcname":"pg_default",
+        "spcname":"sys_default",
         "amname":"btree",
         "columns":[{
           "colname":"id",
@@ -39,7 +39,7 @@
           "is_sort_nulls_applicable":true
         }, {
           "colname":"name",
-          "collspcname":"pg_catalog.\"POSIX\"",
+          "collspcname":"sys_catalog.\"POSIX\"",
           "op_class":"text_pattern_ops",
           "sort_order":false,
           "nulls":false,
@@ -69,7 +69,7 @@
       "msql_endpoint": "NODE-index.msql",
       "data": {
         "name":"Idx_$%{}[]()&*^!@\"'`\\/#",
-        "spcname":"pg_default",
+        "spcname":"sys_default",
         "amname":"btree",
         "columns":[{
           "colname":"id",
@@ -80,7 +80,7 @@
           "is_sort_nulls_applicable":true
         }, {
           "colname":"name",
-          "collspcname":"pg_catalog.\"POSIX\"",
+          "collspcname":"sys_catalog.\"POSIX\"",
           "op_class":"text_pattern_ops",
           "sort_order":false,
           "nulls":true,
@@ -110,7 +110,7 @@
       "msql_endpoint": "NODE-index.msql",
       "data": {
         "name":"Idx_$%{}[]()&*^!@\"'`\\/#",
-        "spcname":"pg_default",
+        "spcname":"sys_default",
         "amname":"btree",
         "columns":[{
           "colname":"id",
@@ -121,7 +121,7 @@
           "is_sort_nulls_applicable":true
         }, {
           "colname":"name",
-          "collspcname":"pg_catalog.\"POSIX\"",
+          "collspcname":"sys_catalog.\"POSIX\"",
           "op_class":"text_pattern_ops",
           "sort_order":true,
           "nulls":false,
@@ -151,7 +151,7 @@
       "msql_endpoint": "NODE-index.msql",
       "data": {
         "name":"Idx_$%{}[]()&*^!@\"'`\\/#",
-        "spcname":"pg_default",
+        "spcname":"sys_default",
         "amname":"btree",
         "columns":[{
           "colname":"id",
@@ -162,7 +162,7 @@
           "is_sort_nulls_applicable":true
         }, {
           "colname":"name",
-          "collspcname":"pg_catalog.\"POSIX\"",
+          "collspcname":"sys_catalog.\"POSIX\"",
           "op_class":"text_pattern_ops",
           "sort_order":true,
           "nulls":true,
@@ -216,7 +216,7 @@
       "msql_endpoint": "NODE-index.msql",
       "data": {
         "name": "Idx_$%{}[]()&*^!@\"'`\\/#",
-        "spcname": "pg_default",
+        "spcname": "sys_default",
         "amname": "hash",
         "columns": [{
           "colname": "id",

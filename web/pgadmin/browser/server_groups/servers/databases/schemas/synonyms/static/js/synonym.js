@@ -127,7 +127,7 @@ define('pgadmin.node.synonym', [
           select2: { allowClear: false }, control: 'node-list-by-name',
           node: 'schema', filter: function(d) {
             // Exclude PPAS catalogs
-            var exclude_catalogs = ['pg_catalog', 'sys', 'dbo',
+            var exclude_catalogs = ['sys_catalog', 'sys', 'dbo',
               'pgagent', 'information_schema',
               'dbms_job_procedure'];
             return d && _.indexOf(exclude_catalogs, d.label) == -1;

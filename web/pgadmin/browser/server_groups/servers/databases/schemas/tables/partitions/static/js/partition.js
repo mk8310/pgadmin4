@@ -367,8 +367,8 @@ function(
           id: 'schema', label: gettext('Schema'), type: 'text', node: 'schema',
           control: 'node-list-by-name', mode: ['create', 'edit', 'properties'],
           disabled: 'inSchema', filter: function(d) {
-            // If schema name start with pg_* then we need to exclude them
-            if(d && d.label.match(/^pg_/))
+            // If schema name start with sys_* then we need to exclude them
+            if(d && d.label.match(/^sys_/))
             {
               return false;
             }
@@ -379,8 +379,8 @@ function(
           type: 'text', control: 'node-list-by-name', disabled: 'inSchema',
           mode: ['properties', 'create', 'edit'],
           filter: function(d) {
-            // If tablespace name is not "pg_global" then we need to exclude them
-            return (!(d && d.label.match(/pg_global/)));
+            // If tablespace name is not "sys_global" then we need to exclude them
+            return (!(d && d.label.match(/sys_global/)));
           },
         },{
           id: 'partition', type: 'group', label: gettext('Partition'),

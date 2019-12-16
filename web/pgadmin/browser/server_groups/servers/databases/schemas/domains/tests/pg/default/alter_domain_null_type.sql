@@ -4,7 +4,7 @@
 
 CREATE DOMAIN public."Dom1_$%{}[]()&*^!@""'`\/#"
     AS text
-    COLLATE pg_catalog."C"
+    COLLATE sys_catalog."C"
     DEFAULT 5;
 
 ALTER DOMAIN public."Dom1_$%{}[]()&*^!@""'`\/#" OWNER TO postgres;

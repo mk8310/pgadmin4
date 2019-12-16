@@ -49,16 +49,16 @@ def create_compound_trigger(server, db_name, schema_name, table_name,
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "CREATE OR REPLACE TRIGGER %s FOR INSERT ON %s.%s " \
                 "COMPOUND TRIGGER %s END;" % (trigger_name, schema_name,
                                               table_name, code)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
-        pg_cursor.execute("SELECT oid FROM pg_trigger where tgname='%s'" %
+        sys_cursor.execute("SELECT oid FROM sys_trigger where tgname='%s'" %
                           trigger_name)
-        trigger = pg_cursor.fetchone()
+        trigger = sys_cursor.fetchone()
         trigger_id = ''
         if trigger:
             trigger_id = trigger[0]
@@ -88,10 +88,10 @@ def verify_compound_trigger(server, db_name, trigger_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT oid FROM pg_trigger where tgname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT oid FROM sys_trigger where tgname='%s'" %
                           trigger_name)
-        trigger = pg_cursor.fetchone()
+        trigger = sys_cursor.fetchone()
         connection.close()
         return trigger
     except Exception:
@@ -118,8 +118,8 @@ def enable_disable_compound_trigger(server, db_name, schema_name, table_name,
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("BEGIN")
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("BEGIN")
         if is_enable:
             query = "ALTER TABLE %s.%s ENABLE TRIGGER %s;" % (schema_name,
                                                               table_name,
@@ -129,8 +129,8 @@ def enable_disable_compound_trigger(server, db_name, schema_name, table_name,
                                                                table_name,
                                                                trigger_name)
 
-        pg_cursor.execute(query)
-        pg_cursor.execute("COMMIT")
+        sys_cursor.execute(query)
+        sys_cursor.execute("COMMIT")
         connection.close()
     except Exception:
         traceback.print_exc(file=sys.stderr)

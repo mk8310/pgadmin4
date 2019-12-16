@@ -3,7 +3,7 @@
 {###########################################}
 {% if trgTyp == 'f' %}
 SELECT DISTINCT proname AS name
-    FROM pg_proc p, pg_namespace n
+    FROM sys_proc p, sys_namespace n
 WHERE p.pronamespace = n.oid AND
     n.nspname = {{  trgSchema|qtLiteral }} AND
     p.protype  = '0'
@@ -13,7 +13,7 @@ ORDER BY proname;
 {###########################################}
 {% elif trgTyp == 'p' %}
 SELECT DISTINCT proname AS name
-    FROM pg_proc p, pg_namespace n
+    FROM sys_proc p, sys_namespace n
 WHERE p.pronamespace = n.oid AND
     n.nspname = {{  trgSchema|qtLiteral }} AND
     p.protype  = '1'
@@ -23,14 +23,14 @@ ORDER BY proname;
 {###########################################}
 {% elif trgTyp == 's' %}
 SELECT synname AS name
-    FROM pg_synonym
+    FROM sys_synonym
 ORDER BY synname;
 {% else %}
 {###################################################}
 {### If Target Type is Table/View/M.View/Sequnce ###}
 {###################################################}
 SELECT relname AS name
-    FROM pg_class c, pg_namespace n
+    FROM sys_class c, sys_namespace n
 WHERE c.relnamespace = n.oid AND
     n.nspname = {{  trgSchema|qtLiteral }} AND
 {% if trgTyp == 'v' %}

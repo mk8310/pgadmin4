@@ -3,5 +3,5 @@
 -- DROP EXTENSION adminpack;
 
 CREATE EXTENSION adminpack
-    SCHEMA pg_catalog
+    SCHEMA sys_catalog
     VERSION "1.1";

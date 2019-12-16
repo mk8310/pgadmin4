@@ -29,7 +29,7 @@ Features
 | `Issue #3097 <https://redmine.postgresql.org/issues/3097>`_ - Support EXPLAIN on Greenplum
 | `Issue #3098 <https://redmine.postgresql.org/issues/3098>`_ - Unvendorize REACT so no longer required in our source tree
 | `Issue #3107 <https://redmine.postgresql.org/issues/3107>`_ - Hide tablespace node on GPDB
-| `Issue #3140 <https://redmine.postgresql.org/issues/3140>`_ - Add support for connecting using pg_service.conf files
+| `Issue #3140 <https://redmine.postgresql.org/issues/3140>`_ - Add support for connecting using sys_service.conf files
 | `Issue #3168 <https://redmine.postgresql.org/issues/3168>`_ - Support for external tables in GPDB
 | `Issue #3182 <https://redmine.postgresql.org/issues/3182>`_ - Update Jasmine to v3
 | `Issue #3184 <https://redmine.postgresql.org/issues/3184>`_ - Add a French translation
@@ -100,7 +100,7 @@ Bug fixes
 | `Issue #3099 <https://redmine.postgresql.org/issues/3099>`_ - Fix creation of tables and columns in GPDB
 | `Issue #3105 <https://redmine.postgresql.org/issues/3105>`_ - Ensure we can properly update rows with upper-case primary key columns
 | `Issue #3135 <https://redmine.postgresql.org/issues/3135>`_ - Insert rows correctly when a table has OIDs and a Primary Key in uppercase
-| `Issue #3122 <https://redmine.postgresql.org/issues/3122>`_ - Ensure SSL options are pushed down to external tools like pg_dump
+| `Issue #3122 <https://redmine.postgresql.org/issues/3122>`_ - Ensure SSL options are pushed down to external tools like sys_dump
 | `Issue #3129 <https://redmine.postgresql.org/issues/3129>`_ - Handle opening of non-UTF8 compatible files
 | `Issue #3137 <https://redmine.postgresql.org/issues/3137>`_ - Allow copying of SQL from the dashboard tables
 | `Issue #3138 <https://redmine.postgresql.org/issues/3138>`_ - Fix tablespace tests for Python 3.x

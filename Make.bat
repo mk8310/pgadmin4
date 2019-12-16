@@ -293,9 +293,9 @@ REM Main build sequence Ends
     IF EXIST "%PGDIR%\bin\libiconv-*.dll" COPY "%PGDIR%\bin\libiconv-*.dll" "%PGBUILDPATH%\runtime" > nul || EXIT /B 1
     IF EXIST "%PGDIR%\bin\zlib.dll" COPY "%PGDIR%\bin\zlib.dll" "%PGBUILDPATH%\runtime" > nul || EXIT /B 1
     IF EXIST "%PGDIR%\bin\zlib1.dll" COPY "%PGDIR%\bin\zlib1.dll" "%PGBUILDPATH%\runtime" > nul || EXIT /B 1
-    COPY "%PGDIR%\bin\pg_dump.exe" "%PGBUILDPATH%\runtime" > nul || EXIT /B 1
-    COPY "%PGDIR%\bin\pg_dumpall.exe" "%PGBUILDPATH%\runtime" > nul || EXIT /B 1L%
-    COPY "%PGDIR%\bin\pg_restore.exe" "%PGBUILDPATH%\runtime" > nul || EXIT /B 1
+    COPY "%PGDIR%\bin\sys_dump.exe" "%PGBUILDPATH%\runtime" > nul || EXIT /B 1
+    COPY "%PGDIR%\bin\sys_dumpall.exe" "%PGBUILDPATH%\runtime" > nul || EXIT /B 1L%
+    COPY "%PGDIR%\bin\sys_restore.exe" "%PGBUILDPATH%\runtime" > nul || EXIT /B 1
     COPY "%PGDIR%\bin\psql.exe" "%PGBUILDPATH%\runtime" > nul || EXIT /B 1
 
     ECHO Staging VC++ runtime...

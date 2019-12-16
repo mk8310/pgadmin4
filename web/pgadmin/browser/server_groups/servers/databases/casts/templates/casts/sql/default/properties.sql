@@ -2,9 +2,9 @@
 {% if srctyp and trgtyp %}
     SELECT
         ca.oid
-    FROM pg_cast ca
-    WHERE ca.castsource = (SELECT t.oid FROM pg_type t WHERE format_type(t.oid, NULL) = {{srctyp|qtLiteral}})
-    AND ca.casttarget = (SELECT t.oid FROM pg_type t WHERE format_type(t.oid, NULL) = {{trgtyp|qtLiteral}})
+    FROM sys_cast ca
+    WHERE ca.castsource = (SELECT t.oid FROM sys_type t WHERE format_type(t.oid, NULL) = {{srctyp|qtLiteral}})
+    AND ca.casttarget = (SELECT t.oid FROM sys_type t WHERE format_type(t.oid, NULL) = {{trgtyp|qtLiteral}})
     {% if datlastsysoid %}
      AND ca.oid > {{datlastsysoid}}::OID
     {% endif %}
@@ -24,7 +24,7 @@
     END AS castcontext,
     CASE
         WHEN proname IS NULL THEN 'binary compatible'
-        ELSE proname || '(' || pg_catalog.pg_get_function_identity_arguments(pr.oid) || ')'
+        ELSE proname || '(' || sys_catalog.sys_get_function_identity_arguments(pr.oid) || ')'
     END AS proname,
         ca.castfunc,
         format_type(st.oid,NULL) AS srctyp,
@@ -34,14 +34,14 @@
         np.nspname AS pronspname,
         description,
         concat(format_type(st.oid,NULL),'->',format_type(tt.oid,tt.typtypmod)) as name
-    FROM pg_cast ca
-    JOIN pg_type st ON st.oid=castsource
-    JOIN pg_namespace ns ON ns.oid=st.typnamespace
-    JOIN pg_type tt ON tt.oid=casttarget
-    JOIN pg_namespace nt ON nt.oid=tt.typnamespace
-    LEFT JOIN pg_proc pr ON pr.oid=castfunc
-    LEFT JOIN pg_namespace np ON np.oid=pr.pronamespace
-    LEFT OUTER JOIN pg_description des ON (des.objoid=ca.oid AND des.objsubid=0 AND des.classoid='pg_cast'::regclass)
+    FROM sys_cast ca
+    JOIN sys_type st ON st.oid=castsource
+    JOIN sys_namespace ns ON ns.oid=st.typnamespace
+    JOIN sys_type tt ON tt.oid=casttarget
+    JOIN sys_namespace nt ON nt.oid=tt.typnamespace
+    LEFT JOIN sys_proc pr ON pr.oid=castfunc
+    LEFT JOIN sys_namespace np ON np.oid=pr.pronamespace
+    LEFT OUTER JOIN sys_description des ON (des.objoid=ca.oid AND des.objsubid=0 AND des.classoid='sys_cast'::regclass)
 
     {% if cid %}
         WHERE ca.oid={{cid}}::oid

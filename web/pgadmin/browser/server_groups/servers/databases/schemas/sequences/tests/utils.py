@@ -39,19 +39,19 @@ def create_sequences(server, db_name, schema_name, sequence_name,
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
         query = "CREATE SEQUENCE %s.%s INCREMENT 5 START 30 " \
                 "MINVALUE 10 MAXVALUE 100" % (schema_name, sequence_name)
         if not positive_seq:
             query = "CREATE SEQUENCE %s.%s INCREMENT -5 START -30 " \
                     "MINVALUE -40 MAXVALUE -10" % (schema_name, sequence_name)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
         # Get 'oid' from newly created sequence
-        pg_cursor.execute("select oid from pg_class where relname='%s'" %
+        sys_cursor.execute("select oid from sys_class where relname='%s'" %
                           sequence_name)
-        sequence = pg_cursor.fetchone()
+        sequence = sys_cursor.fetchone()
         sequence_id = ''
         if sequence:
             sequence_id = sequence[0]
@@ -80,10 +80,10 @@ def verify_sequence(server, db_name, sequence_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("select * from pg_class where relname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("select * from sys_class where relname='%s'" %
                           sequence_name)
-        sequence = pg_cursor.fetchone()
+        sequence = sys_cursor.fetchone()
         connection.close()
         return sequence
     except Exception:

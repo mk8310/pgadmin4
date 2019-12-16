@@ -54,14 +54,14 @@ def create_schema(connection, schema_name):
     try:
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("CREATE SCHEMA %s" % schema_name)
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("CREATE SCHEMA %s" % schema_name)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get schema details of newly created schema
-        pg_cursor.execute("SELECT sch.oid, sch.nspname FROM pg_namespace sch"
+        sys_cursor.execute("SELECT sch.oid, sch.nspname FROM sys_namespace sch"
                           " WHERE sch.nspname='%s'" % schema_name)
-        schema = pg_cursor.fetchone()
+        schema = sys_cursor.fetchone()
         connection.close()
         return schema
     except Exception:
@@ -77,10 +77,10 @@ def verify_schemas(server, db_name, schema_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT oid,* FROM pg_namespace sch"
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT oid,* FROM sys_namespace sch"
                           " WHERE sch.nspname='%s'" % schema_name)
-        schema = pg_cursor.fetchone()
+        schema = sys_cursor.fetchone()
         connection.close()
         return schema
     except Exception:

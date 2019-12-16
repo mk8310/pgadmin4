@@ -5,7 +5,7 @@
 **********************
 
 Use the *Server* dialog to describe a connection to a server. Note: you must
-ensure that the pg_hba.conf file of the server from which you are connecting
+ensure that the sys_hba.conf file of the server from which you are connecting
 allows connections from the host of the client.
 
 .. image:: images/server_general.png
@@ -160,7 +160,7 @@ Use the fields in the *Advanced* tab to configure a connection:
   address when using Kerberos, GSSAPI, or SSPI authentication methods, as well
   as for verify-full SSL certificate verification.
 * Use the *DB restriction* field to provide a SQL restriction that will be used
-  against the pg_database table to limit the databases that you see. For
+  against the sys_database table to limit the databases that you see. For
   example, you might enter: *live_db test_db* so that only live_db and test_db
   are shown in the pgAdmin browser. Separate entries with a comma or tab as you
   type.

@@ -15,7 +15,7 @@ class PPAS(ServerType):
     UTILITY_PATH_LABEL = gettext("EDB Advanced Server Binary Path")
     UTILITY_PATH_HELP = gettext(
         "Path to the directory containing the EDB Advanced Server utility"
-        " programs (pg_dump, pg_restore etc)."
+        " programs (sys_dump, sys_restore etc)."
     )
 
     def instanceOf(self, ver):

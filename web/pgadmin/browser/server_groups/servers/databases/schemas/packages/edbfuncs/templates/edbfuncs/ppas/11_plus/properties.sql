@@ -1,4 +1,4 @@
-SELECT  pg_proc.oid,
+SELECT  sys_proc.oid,
         proname AS name,
         pronargs,
         proallargtypes,
@@ -7,21 +7,21 @@ SELECT  pg_proc.oid,
         oidvectortypes(proargtypes) AS proargtypenames,
         proargdeclaredmodes AS proargmodes,
         proargnames,
-        pg_get_expr(proargdefaults, 'pg_catalog.pg_class'::regclass) AS proargdefaultvals,
-        pg_get_userbyid(proowner) AS funcowner,
-        pg_get_function_result(pg_proc.oid) AS prorettypename,
+        sys_get_expr(proargdefaults, 'sys_catalog.sys_class'::regclass) AS proargdefaultvals,
+        sys_get_userbyid(proowner) AS funcowner,
+        sys_get_function_result(sys_proc.oid) AS prorettypename,
         prosrc,
         lanname,
         CASE
         WHEN proaccess = '+' THEN 'Public'
         WHEN proaccess = '-' THEN 'Private'
         ELSE 'Unknown' END AS visibility
-FROM pg_proc, pg_namespace, pg_language lng
+FROM sys_proc, sys_namespace, sys_language lng
 WHERE prokind IN ('f', 'w')
 AND pronamespace = {{pkgid}}::oid
-AND pg_proc.pronamespace = pg_namespace.oid
+AND sys_proc.pronamespace = sys_namespace.oid
 AND lng.oid=prolang
 {% if edbfnid %}
-AND pg_proc.oid = {{edbfnid}}::oid
+AND sys_proc.oid = {{edbfnid}}::oid
 {% endif %}
   ORDER BY name

@@ -1042,7 +1042,7 @@ define('pgadmin.node.server', [
           }
           // older version of libpq do not support 'passfile' parameter in
           // connect method, valid libpq must have version >= 100000
-          return pgBrowser.utils.pg_libpq_version < 100000;
+          return pgBrowser.utils.sys_libpq_version < 100000;
         },
       }),
       connection_lost: function(i, resp) {

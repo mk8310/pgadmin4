@@ -123,7 +123,7 @@ the *Materialized View* dialog:
     :align: center
 
 The example shown creates a query named *new_hires* that stores the result of
-the displayed query in the *pg_default* tablespace.
+the displayed query in the *sys_default* tablespace.
 
 * Click the *Info* button (i) to access online help.
 * Click the *Save* button to save work.

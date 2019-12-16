@@ -64,8 +64,8 @@ SELECT
 WHERE EXISTS(
     SELECT has_schema_privilege('pgagent', 'USAGE')
     WHERE EXISTS(
-        SELECT cl.oid FROM pg_class cl
-        LEFT JOIN pg_namespace ns ON ns.oid=relnamespace
+        SELECT cl.oid FROM sys_class cl
+        LEFT JOIN sys_namespace ns ON ns.oid=relnamespace
         WHERE relname='pga_job' AND nspname='pgagent'
     )
 )

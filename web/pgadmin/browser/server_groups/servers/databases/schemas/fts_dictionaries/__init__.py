@@ -371,7 +371,7 @@ class FtsDictionaryView(PGChildNodeView):
 
         # Handle templates and its schema name properly
         if res['rows'][0]['template_schema'] is not None:
-            if res['rows'][0]['template_schema'] != "pg_catalog":
+            if res['rows'][0]['template_schema'] != "sys_catalog":
                 res['rows'][0]['template'] = self.qtIdent(
                     self.conn, res['rows'][0]['template_schema'],
                     res['rows'][0]['template']
@@ -644,7 +644,7 @@ class FtsDictionaryView(PGChildNodeView):
 
             # Handle templates and its schema name properly
             if old_data['template_schema'] is not None:
-                if old_data['template_schema'] != "pg_catalog":
+                if old_data['template_schema'] != "sys_catalog":
                     old_data['template'] = self.qtIdent(
                         self.conn, old_data['template_schema'],
                         old_data['template']
@@ -735,7 +735,7 @@ class FtsDictionaryView(PGChildNodeView):
         # at template control while creating a new FTS Dictionary
         res = [{'label': '', 'value': ''}]
         for row in rset['rows']:
-            if row['nspname'] != "pg_catalog":
+            if row['nspname'] != "sys_catalog":
                 row['tmplname'] = self.qtIdent(
                     self.conn, row['nspname'], row['tmplname']
                 )
@@ -775,7 +775,7 @@ class FtsDictionaryView(PGChildNodeView):
 
         # Handle templates and its schema name properly
         if res['rows'][0]['template_schema'] is not None:
-            if res['rows'][0]['template_schema'] != "pg_catalog":
+            if res['rows'][0]['template_schema'] != "sys_catalog":
                 res['rows'][0]['template'] = self.qtIdent(
                     self.conn, res['rows'][0]['template_schema'],
                     res['rows'][0]['template']

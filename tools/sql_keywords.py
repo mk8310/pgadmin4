@@ -56,7 +56,7 @@ def get_release_tag(current_url=PG_CURRENT_VERSION_URL,
     return "REL_" + version.replace(".", "_")
 
 
-def get_keywords_pg_code(file_urls=PG_CODES_URLS,
+def get_keywords_sys_code(file_urls=PG_CODES_URLS,
                          keyword_regex=PG_CODES_REGEX):
     keywords = []
 
@@ -73,7 +73,7 @@ def get_keywords_pg_code(file_urls=PG_CODES_URLS,
     return keywords
 
 
-def get_keywords_pg_docs(docs_url=PG_SQL_DOCS_URL,
+def get_keywords_sys_docs(docs_url=PG_SQL_DOCS_URL,
                          keyword_regex=PG_SQL_DOCS_REGEX):
     resp_text = get_file_from_url(docs_url)
     # Sample entry - <code class="token">ABORT</code>
@@ -85,8 +85,8 @@ def get_keywords_pg_docs(docs_url=PG_SQL_DOCS_URL,
 def get_all_keywords():
     final_keywords = set()
 
-    final_keywords.update(get_keywords_pg_code())
-    final_keywords.update(get_keywords_pg_docs())
+    final_keywords.update(get_keywords_sys_code())
+    final_keywords.update(get_keywords_sys_docs())
 
     return len(final_keywords), " ".join(sorted(list(final_keywords))).strip()
 

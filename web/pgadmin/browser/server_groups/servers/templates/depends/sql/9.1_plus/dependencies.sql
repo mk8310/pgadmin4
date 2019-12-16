@@ -21,31 +21,31 @@ SELECT DISTINCT dep.deptype, dep.refclassid, cl.relkind, ad.adbin, ad.adsrc,
     COALESCE(nsc.nspname, nso.nspname, nsp.nspname, nst.nspname, nsrw.nspname) AS nspname,
     CASE WHEN inhits.inhparent IS NOT NULL THEN '1' ELSE '0' END AS is_inherits,
     CASE WHEN inhed.inhparent IS NOT NULL THEN '1' ELSE '0' END AS is_inherited
-FROM pg_depend dep
-LEFT JOIN pg_class cl ON dep.refobjid=cl.oid
-LEFT JOIN pg_attribute att ON dep.refobjid=att.attrelid AND dep.refobjsubid=att.attnum
-LEFT JOIN pg_namespace nsc ON cl.relnamespace=nsc.oid
-LEFT JOIN pg_proc pr ON dep.refobjid=pr.oid
-LEFT JOIN pg_namespace nsp ON pr.pronamespace=nsp.oid
-LEFT JOIN pg_trigger tg ON dep.refobjid=tg.oid
-LEFT JOIN pg_type ty ON dep.refobjid=ty.oid
-LEFT JOIN pg_namespace nst ON ty.typnamespace=nst.oid
-LEFT JOIN pg_constraint co ON dep.refobjid=co.oid
-LEFT JOIN pg_class coc ON co.conrelid=coc.oid
-LEFT JOIN pg_namespace nso ON co.connamespace=nso.oid
-LEFT JOIN pg_rewrite rw ON dep.refobjid=rw.oid
-LEFT JOIN pg_class clrw ON clrw.oid=rw.ev_class
-LEFT JOIN pg_namespace nsrw ON clrw.relnamespace=nsrw.oid
-LEFT JOIN pg_language la ON dep.refobjid=la.oid
-LEFT JOIN pg_namespace ns ON dep.refobjid=ns.oid
-LEFT JOIN pg_attrdef ad ON ad.adrelid=att.attrelid AND ad.adnum=att.attnum
-LEFT JOIN pg_foreign_server fs ON fs.oid=dep.refobjid
-LEFT JOIN pg_foreign_data_wrapper fdw ON fdw.oid=dep.refobjid
-LEFT JOIN pg_type prtyp ON prtyp.oid = pr.prorettype
-LEFT JOIN pg_inherits inhits ON (inhits.inhrelid=dep.refobjid)
-LEFT JOIN pg_inherits inhed ON (inhed.inhparent=dep.refobjid)
+FROM sys_depend dep
+LEFT JOIN sys_class cl ON dep.refobjid=cl.oid
+LEFT JOIN sys_attribute att ON dep.refobjid=att.attrelid AND dep.refobjsubid=att.attnum
+LEFT JOIN sys_namespace nsc ON cl.relnamespace=nsc.oid
+LEFT JOIN sys_proc pr ON dep.refobjid=pr.oid
+LEFT JOIN sys_namespace nsp ON pr.pronamespace=nsp.oid
+LEFT JOIN sys_trigger tg ON dep.refobjid=tg.oid
+LEFT JOIN sys_type ty ON dep.refobjid=ty.oid
+LEFT JOIN sys_namespace nst ON ty.typnamespace=nst.oid
+LEFT JOIN sys_constraint co ON dep.refobjid=co.oid
+LEFT JOIN sys_class coc ON co.conrelid=coc.oid
+LEFT JOIN sys_namespace nso ON co.connamespace=nso.oid
+LEFT JOIN sys_rewrite rw ON dep.refobjid=rw.oid
+LEFT JOIN sys_class clrw ON clrw.oid=rw.ev_class
+LEFT JOIN sys_namespace nsrw ON clrw.relnamespace=nsrw.oid
+LEFT JOIN sys_language la ON dep.refobjid=la.oid
+LEFT JOIN sys_namespace ns ON dep.refobjid=ns.oid
+LEFT JOIN sys_attrdef ad ON ad.adrelid=att.attrelid AND ad.adnum=att.attnum
+LEFT JOIN sys_foreign_server fs ON fs.oid=dep.refobjid
+LEFT JOIN sys_foreign_data_wrapper fdw ON fdw.oid=dep.refobjid
+LEFT JOIN sys_type prtyp ON prtyp.oid = pr.prorettype
+LEFT JOIN sys_inherits inhits ON (inhits.inhrelid=dep.refobjid)
+LEFT JOIN sys_inherits inhed ON (inhed.inhparent=dep.refobjid)
 {{where_clause}} AND
-refclassid IN ( SELECT oid FROM pg_class WHERE relname IN
-   ('pg_class', 'pg_constraint', 'pg_conversion', 'pg_language', 'pg_proc', 'pg_rewrite', 'pg_namespace',
-   'pg_trigger', 'pg_type', 'pg_attrdef', 'pg_event_trigger', 'pg_foreign_server', 'pg_foreign_data_wrapper'))
+refclassid IN ( SELECT oid FROM sys_class WHERE relname IN
+   ('sys_class', 'sys_constraint', 'sys_conversion', 'sys_language', 'sys_proc', 'sys_rewrite', 'sys_namespace',
+   'sys_trigger', 'sys_type', 'sys_attrdef', 'sys_event_trigger', 'sys_foreign_server', 'sys_foreign_data_wrapper'))
 ORDER BY refclassid, cl.relkind

@@ -727,10 +727,10 @@ msgstr "Ruta al ejecutable de la base de datos Greenplum"
 #: pgadmin/browser/server_groups/servers/gpdb.py:16
 msgid ""
 "Path to the directory containing the Greenplum Database utility programs "
-"(pg_dump, pg_restore etc)."
+"(sys_dump, sys_restore etc)."
 msgstr ""
 "Ruta al directorio que contiene los programas de utilidades de la base de"
-" datos Greenplum (pg_dump, pg_restore etc)."
+" datos Greenplum (sys_dump, sys_restore etc)."
 
 #: pgadmin/browser/server_groups/servers/gpdb.py:30
 msgid "Greenplum Database"
@@ -743,10 +743,10 @@ msgstr "Ruta al ejecutable de EBD Advanced Server"
 #: pgadmin/browser/server_groups/servers/ppas.py:16
 msgid ""
 "Path to the directory containing the EDB Advanced Server utility programs"
-" (pg_dump, pg_restore etc)."
+" (sys_dump, sys_restore etc)."
 msgstr ""
 "Ruta al directorio que contiene los programas de utilidades de EBD "
-"Advanced Server (pg_dump, pg_restore etc)."
+"Advanced Server (sys_dump, sys_restore etc)."
 
 #: pgadmin/browser/server_groups/servers/ppas.py:26
 msgid "EDB Advanced Server"
@@ -759,10 +759,10 @@ msgstr "Ruta al ejecutable de PostgreSQL"
 #: pgadmin/browser/server_groups/servers/types.py:31
 msgid ""
 "Path to the directory containing the PostgreSQL utility programs "
-"(pg_dump, pg_restore etc)."
+"(sys_dump, sys_restore etc)."
 msgstr ""
 "Ruta al directorio que contiene los programas de utilidades de PostgreSQL"
-" (pg_dump, pg_restore etc)."
+" (sys_dump, sys_restore etc)."
 
 #: pgadmin/browser/server_groups/servers/types.py:59
 #: pgadmin/help/__init__.py:53

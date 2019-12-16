@@ -18,7 +18,7 @@
         }],
         "is_partitioned": false,
         "schema": "testschema",
-        "spcname": "pg_default"
+        "spcname": "sys_default"
       },
       "store_object_id": true
     }, {
@@ -28,7 +28,7 @@
       "sql_endpoint": "NODE-index.sql_id",
       "data": {
         "name": "uindex",
-        "spcname": "pg_default",
+        "spcname": "sys_default",
         "amname": "btree",
         "columns": [{
           "colname": "col1",

@@ -7,21 +7,21 @@ SELECT
     c.reltablespace AS spcoid,
     c.relispopulated AS with_data,
     CASE WHEN length(spcname) > 0 THEN spcname ELSE
-        (SELECT sp.spcname FROM pg_database dtb
-        JOIN pg_tablespace sp ON dtb.dattablespace=sp.oid
+        (SELECT sp.spcname FROM sys_database dtb
+        JOIN sys_tablespace sp ON dtb.dattablespace=sp.oid
         WHERE dtb.oid = {{ did }}::oid)
     END as spcname,
     c.relacl,
     nsp.nspname as schema,
-    pg_get_userbyid(c.relowner) AS owner,
+    sys_get_userbyid(c.relowner) AS owner,
     description AS comment,
-    pg_get_viewdef(c.oid, true) AS definition,
+    sys_get_viewdef(c.oid, true) AS definition,
     {# ============= Checks if it is system view ================ #}
     {% if vid and datlastsysoid %}
     CASE WHEN {{vid}} <= {{datlastsysoid}} THEN True ELSE False END AS system_view,
     {% endif %}
     array_to_string(c.relacl::text[], ', ') AS acl,
-    (SELECT array_agg(provider || '=' || label) FROM pg_seclabels sl1 WHERE sl1.objoid=c.oid AND sl1.objsubid=0) AS seclabels,
+    (SELECT array_agg(provider || '=' || label) FROM sys_seclabels sl1 WHERE sl1.objoid=c.oid AND sl1.objsubid=0) AS seclabels,
     substring(array_to_string(c.reloptions, ',')
       FROM 'fillfactor=([0-9]*)') AS fillfactor,
     (CASE WHEN (substring(array_to_string(c.reloptions, ',')
@@ -69,16 +69,16 @@ SELECT
     (CASE WHEN array_length(c.reloptions, 1) > 0 THEN true ELSE false END) AS autovacuum_custom,
     (CASE WHEN array_length(tst.reloptions, 1) > 0 AND c.reltoastrelid != 0 THEN true ELSE false END) AS toast_autovacuum
 FROM
-    pg_class c
-LEFT OUTER JOIN pg_namespace nsp on nsp.oid = c.relnamespace
-LEFT OUTER JOIN pg_tablespace spc on spc.oid=c.reltablespace
-LEFT OUTER JOIN pg_description des ON (des.objoid=c.oid and des.objsubid=0 AND des.classoid='pg_class'::regclass)
-LEFT OUTER JOIN pg_class tst ON tst.oid = c.reltoastrelid
+    sys_class c
+LEFT OUTER JOIN sys_namespace nsp on nsp.oid = c.relnamespace
+LEFT OUTER JOIN sys_tablespace spc on spc.oid=c.reltablespace
+LEFT OUTER JOIN sys_description des ON (des.objoid=c.oid and des.objsubid=0 AND des.classoid='sys_class'::regclass)
+LEFT OUTER JOIN sys_class tst ON tst.oid = c.reltoastrelid
     WHERE ((c.relhasrules AND (EXISTS (
         SELECT
             r.rulename
         FROM
-            pg_rewrite r
+            sys_rewrite r
         WHERE
             ((r.ev_class = c.oid)
                 AND (bpchar(r.ev_type) = '1'::bpchar)) )))
@@ -96,7 +96,7 @@ ORDER BY
 SELECT
     pr.rolname
 FROM
-    pg_roles pr
+    sys_roles pr
 WHERE
     pr.rolcanlogin
 ORDER BY
@@ -106,7 +106,7 @@ ORDER BY
 SELECT
     nsp.nspname
 FROM
-    pg_namespace nsp
+    sys_namespace nsp
 WHERE
     (nsp.nspname NOT LIKE E'pg\\_%'
         AND nsp.nspname != 'information_schema')

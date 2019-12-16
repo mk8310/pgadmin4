@@ -849,7 +849,7 @@ define('pgadmin.browser', [
       if (type == 'object_help') {
         // Construct the URL
         var server = node.getTreeNodeHierarchy(item).server;
-        var baseUrl = pgBrowser.utils.pg_help_path;
+        var baseUrl = pgBrowser.utils.sys_help_path;
         if (server.server_type == 'ppas') {
           baseUrl = pgBrowser.utils.edbas_help_path;
         }

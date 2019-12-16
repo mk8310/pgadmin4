@@ -6,13 +6,13 @@ SELECT
         SELECT
             nspname
         FROM
-            pg_namespace
+            sys_namespace
         WHERE
             oid = p.prsnamespace
     ) as schema
 FROM
-    pg_ts_parser p LEFT JOIN pg_description d
-    ON d.objoid=p.oid AND d.classoid='pg_ts_parser'::regclass
+    sys_ts_parser p LEFT JOIN sys_description d
+    ON d.objoid=p.oid AND d.classoid='sys_ts_parser'::regclass
 WHERE
     p.oid = {{pid}}::OID;
 {% endif %}

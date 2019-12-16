@@ -3,7 +3,7 @@ ALTER TABLE {{ conn|qtIdent(data.schema, data.table) }}
 ({% for columnobj in data.columns %}{% if loop.index != 1 %}
 , {% endif %}{{ conn|qtIdent(columnobj.column)}}{% endfor %}){% if data.fillfactor %}
 
-    WITH (FILLFACTOR={{data.fillfactor}}){% endif %}{% if data.spcname and data.spcname != "pg_default" %}
+    WITH (FILLFACTOR={{data.fillfactor}}){% endif %}{% if data.spcname and data.spcname != "sys_default" %}
 
     USING INDEX TABLESPACE {{ conn|qtIdent(data.spcname) }}{% endif %}{% endif %}{% if data.condeferrable %}
 

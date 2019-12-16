@@ -17,7 +17,7 @@
         }],
         "is_partitioned": false,
         "schema": "testschema",
-        "spcname": "pg_default",
+        "spcname": "sys_default",
         "primary_key":[{
           "columns": [{
             "column": "id"
@@ -50,7 +50,7 @@
         }],
         "is_partitioned": false,
         "schema": "testschema",
-        "spcname": "pg_default",
+        "spcname": "sys_default",
         "primary_key": [{
           "columns": [{
             "column": "item_id"

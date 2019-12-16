@@ -1,5 +1,5 @@
 SELECT cl.oid as oid, relname as name, relnamespace as schema
-FROM pg_class cl
+FROM sys_class cl
 WHERE
     relkind = 'S'
 {% if scid %}

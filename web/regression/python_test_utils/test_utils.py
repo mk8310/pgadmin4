@@ -120,12 +120,12 @@ def create_database(server, db_name, encoding=None):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         if encoding is None:
-            pg_cursor.execute(
+            sys_cursor.execute(
                 '''CREATE DATABASE "%s" TEMPLATE template0''' % db_name)
         else:
-            pg_cursor.execute(
+            sys_cursor.execute(
                 '''CREATE DATABASE "%s" TEMPLATE template0
                 ENCODING='%s' LC_COLLATE='%s' LC_CTYPE='%s' ''' %
                 (db_name, encoding[0], encoding[1], encoding[1]))
@@ -133,9 +133,9 @@ def create_database(server, db_name, encoding=None):
         connection.commit()
 
         # Get 'oid' from newly created database
-        pg_cursor.execute("SELECT db.oid from pg_database db WHERE"
+        sys_cursor.execute("SELECT db.oid from sys_database db WHERE"
                           " db.datname='%s'" % db_name)
-        oid = pg_cursor.fetchone()
+        oid = sys_cursor.fetchone()
         if oid:
             db_id = oid[0]
         connection.close()
@@ -171,19 +171,19 @@ def create_table(server, db_name, table_name, extra_columns=[]):
         extra_columns_sql = ", " + ", ".join(extra_columns) \
             if len(extra_columns) > 0 else ''
 
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             '''CREATE TABLE "%s" (some_column VARCHAR, value NUMERIC,
             details VARCHAR%s)''' % (table_name, extra_columns_sql))
-        pg_cursor.execute(
+        sys_cursor.execute(
             '''INSERT INTO "%s"(some_column, value, details)
             VALUES ('Some-Name', 6, 'some info')'''
             % table_name)
-        pg_cursor.execute(
+        sys_cursor.execute(
             '''INSERT INTO "%s"(some_column, value, details)
             VALUES ('Some-Other-Name', 22,
             'some other info')''' % table_name)
-        pg_cursor.execute(
+        sys_cursor.execute(
             '''INSERT INTO "%s"(some_column, value, details)
             VALUES ('Yet-Another-Name', 14,
             'cool info')''' % table_name)
@@ -215,8 +215,8 @@ def delete_table(server, db_name, table_name):
             server['port'],
             server['sslmode']
         )
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             '''DROP TABLE IF EXISTS "%s"''' % table_name)
         connection.commit()
 
@@ -246,8 +246,8 @@ def create_table_with_query(server, db_name, query):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(query)
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
 
@@ -271,8 +271,8 @@ def create_constraint(server,
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute('''
+        sys_cursor = connection.cursor()
+        sys_cursor.execute('''
             ALTER TABLE "%s"
               ADD CONSTRAINT "%s" %s (some_column)
             ''' % (table_name, constraint_name, constraint_type.upper())
@@ -312,8 +312,8 @@ def create_type(server, db_name, type_name, type_fields=[]):
 
         type_fields_sql = ", ".join(type_fields)
 
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             '''CREATE TYPE %s AS (%s)''' % (type_name, type_fields_sql))
 
         connection.set_isolation_level(old_isolation_level)
@@ -335,8 +335,8 @@ def create_debug_function(server, db_name, function_name="test_func"):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute('''
+        sys_cursor = connection.cursor()
+        sys_cursor.execute('''
             CREATE OR REPLACE FUNCTION public."%s"()
               RETURNS text
                 LANGUAGE 'plpgsql'
@@ -370,8 +370,8 @@ def drop_debug_function(server, db_name, function_name="test_func"):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute('''
+        sys_cursor = connection.cursor()
+        sys_cursor.execute('''
             DROP FUNCTION public."%s"();
             ''' % function_name)
         connection.set_isolation_level(old_isolation_level)
@@ -383,7 +383,7 @@ def drop_debug_function(server, db_name, function_name="test_func"):
 
 def does_function_exist(server, db_name, fun_name):
     query = "select exists(select * " \
-            "from pg_proc where proname = '%s');" % fun_name
+            "from sys_proc where proname = '%s');" % fun_name
 
     connection = get_db_connection(
         db_name,
@@ -413,7 +413,7 @@ def create_role(server, db_name, role_name="test_role"):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         sql_query = '''
             CREATE USER "%s" WITH
               LOGIN
@@ -425,7 +425,7 @@ def create_role(server, db_name, role_name="test_role"):
         if connection.server_version > 90100:
             sql_query += '\nNOREPLICATION'
 
-        pg_cursor.execute(
+        sys_cursor.execute(
             sql_query
         )
         connection.set_isolation_level(old_isolation_level)
@@ -447,8 +447,8 @@ def drop_role(server, db_name, role_name="test_role"):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute('''
+        sys_cursor = connection.cursor()
+        sys_cursor.execute('''
             DROP USER "%s"
             ''' % role_name)
         connection.set_isolation_level(old_isolation_level)
@@ -461,27 +461,27 @@ def drop_role(server, db_name, role_name="test_role"):
 def drop_database(connection, database_name):
     """This function used to drop the database"""
     if database_name not in ["postgres", "template1", "template0"]:
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         if connection.server_version >= 90100:
-            pg_cursor.execute(
-                "SELECT pg_terminate_backend(pg_stat_activity.pid) "
-                "FROM pg_stat_activity "
-                "WHERE pg_stat_activity.datname ='%s' AND "
-                "pid <> pg_backend_pid();" % database_name
+            sys_cursor.execute(
+                "SELECT sys_terminate_backend(sys_stat_activity.pid) "
+                "FROM sys_stat_activity "
+                "WHERE sys_stat_activity.datname ='%s' AND "
+                "pid <> sys_backend_pid();" % database_name
             )
         else:
-            pg_cursor.execute(
-                "SELECT pg_terminate_backend(procpid) "
-                "FROM pg_stat_activity "
-                "WHERE pg_stat_activity.datname ='%s' "
+            sys_cursor.execute(
+                "SELECT sys_terminate_backend(procpid) "
+                "FROM sys_stat_activity "
+                "WHERE sys_stat_activity.datname ='%s' "
                 "AND current_query='<IDLE>';" % database_name
             )
-        pg_cursor.execute("SELECT * FROM pg_database db WHERE"
+        sys_cursor.execute("SELECT * FROM sys_database db WHERE"
                           " db.datname='%s'" % database_name)
-        if pg_cursor.fetchall():
+        if sys_cursor.fetchall():
             old_isolation_level = connection.isolation_level
             connection.set_isolation_level(0)
-            pg_cursor.execute('''DROP DATABASE "%s"''' % database_name)
+            sys_cursor.execute('''DROP DATABASE "%s"''' % database_name)
             connection.set_isolation_level(old_isolation_level)
             connection.commit()
             connection.close()
@@ -491,27 +491,27 @@ def drop_database_multiple(connection, database_names):
     """This function used to drop the database"""
     for database_name in database_names:
         if database_name not in ["postgres", "template1", "template0"]:
-            pg_cursor = connection.cursor()
+            sys_cursor = connection.cursor()
             if connection.server_version >= 90100:
-                pg_cursor.execute(
-                    "SELECT pg_terminate_backend(pg_stat_activity.pid) "
-                    "FROM pg_stat_activity "
-                    "WHERE pg_stat_activity.datname ='%s' AND "
-                    "pid <> pg_backend_pid();" % database_name
+                sys_cursor.execute(
+                    "SELECT sys_terminate_backend(sys_stat_activity.pid) "
+                    "FROM sys_stat_activity "
+                    "WHERE sys_stat_activity.datname ='%s' AND "
+                    "pid <> sys_backend_pid();" % database_name
                 )
             else:
-                pg_cursor.execute(
-                    "SELECT pg_terminate_backend(procpid) "
-                    "FROM pg_stat_activity "
-                    "WHERE pg_stat_activity.datname ='%s' "
+                sys_cursor.execute(
+                    "SELECT sys_terminate_backend(procpid) "
+                    "FROM sys_stat_activity "
+                    "WHERE sys_stat_activity.datname ='%s' "
                     "AND current_query='<IDLE>';" % database_name
                 )
-            pg_cursor.execute("SELECT * FROM pg_database db WHERE"
+            sys_cursor.execute("SELECT * FROM sys_database db WHERE"
                               " db.datname='%s'" % database_name)
-            if pg_cursor.fetchall():
+            if sys_cursor.fetchall():
                 old_isolation_level = connection.isolation_level
                 connection.set_isolation_level(0)
-                pg_cursor.execute('''DROP DATABASE "%s"''' % database_name)
+                sys_cursor.execute('''DROP DATABASE "%s"''' % database_name)
                 connection.set_isolation_level(old_isolation_level)
                 connection.commit()
     connection.close()
@@ -519,15 +519,15 @@ def drop_database_multiple(connection, database_names):
 
 def drop_tablespace(connection):
     """This function used to drop the tablespace"""
-    pg_cursor = connection.cursor()
-    pg_cursor.execute("SELECT * FROM pg_tablespace")
-    table_spaces = pg_cursor.fetchall()
+    sys_cursor = connection.cursor()
+    sys_cursor.execute("SELECT * FROM sys_tablespace")
+    table_spaces = sys_cursor.fetchall()
     if table_spaces:
         for table_space in table_spaces:
-            if table_space[0] not in ["pg_default", "pg_global"]:
+            if table_space[0] not in ["sys_default", "sys_global"]:
                 old_isolation_level = connection.isolation_level
                 connection.set_isolation_level(0)
-                pg_cursor.execute("DROP TABLESPACE %s" % table_space[0])
+                sys_cursor.execute("DROP TABLESPACE %s" % table_space[0])
                 connection.set_isolation_level(old_isolation_level)
                 connection.commit()
     connection.close()
@@ -1027,11 +1027,11 @@ def get_timezone_without_dst(connection):
     timezone_no_dst_sql = """SELECT EXTRACT(
         TIMEZONE FROM '2017-01-01 00:00:00'::TIMESTAMP WITH TIME ZONE);"""
 
-    pg_cursor = connection.cursor()
+    sys_cursor = connection.cursor()
 
-    pg_cursor.execute(timezone_no_dst_sql)
+    sys_cursor.execute(timezone_no_dst_sql)
 
-    return pg_cursor.fetchone()[0]
+    return sys_cursor.fetchone()[0]
 
 
 def create_schema(server, db_name, schema_name):
@@ -1056,8 +1056,8 @@ def create_schema(server, db_name, schema_name):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             '''CREATE SCHEMA "%s"''' % schema_name)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
@@ -1082,10 +1082,10 @@ def get_server_type(server):
             server['sslmode']
         )
 
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         # Get 'version' string
-        pg_cursor.execute("SELECT version()")
-        version_string = pg_cursor.fetchone()
+        sys_cursor.execute("SELECT version()")
+        version_string = sys_cursor.fetchone()
         connection.close()
         if type(version_string) == tuple:
             version_string = version_string[0]

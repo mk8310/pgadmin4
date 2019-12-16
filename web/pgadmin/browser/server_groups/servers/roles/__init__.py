@@ -777,7 +777,7 @@ rolmembership:{
             )
 
         status, rid = self.conn.execute_scalar(
-            "SELECT oid FROM pg_roles WHERE rolname = %(rolname)s",
+            "SELECT oid FROM sys_roles WHERE rolname = %(rolname)s",
             {'rolname': self.request[u'rolname']}
         )
 
@@ -1092,7 +1092,7 @@ SELECT
     name, vartype, min_val::numeric AS min_val, max_val::numeric AS max_val,
     enumvals
 FROM
-    pg_settings
+    sys_settings
 WHERE
     context in ('user', 'superuser')
 ) a""")

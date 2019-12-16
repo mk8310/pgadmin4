@@ -65,7 +65,7 @@
         "name": "col_2_$%{}[]()&*^!@\"'`\\/#",
         "description": "Comment for create",
         "cltype":"character varying",
-        "collspcname": "pg_catalog.\"C\"",
+        "collspcname": "sys_catalog.\"C\"",
         "attacl":[],
         "is_primary_key":false,
         "attnotnull":false,

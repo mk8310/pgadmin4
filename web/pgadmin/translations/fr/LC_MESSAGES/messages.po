@@ -699,8 +699,8 @@ msgid "Greenplum Database Binary Path"
 msgstr "Chemin des binaires Greenplum"
 
 #: pgadmin/browser/server_groups/servers/gpdb.py:16
-msgid "Path to the directory containing the Greenplum Database utility programs (pg_dump, pg_restore etc)."
-msgstr "Chemin du dossier contenant les binaires des utilitaires de bases de données Greenplum (pg_dump, pg_restore etc)."
+msgid "Path to the directory containing the Greenplum Database utility programs (sys_dump, sys_restore etc)."
+msgstr "Chemin du dossier contenant les binaires des utilitaires de bases de données Greenplum (sys_dump, sys_restore etc)."
 
 #: pgadmin/browser/server_groups/servers/gpdb.py:30
 msgid "Greenplum Database"
@@ -711,8 +711,8 @@ msgid "EDB Advanced Server Binary Path"
 msgstr "Chemin des binaire EDB Advanced Server"
 
 #: pgadmin/browser/server_groups/servers/ppas.py:16
-msgid "Path to the directory containing the EDB Advanced Server utility programs (pg_dump, pg_restore etc)."
-msgstr "Chemin du dossier contenant les binaires des utilitaires de bases de données EDB Advanced Server (pg_dump, pg_restore etc)."
+msgid "Path to the directory containing the EDB Advanced Server utility programs (sys_dump, sys_restore etc)."
+msgstr "Chemin du dossier contenant les binaires des utilitaires de bases de données EDB Advanced Server (sys_dump, sys_restore etc)."
 
 #: pgadmin/browser/server_groups/servers/ppas.py:26
 msgid "EDB Advanced Server"
@@ -723,8 +723,8 @@ msgid "PostgreSQL Binary Path"
 msgstr "Chemin des binaires PostgreSQL"
 
 #: pgadmin/browser/server_groups/servers/types.py:31
-msgid "Path to the directory containing the PostgreSQL utility programs (pg_dump, pg_restore etc)."
-msgstr "Chemin du dossier contenant les binaires des utilitaires PostgreSQL (pg_dump, pg_restore etc)."
+msgid "Path to the directory containing the PostgreSQL utility programs (sys_dump, sys_restore etc)."
+msgstr "Chemin du dossier contenant les binaires des utilitaires PostgreSQL (sys_dump, sys_restore etc)."
 
 #: pgadmin/browser/server_groups/servers/types.py:59
 #: pgadmin/help/__init__.py:53

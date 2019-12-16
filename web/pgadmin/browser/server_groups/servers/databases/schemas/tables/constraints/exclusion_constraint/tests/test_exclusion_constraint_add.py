@@ -54,7 +54,7 @@ class ExclusionConstraintAddTestCase(BaseTestGenerator):
         """This function will add exclusion constraint to existing table."""
         self.index_name = "test_index_add_%s" % (str(uuid.uuid4())[1:8])
         data = {"name": self.index_name,
-                "spcname": "pg_default",
+                "spcname": "sys_default",
                 "amname": "btree",
                 "columns": [
                     {"column": "id", "sort_order": False, "nulls": False,

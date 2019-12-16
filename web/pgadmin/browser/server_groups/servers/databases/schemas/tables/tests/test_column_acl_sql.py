@@ -26,12 +26,12 @@ class TestColumnAclSql(SQLTemplateTestBase):
         self.column_id = -1
 
     def test_setup(self, connection, cursor):
-        cursor.execute("SELECT pg_class.oid AS table_id, "
-                       "pg_attribute.attnum AS column_id "
-                       "FROM pg_class JOIN pg_attribute ON "
-                       "attrelid=pg_class.oid "
-                       "WHERE pg_class.relname='test_table'"
-                       " AND pg_attribute.attname = 'some_column'")
+        cursor.execute("SELECT sys_class.oid AS table_id, "
+                       "sys_attribute.attnum AS column_id "
+                       "FROM sys_class JOIN sys_attribute ON "
+                       "attrelid=sys_class.oid "
+                       "WHERE sys_class.relname='test_table'"
+                       " AND sys_attribute.attname = 'some_column'")
         self.table_id, self.column_id = cursor.fetchone()
 
     def generate_sql(self, version):

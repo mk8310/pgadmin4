@@ -65,7 +65,7 @@ class TriggerFuncAddTestCase(BaseTestGenerator):
                     "value": True
                 }, {
                     "name": "search_path",
-                    "value": "public, pg_temp"
+                    "value": "public, sys_temp"
                 }
             ]
         }

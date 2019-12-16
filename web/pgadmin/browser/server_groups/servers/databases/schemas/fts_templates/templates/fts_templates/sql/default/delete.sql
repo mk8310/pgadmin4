@@ -6,13 +6,13 @@ SELECT
     SELECT
         nspname
     FROM
-        pg_namespace
+        sys_namespace
     WHERE
         oid = t.tmplnamespace
     ) as schema
 FROM
-    pg_ts_template t LEFT JOIN pg_description d
-    ON d.objoid=t.oid AND d.classoid='pg_ts_template'::regclass
+    sys_ts_template t LEFT JOIN sys_description d
+    ON d.objoid=t.oid AND d.classoid='sys_ts_template'::regclass
 WHERE
     t.oid = {{tid}}::OID;
 {% endif %}

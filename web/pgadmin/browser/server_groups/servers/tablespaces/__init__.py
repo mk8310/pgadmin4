@@ -563,7 +563,7 @@ class TablespaceView(PGChildNodeView):
 
         SQL = ''
         # We are not showing create sql for system tablespace
-        if not old_data['name'].startswith('pg_'):
+        if not old_data['name'].startswith('sys_'):
             SQL = render_template(
                 "/".join([self.template_path, 'create.sql']),
                 data=old_data

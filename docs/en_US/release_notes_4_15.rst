@@ -35,7 +35,7 @@ Bug fixes
 | `Issue #4341 <https://redmine.postgresql.org/issues/4341>`_ -  Give appropriate error messages when the user tries to use an blank master password.
 | `Issue #4451 <https://redmine.postgresql.org/issues/4451>`_ -  Remove arbitrary (and incorrect) requirement that composite types must have at least two members.
 | `Issue #4459 <https://redmine.postgresql.org/issues/4459>`_ -  Don't quote bigints when copying them from the Query Tool results grid.
-| `Issue #4482 <https://redmine.postgresql.org/issues/4482>`_ -  Ensure compression level is passed to pg_dump when backing up in directory format.
+| `Issue #4482 <https://redmine.postgresql.org/issues/4482>`_ -  Ensure compression level is passed to sys_dump when backing up in directory format.
 | `Issue #4483 <https://redmine.postgresql.org/issues/4483>`_ -  Ensure the number of jobs can be specified when backing up in directory format.
 | `Issue #4564 <https://redmine.postgresql.org/issues/4564>`_ -  Ensure Javascript errors during Query Tool execution are reported as such and not as Ajax errors.
 | `Issue #4610 <https://redmine.postgresql.org/issues/4610>`_ -  Suppress Enter key presses in Alertify dialogues when the come from Select2 controls to allow item selection with Enter.

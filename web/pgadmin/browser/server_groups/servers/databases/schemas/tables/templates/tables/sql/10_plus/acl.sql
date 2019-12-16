@@ -21,26 +21,26 @@ FROM
 	END AS privilege_type
   FROM
     (SELECT rel.relacl
-        FROM pg_class rel
-          LEFT OUTER JOIN pg_tablespace spc on spc.oid=rel.reltablespace
-          LEFT OUTER JOIN pg_constraint con ON con.conrelid=rel.oid AND con.contype='p'
-          LEFT OUTER JOIN pg_class tst ON tst.oid = rel.reltoastrelid
-          LEFT JOIN pg_type typ ON rel.reloftype=typ.oid
+        FROM sys_class rel
+          LEFT OUTER JOIN sys_tablespace spc on spc.oid=rel.reltablespace
+          LEFT OUTER JOIN sys_constraint con ON con.conrelid=rel.oid AND con.contype='p'
+          LEFT OUTER JOIN sys_class tst ON tst.oid = rel.reltoastrelid
+          LEFT JOIN sys_type typ ON rel.reloftype=typ.oid
         WHERE rel.relkind IN ('r','s','t','p') AND rel.relnamespace = {{ scid }}::oid
             AND rel.oid = {{ tid }}::oid
     ) acl,
     (SELECT (d).grantee AS grantee, (d).grantor AS grantor, (d).is_grantable
         AS is_grantable, (d).privilege_type AS privilege_type FROM (SELECT
         aclexplode(rel.relacl) as d
-        FROM pg_class rel
-          LEFT OUTER JOIN pg_tablespace spc on spc.oid=rel.reltablespace
-          LEFT OUTER JOIN pg_constraint con ON con.conrelid=rel.oid AND con.contype='p'
-          LEFT OUTER JOIN pg_class tst ON tst.oid = rel.reltoastrelid
-          LEFT JOIN pg_type typ ON rel.reloftype=typ.oid
+        FROM sys_class rel
+          LEFT OUTER JOIN sys_tablespace spc on spc.oid=rel.reltablespace
+          LEFT OUTER JOIN sys_constraint con ON con.conrelid=rel.oid AND con.contype='p'
+          LEFT OUTER JOIN sys_class tst ON tst.oid = rel.reltoastrelid
+          LEFT JOIN sys_type typ ON rel.reloftype=typ.oid
         WHERE rel.relkind IN ('r','s','t','p') AND rel.relnamespace = {{ scid }}::oid
             AND rel.oid = {{ tid }}::oid
         ) a) d
     ) d
-  LEFT JOIN pg_catalog.pg_roles g ON (d.grantor = g.oid)
-  LEFT JOIN pg_catalog.pg_roles gt ON (d.grantee = gt.oid)
+  LEFT JOIN sys_catalog.sys_roles g ON (d.grantor = g.oid)
+  LEFT JOIN sys_catalog.sys_roles gt ON (d.grantee = gt.oid)
 GROUP BY g.rolname, gt.rolname

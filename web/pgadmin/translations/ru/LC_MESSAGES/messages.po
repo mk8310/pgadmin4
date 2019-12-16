@@ -720,10 +720,10 @@ msgstr "Каталог программ Greenplum"
 #: pgadmin/browser/server_groups/servers/gpdb.py:16
 msgid ""
 "Path to the directory containing the Greenplum Database utility programs "
-"(pg_dump, pg_restore etc)."
+"(sys_dump, sys_restore etc)."
 msgstr ""
 "Путь к каталогу, содержащему служебные программы Greenplum Database "
-"(pg_dump, pg_restore и т. д.)."
+"(sys_dump, sys_restore и т. д.)."
 
 #: pgadmin/browser/server_groups/servers/gpdb.py:30
 msgid "Greenplum Database"
@@ -736,10 +736,10 @@ msgstr "Каталог программ EDB Advanced Server"
 #: pgadmin/browser/server_groups/servers/ppas.py:16
 msgid ""
 "Path to the directory containing the EDB Advanced Server utility programs"
-" (pg_dump, pg_restore etc)."
+" (sys_dump, sys_restore etc)."
 msgstr ""
 "Путь к каталогу, содержащему служебные программы EDB Advanced Server "
-"(pg_dump, pg_restore и т. д.)."
+"(sys_dump, sys_restore и т. д.)."
 
 #: pgadmin/browser/server_groups/servers/ppas.py:26
 msgid "EDB Advanced Server"
@@ -752,10 +752,10 @@ msgstr "Каталог программ PostgreSQL"
 #: pgadmin/browser/server_groups/servers/types.py:31
 msgid ""
 "Path to the directory containing the PostgreSQL utility programs "
-"(pg_dump, pg_restore etc)."
+"(sys_dump, sys_restore etc)."
 msgstr ""
-"Путь к каталогу, содержащему служебные программы PostgreSQL (pg_dump, "
-"pg_restore и т. д.)."
+"Путь к каталогу, содержащему служебные программы PostgreSQL (sys_dump, "
+"sys_restore и т. д.)."
 
 #: pgadmin/browser/server_groups/servers/types.py:59
 #: pgadmin/help/__init__.py:53

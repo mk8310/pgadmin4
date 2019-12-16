@@ -41,7 +41,7 @@ export class RestoreDialog extends Dialog {
 
     var sid = serverInformation._type == 'database' ? serverInformation._pid : serverInformation._id;
     const baseUrl = this.url_for_utility_exists(sid);
-    // Check pg_restore utility exists or not.
+    // Check sys_restore utility exists or not.
     let that = this;
     axios.get(
       baseUrl
@@ -68,7 +68,7 @@ export class RestoreDialog extends Dialog {
 
       let title = sprintf(gettext('Restore (%s: %s)'), node.label, data.label);
       that.createOrGetDialog(title, 'restore');
-      that.alertify.pg_restore(title, aciTreeItem1, data, node)
+      that.alertify.sys_restore(title, aciTreeItem1, data, node)
         .resizeTo(width, height);
     }).catch(function() {
       that.alertify.alert(
@@ -80,7 +80,7 @@ export class RestoreDialog extends Dialog {
   }
 
   dialogName() {
-    return 'pg_restore';
+    return 'sys_restore';
   }
 }
 

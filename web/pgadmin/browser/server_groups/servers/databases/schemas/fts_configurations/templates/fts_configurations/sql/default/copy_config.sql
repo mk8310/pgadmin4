@@ -6,8 +6,8 @@ SELECT
     nspname,
     n.oid as schemaoid
 FROM
-    pg_ts_config cfg
-    JOIN pg_namespace n
+    sys_ts_config cfg
+    JOIN sys_namespace n
     ON n.oid=cfgnamespace
 ORDER BY
     nspname,

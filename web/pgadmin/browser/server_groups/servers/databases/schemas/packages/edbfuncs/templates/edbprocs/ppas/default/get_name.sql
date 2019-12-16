@@ -1,3 +1,3 @@
 SELECT  proname AS name
-FROM pg_proc
+FROM sys_proc
 WHERE oid = {{edbfnid}}::oid

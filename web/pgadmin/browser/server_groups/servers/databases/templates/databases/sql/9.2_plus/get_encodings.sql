@@ -4,14 +4,14 @@
 #}
 SELECT *
 FROM
-    (SELECT pg_encoding_to_char(s.i) AS encoding
+    (SELECT sys_encoding_to_char(s.i) AS encoding
     FROM (SELECT generate_series(0, 100, 1) as i) s) a
 WHERE encoding != '' ORDER BY encoding;
 
 {#
 -- For future use, Do not delete
 --SELECT * FROM
---(SELECT s.i as id, pg_encoding_to_char(s.i)
+--(SELECT s.i as id, sys_encoding_to_char(s.i)
 --	as encoding
 --	FROM (SELECT generate_series(0, 100, 1) as i) s) a
 --WHERE encoding != ''

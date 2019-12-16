@@ -18,25 +18,25 @@ FROM
         CASE
             WHEN description IS NOT NULL THEN
                 E'\n\nCOMMENT ON TEXT SEARCH PARSER ' || quote_ident(nspname) || E'.' || quote_ident(prs.prsname) ||
-                E' IS ' || pg_catalog.quote_literal(description) || E';'
+                E' IS ' || sys_catalog.quote_literal(description) || E';'
             ELSE ''  END as sql
     FROM
-        pg_ts_parser prs
+        sys_ts_parser prs
     LEFT JOIN (
         SELECT
             des.description as description,
             des.objoid as descoid
         FROM
-            pg_description des
+            sys_description des
         WHERE
-            des.objoid={{pid}}::OID AND des.classoid='pg_ts_parser'::regclass
+            des.objoid={{pid}}::OID AND des.classoid='sys_ts_parser'::regclass
     ) a ON (a.descoid = prs.oid)
     LEFT JOIN (
         SELECT
             nspname,
             nsp.oid as noid
         FROM
-            pg_namespace nsp
+            sys_namespace nsp
         WHERE
             oid = {{scid}}::OID
     ) b ON (b.noid = prs.prsnamespace)

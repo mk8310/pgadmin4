@@ -29,20 +29,20 @@ def create_fts_configuration(server, db_name, schema_name, fts_conf_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
         query = "CREATE TEXT SEARCH CONFIGURATION " + schema_name + "." + \
                 fts_conf_name + "(PARSER=default)"
 
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
 
         # Get 'oid' from newly created configuration
-        pg_cursor.execute("select oid from pg_catalog.pg_ts_config where "
+        sys_cursor.execute("select oid from sys_catalog.sys_ts_config where "
                           "cfgname = '%s' order by oid ASC limit 1"
                           % fts_conf_name)
 
-        oid = pg_cursor.fetchone()
+        oid = sys_cursor.fetchone()
         fts_conf_id = ''
         if oid:
             fts_conf_id = oid[0]
@@ -72,13 +72,13 @@ def verify_fts_configuration(server, db_name, fts_conf_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
-        pg_cursor.execute(
-            "select oid from pg_catalog.pg_ts_config where "
+        sys_cursor.execute(
+            "select oid from sys_catalog.sys_ts_config where "
             "cfgname = '%s' order by oid ASC limit 1"
             % fts_conf_name)
-        fts_conf = pg_cursor.fetchone()
+        fts_conf = sys_cursor.fetchone()
         connection.close()
         return fts_conf
     except Exception:
@@ -104,8 +104,8 @@ def delete_fts_configurations(server, db_name, schema_name, fts_conf_name):
                                    server['host'],
                                    server['port'],
                                    server['sslmode'])
-    pg_cursor = connection.cursor()
-    pg_cursor.execute("DROP TEXT SEARCH CONFIGURATION %s.%s" % (schema_name,
+    sys_cursor = connection.cursor()
+    sys_cursor.execute("DROP TEXT SEARCH CONFIGURATION %s.%s" % (schema_name,
                                                                 fts_conf_name))
     connection.commit()
     connection.close()

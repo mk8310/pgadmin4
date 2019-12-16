@@ -44,7 +44,7 @@ def is_pgagent_installed_on_server(self):
             self.server['port'],
             self.server['sslmode']
         )
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
         SQL = """
         SELECT
@@ -54,14 +54,14 @@ def is_pgagent_installed_on_server(self):
         WHERE EXISTS(
             SELECT has_schema_privilege('pgagent', 'USAGE')
             WHERE EXISTS(
-                SELECT cl.oid FROM pg_class cl
-                LEFT JOIN pg_namespace ns ON ns.oid=relnamespace
+                SELECT cl.oid FROM sys_class cl
+                LEFT JOIN sys_namespace ns ON ns.oid=relnamespace
                 WHERE relname='pga_job' AND nspname='pgagent'
             )
         )
         """
-        pg_cursor.execute(SQL)
-        result = pg_cursor.fetchone()
+        sys_cursor.execute(SQL)
+        result = sys_cursor.fetchone()
         if result is None:
             connection.close()
             message = "Make sure pgAgent is installed properly."
@@ -75,8 +75,8 @@ def is_pgagent_installed_on_server(self):
                     column_name='jstconnstr'
             ) has_connstr
         """
-        pg_cursor.execute(SQL)
-        result = pg_cursor.fetchone()
+        sys_cursor.execute(SQL)
+        result = sys_cursor.fetchone()
         if result is None:
             connection.close()
             message = "Make sure pgAgent is installed properly."
@@ -103,8 +103,8 @@ def create_pgagent_job(self, name):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             """
             INSERT INTO pgagent.pga_job(
                 jobjclid, jobname, jobdesc, jobhostagent, jobenabled
@@ -113,7 +113,7 @@ def create_pgagent_job(self, name):
             ) RETURNING jobid;
             """.format(name)
         )
-        job_id = pg_cursor.fetchone()
+        job_id = sys_cursor.fetchone()
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         connection.close()
@@ -137,8 +137,8 @@ def delete_pgagent_job(self):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             "DELETE FROM pgagent.pga_job "
             "WHERE jobid = '%s'::integer;" % self.job_id
         )
@@ -162,12 +162,12 @@ def verify_pgagent_job(self):
             self.server['port'],
             self.server['sslmode']
         )
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             "SELECT COUNT(*) FROM pgagent.pga_job "
             "WHERE jobid = '%s'::integer;" % self.job_id
         )
-        result = pg_cursor.fetchone()
+        result = sys_cursor.fetchone()
         count = result[0]
         connection.close()
         return count is not None and int(count) != 0
@@ -190,7 +190,7 @@ def create_pgagent_schedule(self, sch_name, jobid):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = """
             INSERT INTO pgagent.pga_schedule(
                 jscname, jscjobid, jscenabled, jscdesc, jscstart, jscend
@@ -200,8 +200,8 @@ def create_pgagent_schedule(self, sch_name, jobid):
                 '2050-01-30 12:14:21 +05:30'::timestamp with time zone
             ) RETURNING jscid;
             """.format(sch_name, jobid)
-        pg_cursor.execute(query)
-        sch_id = pg_cursor.fetchone()
+        sys_cursor.execute(query)
+        sch_id = sys_cursor.fetchone()
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         connection.close()
@@ -225,8 +225,8 @@ def delete_pgagent_schedule(self):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             "DELETE FROM pgagent.pga_schedule "
             "WHERE jscid = '%s'::integer;" % self.schedule_id
         )
@@ -250,12 +250,12 @@ def verify_pgagent_schedule(self):
             self.server['port'],
             self.server['sslmode']
         )
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             "SELECT COUNT(*) FROM pgagent.pga_schedule "
             "WHERE jscid = '%s'::integer;" % self.schedule_id
         )
-        result = pg_cursor.fetchone()
+        result = sys_cursor.fetchone()
         count = result[0]
         connection.close()
         return count is not None and int(count) != 0
@@ -276,11 +276,11 @@ def delete_pgagent_exception(self, date, time):
             self.server['port'],
             self.server['sslmode']
         )
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "DELETE FROM pgagent.pga_exception " \
                 "WHERE jexdate = to_date('{0}', 'YYYY-MM-DD') AND " \
                 "jextime = '{1}'::time without time zone;".format(date, time)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.close()
     except Exception:
         traceback.print_exc(file=sys.stderr)
@@ -304,15 +304,15 @@ def create_pgagent_exception(self, schid, date, time):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = """
             INSERT INTO pgagent.pga_exception(jexscid, jexdate, jextime
             ) VALUES ({0},
                 to_date('{1}', 'YYYY-MM-DD'), '{2}'::time without time zone
             ) RETURNING jexid;
             """.format(schid, date, time)
-        pg_cursor.execute(query)
-        excep_id = pg_cursor.fetchone()
+        sys_cursor.execute(query)
+        excep_id = sys_cursor.fetchone()
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         connection.close()
@@ -336,7 +336,7 @@ def create_pgagent_step(self, step_name, jobid):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = """
             INSERT INTO pgagent.pga_jobstep(
                 jstname, jstjobid, jstenabled, jstkind,
@@ -345,8 +345,8 @@ def create_pgagent_step(self, step_name, jobid):
                 '{0}'::text, {1}::int, true, 's', 'SELECT 1', 'postgres'
             ) RETURNING jstid;
             """.format(step_name, jobid)
-        pg_cursor.execute(query)
-        step_id = pg_cursor.fetchone()
+        sys_cursor.execute(query)
+        step_id = sys_cursor.fetchone()
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         connection.close()
@@ -370,8 +370,8 @@ def delete_pgagent_step(self):
         )
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             "DELETE FROM pgagent.pga_jobstep "
             "WHERE jstid = '%s'::integer;" % self.step_id
         )
@@ -395,12 +395,12 @@ def verify_pgagent_step(self):
             self.server['port'],
             self.server['sslmode']
         )
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
             "SELECT COUNT(*) FROM pgagent.pga_jobstep "
             "WHERE jstid = '%s'::integer;" % self.step_id
         )
-        result = pg_cursor.fetchone()
+        result = sys_cursor.fetchone()
         count = result[0]
         connection.close()
         return count is not None and int(count) != 0

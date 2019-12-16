@@ -46,7 +46,7 @@ import gettext from 'sources/gettext';
 
   // Generate and return editor buttons
   function getButtons(editable) {
-    var $buttons = $('<div class=\'pg_buttons\' />'),
+    var $buttons = $('<div class=\'sys_buttons\' />'),
       label = editable ? gettext('Cancel') : gettext('OK'),
       button_type = editable ? 'btn-secondary' : 'btn-primary',
       button_icon = editable ? 'fa-times' : 'fa-check';

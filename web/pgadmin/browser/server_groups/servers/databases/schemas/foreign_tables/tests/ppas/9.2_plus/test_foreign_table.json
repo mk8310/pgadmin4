@@ -7,8 +7,8 @@
       "sql_endpoint": "NODE-foreign_data_wrapper.sql_id",
       "data": {
         "name": "test_fdw_for_foreign_table",
-        "fdwhan": "pg_catalog.libpq_fdw_handler",
-        "fdwvalue": "pg_catalog.postgresql_fdw_validator",
+        "fdwhan": "sys_catalog.libpq_fdw_handler",
+        "fdwvalue": "sys_catalog.postgresql_fdw_validator",
         "fdwacl": [],
         "fdwoptions": []
       },

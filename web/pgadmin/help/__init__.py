@@ -52,8 +52,8 @@ class HelpModule(PgAdminModule):
         # Register options for the PG and PPAS help paths
         self.help_preference = Preferences('paths', gettext('Paths'))
 
-        self.pg_help_path = self.help_preference.register(
-            'help', 'pg_help_path',
+        self.sys_help_path = self.help_preference.register(
+            'help', 'sys_help_path',
             gettext("PostgreSQL Help Path"), 'text',
             'https://www.postgresql.org/docs/$VERSION$/',
             category_label=gettext('Help'),

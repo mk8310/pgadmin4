@@ -9,7 +9,7 @@
 # qtIdent and qtTypeIdent functions for scanning the keywords type.
 #
 # In order to generate keywords.py for specific version of PostgreSQL, put
-# pg_config executable in the PATH.
+# sys_config executable in the PATH.
 #
 ##########################################################################
 
@@ -17,8 +17,8 @@ import os
 import re
 
 if __name__ == '__main__':
-    include_dir = os.popen('pg_config --includedir').read().rstrip()
-    version = os.popen('pg_config --version').read().rstrip()
+    include_dir = os.popen('sys_config --includedir').read().rstrip()
+    version = os.popen('sys_config --version').read().rstrip()
 
     keywords_file = open('keywords.py', 'w')
 

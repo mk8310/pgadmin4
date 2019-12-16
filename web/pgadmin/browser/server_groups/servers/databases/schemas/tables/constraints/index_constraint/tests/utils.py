@@ -43,16 +43,16 @@ def create_index_constraint(server, db_name, schema_name, table_name,
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "ALTER TABLE %s.%s ADD CONSTRAINT %s %s (id)" % \
                 (schema_name, table_name, key_name, key_type)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get oid of newly added index constraint
-        pg_cursor.execute(
-            "SELECT conindid FROM pg_constraint where conname='%s'" % key_name)
-        index_constraint = pg_cursor.fetchone()
+        sys_cursor.execute(
+            "SELECT conindid FROM sys_constraint where conname='%s'" % key_name)
+        index_constraint = sys_cursor.fetchone()
         connection.close()
         oid = index_constraint[0]
         return oid
@@ -79,11 +79,11 @@ def verify_index_constraint(server, db_name, table_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
-            "SELECT oid FROM pg_constraint where conname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
+            "SELECT oid FROM sys_constraint where conname='%s'" %
             table_name)
-        index_constraint = pg_cursor.fetchone()
+        index_constraint = sys_cursor.fetchone()
         connection.close()
         return index_constraint
     except Exception:

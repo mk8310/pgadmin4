@@ -1,5 +1,5 @@
 SELECT quote_ident(nspname) || '.' || quote_ident(proname) AS tfunctions
-FROM pg_proc p, pg_namespace n, pg_language l
+FROM sys_proc p, sys_namespace n, sys_language l
     WHERE p.pronamespace = n.oid
     AND p.prolang = l.oid
     -- PGOID_TYPE_TRIGGER = 2279

@@ -28,26 +28,26 @@ def create_fts_parser(server, db_name, schema_name, fts_parser_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
         query = "DROP TEXT SEARCH PARSER IF EXISTS " + schema_name + "." + \
                 fts_parser_name
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
 
         query = "CREATE TEXT SEARCH PARSER " + schema_name + "." + \
                 fts_parser_name + \
                 "(START=prsd_start, GETTOKEN=prsd_nexttoken, " \
                 "END=prsd_end, LEXTYPES=dispell_init)"
 
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
 
         # Get 'oid' from newly created parser
-        pg_cursor.execute("select oid from pg_catalog.pg_ts_parser where "
+        sys_cursor.execute("select oid from sys_catalog.sys_ts_parser where "
                           "prsname = '%s' order by oid ASC limit 1"
                           % fts_parser_name)
 
-        oid = pg_cursor.fetchone()
+        oid = sys_cursor.fetchone()
         fts_parser_id = ''
         if oid:
             fts_parser_id = oid[0]
@@ -77,13 +77,13 @@ def verify_fts_parser(server, db_name, fts_parser_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
-        pg_cursor.execute(
-            "select oid from pg_catalog.pg_ts_parser where "
+        sys_cursor.execute(
+            "select oid from sys_catalog.sys_ts_parser where "
             "prsname = '%s' order by oid ASC limit 1"
             % fts_parser_name)
-        fts_parser = pg_cursor.fetchone()
+        fts_parser = sys_cursor.fetchone()
         connection.close()
         return fts_parser
     except Exception:
@@ -109,8 +109,8 @@ def delete_fts_parser(server, db_name, schema_name, fts_parser_name):
                                    server['host'],
                                    server['port'],
                                    server['sslmode'])
-    pg_cursor = connection.cursor()
-    pg_cursor.execute("DROP TEXT SEARCH PARSER %s.%s" % (
+    sys_cursor = connection.cursor()
+    sys_cursor.execute("DROP TEXT SEARCH PARSER %s.%s" % (
         schema_name, fts_parser_name))
     connection.commit()
     connection.close()

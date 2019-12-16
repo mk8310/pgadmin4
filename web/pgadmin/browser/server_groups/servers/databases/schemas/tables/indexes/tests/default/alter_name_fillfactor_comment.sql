@@ -4,9 +4,9 @@
 
 CREATE UNIQUE INDEX "Idx1_$%{}[]()&*^!@""'`\/#"
     ON public.test_table_for_indexes USING btree
-    (id DESC NULLS FIRST, name COLLATE pg_catalog."POSIX" text_pattern_ops DESC NULLS FIRST)
+    (id DESC NULLS FIRST, name COLLATE sys_catalog."POSIX" text_pattern_ops DESC NULLS FIRST)
     WITH (FILLFACTOR=10)
-    TABLESPACE pg_default;
+    TABLESPACE sys_default;
 
 ALTER TABLE public.test_table_for_indexes
     CLUSTER ON "Idx1_$%{}[]()&*^!@""'`\/#";

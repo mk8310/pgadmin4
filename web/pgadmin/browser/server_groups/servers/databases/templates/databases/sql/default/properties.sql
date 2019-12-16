@@ -1,7 +1,7 @@
 SELECT
     db.oid AS did, db.oid, db.datname AS name, db.dattablespace AS spcoid,
-    spcname, datallowconn, pg_encoding_to_char(encoding) AS encoding,
-    pg_get_userbyid(datdba) AS datowner,
+    spcname, datallowconn, sys_encoding_to_char(encoding) AS encoding,
+    sys_get_userbyid(datdba) AS datowner,
     (select current_setting('lc_collate')) as datcollate,
     (select current_setting('lc_ctype')) as datctype,
     datconnlimit,
@@ -15,10 +15,10 @@ SELECT
     {### Default ACL for Functions ###}
     '' AS funcacl,
     array_to_string(datacl::text[], ', ') AS acl
-FROM pg_database db
-    LEFT OUTER JOIN pg_tablespace ta ON db.dattablespace=ta.OID
-    LEFT OUTER JOIN pg_shdescription descr ON (
-        db.oid=descr.objoid AND descr.classoid='pg_database'::regclass
+FROM sys_database db
+    LEFT OUTER JOIN sys_tablespace ta ON db.dattablespace=ta.OID
+    LEFT OUTER JOIN sys_shdescription descr ON (
+        db.oid=descr.objoid AND descr.classoid='sys_database'::regclass
     )
 WHERE {% if did %}
 db.oid = {{ did|qtLiteral }}::OID{% else %}{% if name %}

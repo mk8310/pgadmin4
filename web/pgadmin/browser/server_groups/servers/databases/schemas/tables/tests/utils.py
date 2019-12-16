@@ -38,17 +38,17 @@ def create_table(server, db_name, schema_name, table_name):
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "CREATE TABLE %s.%s(id serial UNIQUE NOT NULL, name text," \
                 " location text)" %\
                 (schema_name, table_name)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get 'oid' from newly created table
-        pg_cursor.execute("select oid from pg_class where relname='%s'" %
+        sys_cursor.execute("select oid from sys_class where relname='%s'" %
                           table_name)
-        table = pg_cursor.fetchone()
+        table = sys_cursor.fetchone()
         table_id = ''
         if table:
             table_id = table[0]
@@ -78,10 +78,10 @@ def verify_table(server, db_name, table_id):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT * FROM pg_class tb WHERE tb.oid=%s" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT * FROM sys_class tb WHERE tb.oid=%s" %
                           table_id)
-        table = pg_cursor.fetchone()
+        table = sys_cursor.fetchone()
         connection.close()
         return table
     except Exception:
@@ -115,7 +115,7 @@ def create_table_for_partition(
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
         query = ''
         if table_type == 'partitioned':
@@ -143,13 +143,13 @@ def create_table_for_partition(
             query = "CREATE TABLE %s.%s(country text, sales bigint," \
                     "saledate date NOT NULL)" % (schema_name, table_name)
 
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get 'oid' from newly created table
-        pg_cursor.execute("select oid from pg_class where relname='%s'" %
+        sys_cursor.execute("select oid from sys_class where relname='%s'" %
                           table_name)
-        table = pg_cursor.fetchone()
+        table = sys_cursor.fetchone()
         table_id = ''
         if table:
             table_id = table[0]
@@ -279,11 +279,11 @@ def get_table_common_data():
         "hastoasttable": True,
         "like_constraints": True,
         "like_default_value": True,
-        "like_relation": "pg_catalog.pg_namespace",
+        "like_relation": "sys_catalog.sys_namespace",
         "primary_key": [],
         "relhasoids": True,
         "seclabels": [],
-        "spcname": "pg_default",
+        "spcname": "sys_default",
         "unique_constraint": [],
         "vacuum_table": [{
             "name": "autovacuum_analyze_scale_factor"

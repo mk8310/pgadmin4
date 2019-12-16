@@ -36,9 +36,9 @@ def create_foreign_table(server, db_name, schema_name, fsrv_name,
                                        server['port'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
-        pg_cursor.execute(
+        sys_cursor.execute(
             "CREATE FOREIGN TABLE " + schema_name + "." + foreign_table_name +
             "(emp_name text NULL) SERVER %s" % fsrv_name)
 
@@ -46,12 +46,12 @@ def create_foreign_table(server, db_name, schema_name, fsrv_name,
         connection.commit()
 
         # Get 'oid' from newly created foreign table
-        pg_cursor.execute(
-            "SELECT ftrelid FROM pg_foreign_table WHERE ftserver = "
-            "(SELECT oid FROM pg_foreign_server WHERE srvname = '%s') "
+        sys_cursor.execute(
+            "SELECT ftrelid FROM sys_foreign_table WHERE ftserver = "
+            "(SELECT oid FROM sys_foreign_server WHERE srvname = '%s') "
             "ORDER BY ftrelid ASC limit 1" % fsrv_name)
 
-        oid = pg_cursor.fetchone()
+        oid = sys_cursor.fetchone()
         ft_id = ''
         if oid:
             ft_id = oid[0]
@@ -70,13 +70,13 @@ def verify_foreign_table(server, db_name, fsrv_name):
                                        server['db_password'],
                                        server['host'],
                                        server['port'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
-        pg_cursor.execute(
-            "SELECT ftrelid FROM pg_foreign_table WHERE ftserver = "
-            "(SELECT oid FROM pg_foreign_server WHERE srvname = '%s') "
+        sys_cursor.execute(
+            "SELECT ftrelid FROM sys_foreign_table WHERE ftserver = "
+            "(SELECT oid FROM sys_foreign_server WHERE srvname = '%s') "
             "ORDER BY ftrelid ASC limit 1" % fsrv_name)
-        fts = pg_cursor.fetchone()
+        fts = sys_cursor.fetchone()
         connection.close()
         return fts
     except Exception:
@@ -102,7 +102,7 @@ def delete_foregin_table(server, db_name, schema_name, ft_name):
                                    server['host'],
                                    server['port'],
                                    server['sslmode'])
-    pg_cursor = connection.cursor()
-    pg_cursor.execute("DROP FOREIGN TABLE %s.%s" % (schema_name, ft_name))
+    sys_cursor = connection.cursor()
+    sys_cursor.execute("DROP FOREIGN TABLE %s.%s" % (schema_name, ft_name))
     connection.commit()
     connection.close()

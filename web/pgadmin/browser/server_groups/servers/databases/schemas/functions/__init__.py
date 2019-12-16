@@ -585,7 +585,7 @@ class FunctionView(PGChildNodeView, DataTypeReader):
             argtype: Argument Type
             argdef: Argument Default Value
         """
-        # The pg_get_expr(proargdefaults, 'pg_catalog.pg_class'::regclass) SQL
+        # The sys_get_expr(proargdefaults, 'sys_catalog.sys_class'::regclass) SQL
         # statement gives us '-' as a default value for INOUT mode.
         # so, replacing it with empty string.
         if argmode == 'INOUT' and argdefval.strip() == '-':
@@ -606,7 +606,7 @@ class FunctionView(PGChildNodeView, DataTypeReader):
             argtype: Argument Type
             argdef: Argument Default Value
         """
-        # The pg_get_expr(proargdefaults, 'pg_catalog.pg_class'::regclass) SQL
+        # The sys_get_expr(proargdefaults, 'sys_catalog.sys_class'::regclass) SQL
         # statement gives us '-' as a default value for INOUT mode.
         # so, replacing it with empty string.
         if argmode == 'INOUT' and argdef.strip() == '-':

@@ -1,12 +1,12 @@
 SELECT
-    d.oid, d.typname as name, pg_get_userbyid(d.typowner) as owner,
+    d.oid, d.typname as name, sys_get_userbyid(d.typowner) as owner,
     bn.nspname as basensp
 FROM
-    pg_type d
+    sys_type d
 JOIN
-    pg_type b ON b.oid = d.typbasetype
+    sys_type b ON b.oid = d.typbasetype
 JOIN
-    pg_namespace bn ON bn.oid=d.typnamespace
+    sys_namespace bn ON bn.oid=d.typnamespace
 {% if scid is defined %}
 WHERE
     d.typnamespace = {{scid}}::oid

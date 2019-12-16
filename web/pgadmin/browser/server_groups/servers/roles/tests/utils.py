@@ -38,12 +38,12 @@ def verify_role(server, role_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
-            "SELECT * from pg_catalog.pg_roles pr WHERE pr.rolname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
+            "SELECT * from sys_catalog.sys_roles pr WHERE pr.rolname='%s'" %
             role_name)
         connection.commit()
-        role = pg_cursor.fetchone()
+        role = sys_cursor.fetchone()
         connection.close()
         return role
     except Exception as exception:
@@ -103,14 +103,14 @@ def create_role(server, role_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("CREATE ROLE %s LOGIN" % role_name)
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("CREATE ROLE %s LOGIN" % role_name)
         connection.commit()
         # Get 'oid' from newly created tablespace
-        pg_cursor.execute(
-            "SELECT pr.oid from pg_catalog.pg_roles pr WHERE pr.rolname='%s'" %
+        sys_cursor.execute(
+            "SELECT pr.oid from sys_catalog.sys_roles pr WHERE pr.rolname='%s'" %
             role_name)
-        oid = pg_cursor.fetchone()
+        oid = sys_cursor.fetchone()
         role_id = ''
         if oid:
             role_id = oid[0]
@@ -165,16 +165,16 @@ def delete_role(connection, role_names):
 
     try:
         for role_name in role_names:
-            pg_cursor = connection.cursor()
-            pg_cursor.execute(
-                "SELECT * FROM pg_catalog.pg_roles WHERE rolname='%s'" %
+            sys_cursor = connection.cursor()
+            sys_cursor.execute(
+                "SELECT * FROM sys_catalog.sys_roles WHERE rolname='%s'" %
                 role_name)
-            role_count = pg_cursor.fetchone()
+            role_count = sys_cursor.fetchone()
             if role_count:
                 old_isolation_level = connection.isolation_level
                 connection.set_isolation_level(0)
-                pg_cursor = connection.cursor()
-                pg_cursor.execute("DROP ROLE %s" % role_name)
+                sys_cursor = connection.cursor()
+                sys_cursor.execute("DROP ROLE %s" % role_name)
                 connection.set_isolation_level(old_isolation_level)
                 connection.commit()
         connection.close()

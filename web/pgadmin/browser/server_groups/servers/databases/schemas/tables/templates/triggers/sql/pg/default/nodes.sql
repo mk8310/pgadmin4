@@ -1,5 +1,5 @@
 SELECT t.oid, t.tgname as name, t.tgenabled AS is_enable_trigger
-FROM pg_trigger t
+FROM sys_trigger t
     WHERE tgrelid = {{tid}}::OID
 {% if trid %}
     AND t.oid = {{trid}}::OID

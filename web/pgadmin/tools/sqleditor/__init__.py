@@ -443,7 +443,7 @@ def poll(trans_id):
                             columns[col['name']] = col_type
 
                 if columns:
-                    st, types = fetch_pg_types(columns, trans_obj)
+                    st, types = fetch_sys_types(columns, trans_obj)
 
                     if not st:
                         return internal_server_error(types)
@@ -602,7 +602,7 @@ def fetch(trans_id, fetch_all=None):
     )
 
 
-def fetch_pg_types(columns_info, trans_obj):
+def fetch_sys_types(columns_info, trans_obj):
     """
     This method is used to fetch the pg types, which is required
     to map the data type comes as a result of the query.
@@ -629,7 +629,7 @@ def fetch_pg_types(columns_info, trans_obj):
 
     if oids:
         status, res = default_conn.execute_dict(
-            u"SELECT oid, format_type(oid, NULL) AS typname FROM pg_type "
+            u"SELECT oid, format_type(oid, NULL) AS typname FROM sys_type "
             u"WHERE oid IN %s ORDER BY oid;", [tuple(oids)]
         )
 

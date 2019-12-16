@@ -21,10 +21,10 @@ SELECT
     {### Default ACL for Type ###}
     '' AS typeacl
 FROM
-    pg_namespace nsp
-    LEFT OUTER JOIN pg_description des ON
-        (des.objoid=nsp.oid AND des.classoid='pg_namespace'::regclass)
-    LEFT JOIN pg_roles r ON (r.oid = nsp.nspowner)
+    sys_namespace nsp
+    LEFT OUTER JOIN sys_description des ON
+        (des.objoid=nsp.oid AND des.classoid='sys_namespace'::regclass)
+    LEFT JOIN sys_roles r ON (r.oid = nsp.nspowner)
 WHERE
     {% if scid %}
     nsp.oid={{scid}}::oid AND

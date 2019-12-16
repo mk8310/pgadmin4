@@ -199,10 +199,10 @@ class ServerManager(object):
                         status, res = conn.execute_dict(u"""
 SELECT
     db.oid as did, db.datname, db.datallowconn,
-    pg_encoding_to_char(db.encoding) AS serverencoding,
+    sys_encoding_to_char(db.encoding) AS serverencoding,
     has_database_privilege(db.oid, 'CREATE') as cancreate, datlastsysoid
 FROM
-    pg_database db
+    sys_database db
 WHERE db.oid = {0}""".format(did))
 
                         if status and len(res['rows']) > 0:

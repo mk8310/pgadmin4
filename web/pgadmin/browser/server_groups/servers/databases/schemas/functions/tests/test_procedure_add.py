@@ -55,7 +55,7 @@ class ProcedureAddTestCase(BaseTestGenerator):
             "arguments": [],
             "funcowner": db_user,
             "lanname": "sql",
-            "name": "test_pg_11_proc",
+            "name": "test_sys_11_proc",
             "options": [],
             "proleakproof": True,
             "pronamespace": 2200,
@@ -69,7 +69,7 @@ class ProcedureAddTestCase(BaseTestGenerator):
                     "value": True
                 }, {
                     "name": "search_path",
-                    "value": "public, pg_temp"
+                    "value": "public, sys_temp"
                 }
             ]
         }

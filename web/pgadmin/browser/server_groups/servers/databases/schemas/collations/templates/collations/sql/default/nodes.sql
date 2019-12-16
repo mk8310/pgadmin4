@@ -1,5 +1,5 @@
 SELECT c.oid, c.collname AS name
-FROM pg_collation c
+FROM sys_collation c
 {% if scid %}
 WHERE c.collnamespace = {{scid}}::oid
 {% elif coid %}

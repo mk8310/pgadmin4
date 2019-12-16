@@ -41,20 +41,20 @@ def create_foreignkey(server, db_name, schema_name, local_table_name,
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "ALTER TABLE %s.%s ADD FOREIGN KEY (id) REFERENCES %s.%s " \
                 "(id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION" % \
                 (
                     schema_name, local_table_name, schema_name,
                     foreign_table_name)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get oid of newly added foreign key
-        pg_cursor.execute(
-            "SELECT oid FROM pg_constraint where conname='%s_id_fkey'" %
+        sys_cursor.execute(
+            "SELECT oid FROM sys_constraint where conname='%s_id_fkey'" %
             local_table_name)
-        fk_record = pg_cursor.fetchone()
+        fk_record = sys_cursor.fetchone()
         connection.close()
         fk_id = fk_record[0]
         return fk_id
@@ -81,11 +81,11 @@ def verify_foreignkey(server, db_name, local_table_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
-            "SELECT oid FROM pg_constraint where conname='%s_id_fkey'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
+            "SELECT oid FROM sys_constraint where conname='%s_id_fkey'" %
             local_table_name)
-        fk_record = pg_cursor.fetchone()
+        fk_record = sys_cursor.fetchone()
         connection.close()
         return fk_record
     except Exception:

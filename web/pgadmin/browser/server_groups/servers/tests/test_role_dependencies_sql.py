@@ -45,9 +45,9 @@ class TestRoleDependenciesSql(BaseTestGenerator):
             test_utils.create_table(self.server_with_modified_user,
                                     database_name, "test_new_role_table")
             cursor = connection.cursor()
-            cursor.execute("SELECT pg_class.oid AS table_id "
-                           "FROM pg_class "
-                           "WHERE pg_class.relname='test_new_role_table'")
+            cursor.execute("SELECT sys_class.oid AS table_id "
+                           "FROM sys_class "
+                           "WHERE sys_class.relname='test_new_role_table'")
             self.table_id = cursor.fetchone()[0]
 
             sql = self.generate_sql('default')

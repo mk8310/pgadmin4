@@ -34,7 +34,7 @@ def map_table_information_from_database(table_information):
         'rejectLimitType': table_information['rejectlimittype'],
         'errorTableName': table_information['errtblname'],
         'erroToFile': table_information['errortofile'],
-        'pgEncodingToChar': table_information['pg_encoding_to_char'],
+        'pgEncodingToChar': table_information['sys_encoding_to_char'],
         'writable': table_information['writable'],
         'options': table_information['options'],
         'distribution': table_information['distribution'],

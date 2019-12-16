@@ -40,16 +40,16 @@ def create_view(server, db_name, schema_name, sql_query, view_name):
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = sql_query % (schema_name, view_name, schema_name, view_name,
                              server['username'])
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get 'oid' from newly created view
-        pg_cursor.execute("select oid from pg_class where relname='%s'" %
+        sys_cursor.execute("select oid from sys_class where relname='%s'" %
                           view_name)
-        view = pg_cursor.fetchone()
+        view = sys_cursor.fetchone()
         view_id = view[0]
         connection.close()
         return view_id
@@ -77,10 +77,10 @@ def verify_view(server, db_name, view_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("select oid from pg_class where relname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("select oid from sys_class where relname='%s'" %
                           view_name)
-        view = pg_cursor.fetchone()
+        view = sys_cursor.fetchone()
         connection.close()
         return view
     except Exception:

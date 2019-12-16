@@ -34,12 +34,12 @@ class TestColumnForeignKeyGetConstraintCols(BaseTestGenerator):
             test_utils.create_table(self.server, database_name, "test_table")
 
             cursor = connection.cursor()
-            cursor.execute("SELECT pg_class.oid as table_id, "
-                           "pg_attribute.attnum as column_id "
-                           "FROM pg_class join pg_attribute on "
-                           "attrelid=pg_class.oid "
-                           "where pg_class.relname='test_table'"
-                           " and pg_attribute.attname = 'some_column'")
+            cursor.execute("SELECT sys_class.oid as table_id, "
+                           "sys_attribute.attnum as column_id "
+                           "FROM sys_class join sys_attribute on "
+                           "attrelid=sys_class.oid "
+                           "where sys_class.relname='test_table'"
+                           " and sys_attribute.attname = 'some_column'")
             table_id, column_id = cursor.fetchone()
 
             if connection.server_version < 90100:

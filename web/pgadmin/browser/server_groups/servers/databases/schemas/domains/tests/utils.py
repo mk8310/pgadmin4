@@ -37,7 +37,7 @@ def create_domain(server, db_name, schema_name, schema_id, domain_name,
                                              server['db_password'],
                                              server['host'],
                                              server['port'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
 
         if domain_sql is None:
             query = 'CREATE DOMAIN ' + schema_name + '.' + domain_name + \
@@ -46,13 +46,13 @@ def create_domain(server, db_name, schema_name, schema_id, domain_name,
             query = 'CREATE DOMAIN ' + schema_name + '.' +\
                     domain_name + ' ' + domain_sql
 
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
         # Get 'oid' from newly created domain
-        pg_cursor.execute("SELECT d.oid, d.typname FROM pg_type d WHERE"
+        sys_cursor.execute("SELECT d.oid, d.typname FROM sys_type d WHERE"
                           " d.typname='%s' AND d.typnamespace='%s'" %
                           (domain_name, schema_id))
-        domains = pg_cursor.fetchone()
+        domains = sys_cursor.fetchone()
         connection.close()
         return domains
     except Exception:
@@ -77,11 +77,11 @@ def verify_domain(server, db_name, schema_id, domain_name):
                                          server['db_password'],
                                          server['host'],
                                          server['port'])
-    pg_cursor = connection.cursor()
-    pg_cursor.execute("SELECT d.oid, d.typname FROM pg_type d WHERE"
+    sys_cursor = connection.cursor()
+    sys_cursor.execute("SELECT d.oid, d.typname FROM sys_type d WHERE"
                       " d.typname='%s' AND d.typnamespace='%s'" %
                       (domain_name, schema_id))
-    domains = pg_cursor.fetchone()
+    domains = sys_cursor.fetchone()
     connection.close()
     return domains
 
@@ -102,8 +102,8 @@ def delete_domain(server, db_name, schema_name, domain_name):
                                              server['db_password'],
                                              server['host'],
                                              server['port'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("DROP DOMAIN %s.%s" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("DROP DOMAIN %s.%s" %
                           (schema_name, domain_name))
         connection.commit()
         connection.close()
@@ -126,8 +126,8 @@ def create_domain_from_sql(server, db_name, sql):
                                              server['db_password'],
                                              server['host'],
                                              server['port'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(sql)
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(sql)
         connection.commit()
         connection.close()
     except Exception:

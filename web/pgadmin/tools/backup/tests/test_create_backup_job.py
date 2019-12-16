@@ -51,7 +51,7 @@ class BackupJobTest(BaseTestGenerator):
 
         binary_path = os.path.join(
             self.server['default_binary_paths'][self.server['type']],
-            'pg_dump')
+            'sys_dump')
 
         if os.name == 'nt':
             binary_path = binary_path + '.exe'

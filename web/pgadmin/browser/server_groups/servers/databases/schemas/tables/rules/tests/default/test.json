@@ -20,7 +20,7 @@
         }],
         "is_partitioned": false,
         "schema": "public",
-        "spcname": "pg_default"
+        "spcname": "sys_default"
       },
       "store_object_id": true
     }, {

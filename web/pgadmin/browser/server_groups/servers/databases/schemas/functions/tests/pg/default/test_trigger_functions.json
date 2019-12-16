@@ -55,7 +55,7 @@
             "value": "appname"
           },{
             "name": "search_path",
-            "value": "public, pg_temp"
+            "value": "public, sys_temp"
           }]
         }
       },
@@ -76,7 +76,7 @@
             "value": true
           },{
             "name": "search_path",
-            "value": "public, pg_catalog"
+            "value": "public, sys_catalog"
           }]
         }
       },
@@ -127,7 +127,7 @@
           "value": "appname"
         },{
           "name": "search_path",
-          "value": "public, pg_temp"
+          "value": "public, sys_temp"
         }],
         "schema": "public"
       },

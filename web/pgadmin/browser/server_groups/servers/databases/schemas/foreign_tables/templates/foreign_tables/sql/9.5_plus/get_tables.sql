@@ -3,7 +3,7 @@
 SELECT
     array_agg(quote_ident(n.nspname) || '.' || quote_ident(c.relname)) as inherits
 FROM
-    pg_class c, pg_namespace n
+    sys_class c, sys_namespace n
 WHERE
     c.relnamespace=n.oid AND c.relkind IN ('r', 'f')
     AND c.oid in {{attrelid}};
@@ -12,7 +12,7 @@ WHERE
 SELECT
     c.oid AS value, quote_ident(n.nspname) || '.' || quote_ident(c.relname) as label
 FROM
-    pg_class c, pg_namespace n
+    sys_class c, sys_namespace n
 WHERE
     c.relnamespace=n.oid AND c.relkind IN ('r', 'f')
 {% if not show_system_objects %}

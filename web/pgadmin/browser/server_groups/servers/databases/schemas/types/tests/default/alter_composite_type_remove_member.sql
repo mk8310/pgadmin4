@@ -4,8 +4,8 @@
 
 CREATE TYPE public."composite_type_$%{}[]()&*^!@""'`\/#" AS
 (
-	mname2 character varying(50) COLLATE pg_catalog."C",
-	mname3 text[] COLLATE pg_catalog."C",
+	mname2 character varying(50) COLLATE sys_catalog."C",
+	mname3 text[] COLLATE sys_catalog."C",
 	mname4 bigint
 );
 

@@ -26,7 +26,7 @@ class TestTablesAclSql(SQLTemplateTestBase):
     def test_setup(self, connection, cursor):
         cursor.execute("GRANT SELECT ON test_table TO PUBLIC")
         cursor = connection.cursor()
-        cursor.execute("SELECT oid FROM pg_class WHERE relname='test_table'")
+        cursor.execute("SELECT oid FROM sys_class WHERE relname='test_table'")
         self.table_id = cursor.fetchone()[0]
 
     def generate_sql(self, version):

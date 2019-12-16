@@ -25,13 +25,13 @@ SELECT
     autovacuum_count AS {{ conn|qtIdent(_('Autovacuum counter')) }},
     analyze_count AS {{ conn|qtIdent(_('Analyze counter')) }},
     autoanalyze_count AS {{ conn|qtIdent(_('Autoanalyze counter')) }},
-    pg_relation_size(stat.relid) AS {{ conn|qtIdent(_('Table size')) }},
-    CASE WHEN cl.reltoastrelid = 0 THEN NULL ELSE pg_relation_size(cl.reltoastrelid)
-        + COALESCE((SELECT SUM(pg_relation_size(indexrelid))
-                        FROM pg_index WHERE indrelid=cl.reltoastrelid)::int8, 0)
+    sys_relation_size(stat.relid) AS {{ conn|qtIdent(_('Table size')) }},
+    CASE WHEN cl.reltoastrelid = 0 THEN NULL ELSE sys_relation_size(cl.reltoastrelid)
+        + COALESCE((SELECT SUM(sys_relation_size(indexrelid))
+                        FROM sys_index WHERE indrelid=cl.reltoastrelid)::int8, 0)
         END AS {{ conn|qtIdent(_('Toast table size')) }},
-    COALESCE((SELECT SUM(pg_relation_size(indexrelid))
-                                FROM pg_index WHERE indrelid=stat.relid)::int8, 0)
+    COALESCE((SELECT SUM(sys_relation_size(indexrelid))
+                                FROM sys_index WHERE indrelid=stat.relid)::int8, 0)
         AS {{ conn|qtIdent(_('Indexes size')) }}
 {% if is_pgstattuple %}
 {#== EXTENDED STATS ==#}
@@ -44,14 +44,14 @@ SELECT
     free_space AS {{ conn|qtIdent(_('Free space')) }},
     free_percent AS {{ conn|qtIdent(_('Free percent')) }}
 FROM
-    pgstattuple('{{schema_name}}.{{table_name}}'), pg_stat_all_tables stat
+    pgstattuple('{{schema_name}}.{{table_name}}'), sys_stat_all_tables stat
 {% else %}
 FROM
-    pg_stat_all_tables stat
+    sys_stat_all_tables stat
 {% endif %}
 JOIN
-    pg_statio_all_tables statio ON stat.relid = statio.relid
+    sys_statio_all_tables statio ON stat.relid = statio.relid
 JOIN
-    pg_class cl ON cl.oid=stat.relid
+    sys_class cl ON cl.oid=stat.relid
 WHERE
     stat.relid = {{ tid }}::oid

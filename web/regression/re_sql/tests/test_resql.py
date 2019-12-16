@@ -506,15 +506,15 @@ class ReverseEngineeredSQLTestCases(BaseTestGenerator):
         """
         precondition_flag = False
         self.get_db_connection()
-        pg_cursor = self.connection.cursor()
+        sys_cursor = self.connection.cursor()
         try:
-            pg_cursor.execute(precondition_sql)
-            precondition_result = pg_cursor.fetchone()
+            sys_cursor.execute(precondition_sql)
+            precondition_result = sys_cursor.fetchone()
             if len(precondition_result) >= 1 and precondition_result[0] == '1':
                 precondition_flag = True
         except Exception as e:
             traceback.print_exc()
-        pg_cursor.close()
+        sys_cursor.close()
         return precondition_flag
 
     def check_schema_precondition(self, scenario):
@@ -564,19 +564,19 @@ class ReverseEngineeredSQLTestCases(BaseTestGenerator):
             for col in scenario['convert_timestamp_columns']:
                 if 'data' in scenario and col in scenario['data']:
                     self.get_db_connection()
-                    pg_cursor = self.connection.cursor()
+                    sys_cursor = self.connection.cursor()
                     try:
                         query = "SELECT timestamp with time zone '" \
                                 + scenario['data'][col] + "'"
-                        pg_cursor.execute(query)
-                        converted_tz = pg_cursor.fetchone()
+                        sys_cursor.execute(query)
+                        converted_tz = sys_cursor.fetchone()
                         if len(converted_tz) >= 1:
                             sql = sql.replace(
                                 self.JSON_PLACEHOLDERS['timestamptz'],
                                 converted_tz[0])
                     except Exception as e:
                         traceback.print_exc()
-                    pg_cursor.close()
+                    sys_cursor.close()
 
         return sql
 

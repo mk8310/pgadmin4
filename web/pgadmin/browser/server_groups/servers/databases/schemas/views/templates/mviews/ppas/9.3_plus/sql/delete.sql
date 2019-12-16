@@ -4,8 +4,8 @@ SELECT
     c.relname As name,
     nsp.nspname
 FROM
-    pg_class c
-LEFT JOIN pg_namespace nsp ON c.relnamespace = nsp.oid
+    sys_class c
+LEFT JOIN sys_namespace nsp ON c.relnamespace = nsp.oid
 WHERE
     c.relfilenode = {{ vid }};
 {% elif (name and nspname) %}

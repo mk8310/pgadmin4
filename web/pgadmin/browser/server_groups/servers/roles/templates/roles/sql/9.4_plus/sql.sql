@@ -3,10 +3,10 @@ SELECT
 FROM
 (SELECT
 	    '-- Role: ' ||
-		pg_catalog.quote_ident(rolname) ||
+		sys_catalog.quote_ident(rolname) ||
 		E'\n-- DROP ROLE ' ||
-		pg_catalog.quote_ident(rolname) || E';\n\nCREATE ROLE ' ||
-		pg_catalog.quote_ident(rolname) || E' WITH\n  ' ||
+		sys_catalog.quote_ident(rolname) || E';\n\nCREATE ROLE ' ||
+		sys_catalog.quote_ident(rolname) || E' WITH\n  ' ||
 		CASE WHEN rolcanlogin THEN 'LOGIN' ELSE 'NOLOGIN' END || E'\n  ' ||
 		CASE WHEN rolsuper THEN 'SUPERUSER' ELSE 'NOSUPERUSER' END || E'\n  ' ||
 		CASE WHEN rolinherit THEN 'INHERIT' ELSE 'NOINHERIT' END || E'\n  ' ||
@@ -19,11 +19,11 @@ FROM
         (SELECT CASE
             WHEN (rolpassword LIKE 'md5%%' or rolpassword LIKE 'SCRAM%%') THEN E'\n  ENCRYPTED PASSWORD ''' || rolpassword || ''''
             WHEN rolpassword IS NOT NULL THEN E'\n  PASSWORD ''' || rolpassword || ''''
-            ELSE '' END FROM pg_authid au WHERE au.oid=r.oid) ||
+            ELSE '' END FROM sys_authid au WHERE au.oid=r.oid) ||
 {% endif %}
 		CASE WHEN rolvaliduntil IS NOT NULL THEN E'\n  VALID UNTIL ' || quote_literal(rolvaliduntil::text) ELSE '' END || ';' AS sql
 FROM
-	pg_roles r
+	sys_roles r
 WHERE
 	r.oid=%(rid)s::OID
 UNION ALL
@@ -31,14 +31,14 @@ UNION ALL
 	array_to_string(array_agg(sql), E'\n') AS sql
 FROM
 (SELECT
-	'GRANT ' || array_to_string(array_agg(rolname), ', ') || ' TO ' || pg_catalog.quote_ident(pg_get_userbyid(%(rid)s::OID)) ||
+	'GRANT ' || array_to_string(array_agg(rolname), ', ') || ' TO ' || sys_catalog.quote_ident(sys_get_userbyid(%(rid)s::OID)) ||
 	CASE WHEN admin_option THEN ' WITH ADMIN OPTION;' ELSE ';' END AS sql
 FROM
 	(SELECT
 		quote_ident(r.rolname) AS rolname, m.admin_option AS admin_option
 	FROM
-		pg_auth_members m
-		LEFT JOIN pg_roles r ON (m.roleid = r.oid)
+		sys_auth_members m
+		LEFT JOIN sys_roles r ON (m.roleid = r.oid)
 	WHERE
 		m.member=%(rid)s::OID
 	ORDER BY
@@ -50,7 +50,7 @@ UNION ALL
 	array_to_string(array_agg(sql), E'\n') AS sql
 FROM
 (SELECT
-	'ALTER ROLE ' || pg_catalog.quote_ident(rolname) || ' SET ' || param || ' TO ' || CASE WHEN param IN ('search_path', 'temp_tablespaces') THEN value ELSE quote_literal(value) END || ';' AS sql
+	'ALTER ROLE ' || sys_catalog.quote_ident(rolname) || ' SET ' || param || ' TO ' || CASE WHEN param IN ('search_path', 'temp_tablespaces') THEN value ELSE quote_literal(value) END || ';' AS sql
 FROM
 (SELECT
 	rolcanlogin, rolname, split_part(rolconfig, '=', 1) AS param, replace(rolconfig, split_part(rolconfig, '=', 1) || '=', '') AS value
@@ -58,7 +58,7 @@ FROM
 	(SELECT
 			unnest(rolconfig) AS rolconfig, rolcanlogin, rolname
 	FROM
-		pg_catalog.pg_roles
+		sys_catalog.sys_roles
 	WHERE
 		oid=%(rid)s::OID
 	) r
@@ -69,8 +69,8 @@ UNION ALL
 	array_to_string(array_agg(sql), E'\n') AS sql
 FROM
 	(SELECT
-		'ALTER ROLE ' || pg_catalog.quote_ident(pg_get_userbyid(%(rid)s::OID)) ||
-		' IN DATABASE ' || pg_catalog.quote_ident(datname) ||
+		'ALTER ROLE ' || sys_catalog.quote_ident(sys_get_userbyid(%(rid)s::OID)) ||
+		' IN DATABASE ' || sys_catalog.quote_ident(datname) ||
 		' SET ' || param|| ' TO ' ||
 		CASE
 		WHEN param IN ('search_path', 'temp_tablespaces') THEN value
@@ -85,19 +85,19 @@ FROM
 			FROM
 				(SELECT *
 				FROM
-					pg_catalog.pg_db_role_setting dr
+					sys_catalog.sys_db_role_setting dr
 				WHERE
 					dr.setrole=%(rid)s::OID AND dr.setdatabase!=0) c
-				LEFT JOIN pg_catalog.pg_database d ON (d.oid = c.setdatabase)
+				LEFT JOIN sys_catalog.sys_database d ON (d.oid = c.setdatabase)
 			) a
 		) b
 	) d
 )
 UNION ALL
 (SELECT
-	'COMMENT ON ROLE ' || pg_catalog.quote_ident(pg_get_userbyid(%(rid)s::OID)) || ' IS ' ||  pg_catalog.quote_literal(description) || ';' AS sql
+	'COMMENT ON ROLE ' || sys_catalog.quote_ident(sys_get_userbyid(%(rid)s::OID)) || ' IS ' ||  sys_catalog.quote_literal(description) || ';' AS sql
 FROM
-	(SELECT	pg_catalog.shobj_description(%(rid)s::OID, 'pg_authid') AS description) a
+	(SELECT	sys_catalog.shobj_description(%(rid)s::OID, 'sys_authid') AS description) a
 WHERE
 	description IS NOT NULL)
 -- PostgreSQL >= 9.2
@@ -107,15 +107,15 @@ UNION ALL
 FROM
 	(SELECT
 		'SECURITY LABEL FOR ' || provider ||
-		E'\n  ON ROLE ' || pg_catalog.quote_ident(rolname) ||
-		E'\n  IS ' || pg_catalog.quote_literal(label) || ';' AS sql
+		E'\n  ON ROLE ' || sys_catalog.quote_ident(rolname) ||
+		E'\n  IS ' || sys_catalog.quote_literal(label) || ';' AS sql
 	FROM
 		(SELECT
 			label, provider, rolname
 		FROM
 			(SELECT *
 			FROM
-				pg_shseclabel sl1
+				sys_shseclabel sl1
 			WHERE sl1.objoid=%(rid)s::OID) s
-			LEFT JOIN pg_catalog.pg_roles r ON (s.objoid=r.oid)) a) b
+			LEFT JOIN sys_catalog.sys_roles r ON (s.objoid=r.oid)) a) b
 )) AS a

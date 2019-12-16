@@ -372,7 +372,7 @@ CA_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)),
 STORAGE_DIR = os.path.join(DATA_DIR, 'storage')
 
 ##########################################################################
-# Default locations for binary utilities (pg_dump, pg_restore etc)
+# Default locations for binary utilities (sys_dump, sys_restore etc)
 #
 # These are intentionally left empty in the main config file, but are
 # expected to be overridden by packagers in config_distro.py.

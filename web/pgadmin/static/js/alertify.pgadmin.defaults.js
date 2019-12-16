@@ -23,7 +23,7 @@ define([
       main: function(message) {
         //set the videoId setting and return current instance for chaining.
         return this.set({
-          'pg_msg': message,
+          'sys_msg': message,
         });
       },
       // we only want to override two options (padding and overflow).
@@ -56,12 +56,12 @@ define([
       },
       // dialog custom settings
       settings: {
-        pg_msg: undefined,
+        sys_msg: undefined,
       },
       // listen and respond to changes in dialog settings.
       settingUpdated: function(key, oldValue, newValue) {
         switch (key) {
-        case 'pg_msg':
+        case 'sys_msg':
           var doc = iframe.contentWindow || iframe.contentDocument;
           if (doc.document) {
             doc = doc.document;
@@ -139,7 +139,7 @@ define([
                 alertify.pgIframeDialog().show().set({
                   frameless: false,
                 }).set(
-                  'pg_msg', msg
+                  'sys_msg', msg
                 );
               });
             return;
@@ -182,7 +182,7 @@ define([
               alertify.pgIframeDialog()
                 .show()
                 .set({frameless: false})
-                .set('pg_msg', xhr.responseText);
+                .set('sys_msg', xhr.responseText);
             }
           );
           return;

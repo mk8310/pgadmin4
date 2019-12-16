@@ -6,7 +6,7 @@ ALTER TABLE {{ conn|qtIdent(data.schema, data.table) }}
     INCLUDE ({% for col in data.include %}{% if loop.index != 1 %}, {% endif %}{{conn|qtIdent(col)}}{% endfor %}){% endif %}
 {% if data.fillfactor %}
 
-    WITH (FILLFACTOR={{data.fillfactor}}){% endif %}{% if data.spcname and data.spcname != "pg_default" %}
+    WITH (FILLFACTOR={{data.fillfactor}}){% endif %}{% if data.spcname and data.spcname != "sys_default" %}
 
     USING INDEX TABLESPACE {{ conn|qtIdent(data.spcname) }}{% endif %}{% endif %}{% if data.condeferrable %}
 

@@ -1,5 +1,5 @@
 SELECT
     rolname, rolcanlogin, rolcatupdate, rolsuper
 FROM
-    pg_roles
+    sys_roles
 WHERE oid = {{ rid }}::OID

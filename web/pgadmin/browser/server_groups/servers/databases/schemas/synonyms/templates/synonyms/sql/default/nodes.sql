@@ -1,5 +1,5 @@
 SELECT synname as name
-FROM pg_synonym s
-    JOIN pg_namespace ns ON s.synnamespace = ns.oid
+FROM sys_synonym s
+    JOIN sys_namespace ns ON s.synnamespace = ns.oid
     AND s.synnamespace = {{scid}}::oid
 ORDER BY synname;

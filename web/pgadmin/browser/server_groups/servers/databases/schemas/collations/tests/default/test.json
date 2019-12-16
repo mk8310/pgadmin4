@@ -8,7 +8,7 @@
       "data": {
         "name": "Cl1_$%{}[]()&*^!@\"'`\\/#",
         "schema": "testschema",
-        "copy_collation": "pg_catalog.\"C\"",
+        "copy_collation": "sys_catalog.\"C\"",
         "description": "Description"
       },
       "expected_sql_file": "create_collation.sql"

@@ -1,1 +1,1 @@
-SELECT pg_get_functiondef({{edbfnid}}::oid) AS funcdef;
+SELECT sys_get_functiondef({{edbfnid}}::oid) AS funcdef;

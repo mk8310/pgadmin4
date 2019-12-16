@@ -28,13 +28,13 @@ class IndexConstraintAddTestCase(BaseTestGenerator):
     primary_key_name = "test_primarykey_add_%s" % \
                        (str(uuid.uuid4())[1:8])
     primary_key_data = {"name": primary_key_name,
-                        "spcname": "pg_default",
+                        "spcname": "sys_default",
                         "columns": [{"column": "id"}]
                         }
     unique_key_name = "test_uniquekey_add_%s" % \
                       (str(uuid.uuid4())[1:8])
     unique_key_data = {"name": unique_key_name,
-                       "spcname": "pg_default",
+                       "spcname": "sys_default",
                        "columns": [{"column": "id"}]}
     scenarios = [
         ('Add primary Key constraint to table',

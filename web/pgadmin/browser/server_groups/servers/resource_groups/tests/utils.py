@@ -34,14 +34,14 @@ def create_resource_groups(server, resource_group_name):
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("CREATE RESOURCE GROUP %s" % resource_group_name)
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("CREATE RESOURCE GROUP %s" % resource_group_name)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get oid of newly created resource group
-        pg_cursor.execute("SELECT oid FROM edb_resource_group WHERE "
+        sys_cursor.execute("SELECT oid FROM edb_resource_group WHERE "
                           "rgrpname='%s'" % resource_group_name)
-        resource_group = pg_cursor.fetchone()
+        resource_group = sys_cursor.fetchone()
         resource_group_id = resource_group[0]
         connection.close()
         return resource_group_id
@@ -67,10 +67,10 @@ def verify_resource_group(server, resource_group_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT * FROM edb_resource_group WHERE "
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT * FROM edb_resource_group WHERE "
                           "rgrpname='%s'" % resource_group_name)
-        resource_group = pg_cursor.fetchone()
+        resource_group = sys_cursor.fetchone()
         connection.close()
         return resource_group
     except Exception:
@@ -79,14 +79,14 @@ def verify_resource_group(server, resource_group_name):
 
 def delete_resource_group(connection, resource_group_name):
     try:
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT * FROM edb_resource_group WHERE"
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT * FROM edb_resource_group WHERE"
                           " rgrpname='%s'" % resource_group_name)
-        resource_group_name_count = len(pg_cursor.fetchall())
+        resource_group_name_count = len(sys_cursor.fetchall())
         if resource_group_name_count:
             old_isolation_level = connection.isolation_level
             connection.set_isolation_level(0)
-            pg_cursor.execute("DELETE FROM edb_resource_group where "
+            sys_cursor.execute("DELETE FROM edb_resource_group where "
                               "rgrpname='%s'" %
                               resource_group_name)
             connection.set_isolation_level(old_isolation_level)

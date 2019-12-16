@@ -6,12 +6,12 @@ SELECT
     SELECT
         nspname
     FROM
-        pg_namespace
+        sys_namespace
     WHERE
         oid = cfg.cfgnamespace
     ) as schema
 FROM
-    pg_ts_config cfg
+    sys_ts_config cfg
 WHERE
     cfg.oid = {{cfgid}}::OID;
 {% endif %}

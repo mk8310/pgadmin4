@@ -4,7 +4,7 @@ FROM
     (SELECT
             unnest(rolconfig) AS rolconfig, rolcanlogin, rolname
     FROM
-        pg_catalog.pg_roles
+        sys_catalog.sys_roles
     WHERE
         oid={{ rid|qtLiteral }}::OID
     ) r
@@ -17,9 +17,9 @@ FROM
         d.datname, unnest(c.setconfig) AS rolconfig
     FROM
         (SELECT *
-        FROM pg_catalog.pg_db_role_setting dr
+        FROM sys_catalog.sys_db_role_setting dr
         WHERE
             dr.setrole={{ rid|qtLiteral }}::OID AND dr.setdatabase!=0
         ) c
-        LEFT JOIN pg_catalog.pg_database d ON (d.oid = c.setdatabase)
+        LEFT JOIN sys_catalog.sys_database d ON (d.oid = c.setdatabase)
     ) a;

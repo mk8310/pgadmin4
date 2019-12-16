@@ -43,16 +43,16 @@ def create_column(server, db_name, schema_name, table_name, col_name,
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "ALTER TABLE %s.%s ADD COLUMN %s %s" % \
                 (schema_name, table_name, col_name, col_data_type)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get column position of newly added column
-        pg_cursor.execute("select attnum from pg_attribute where"
+        sys_cursor.execute("select attnum from sys_attribute where"
                           " attname='%s'" % col_name)
-        col = pg_cursor.fetchone()
+        col = sys_cursor.fetchone()
         col_pos = ''
         if col:
             col_pos = col[0]
@@ -91,17 +91,17 @@ def create_identity_column(server, db_name, schema_name, table_name,
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "ALTER TABLE %s.%s ADD COLUMN %s %s " \
                 "GENERATED ALWAYS AS IDENTITY" % \
                 (schema_name, table_name, col_name, col_data_type)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get column position of newly added column
-        pg_cursor.execute("select attnum from pg_attribute where"
+        sys_cursor.execute("select attnum from sys_attribute where"
                           " attname='%s'" % col_name)
-        col = pg_cursor.fetchone()
+        col = sys_cursor.fetchone()
         col_pos = ''
         if col:
             col_pos = col[0]
@@ -131,10 +131,10 @@ def verify_column(server, db_name, col_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("select * from pg_attribute where attname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("select * from sys_attribute where attname='%s'" %
                           col_name)
-        col = pg_cursor.fetchone()
+        col = sys_cursor.fetchone()
         connection.close()
         return col
     except Exception:

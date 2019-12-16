@@ -54,7 +54,7 @@ class Properties:
             name=table_information_result['name'],
             type=gettext('readable' if not table_information_result[
                 'writable'] else 'writable'),
-            format_type=table_information_result['pg_encoding_to_char'],
+            format_type=table_information_result['sys_encoding_to_char'],
             format_options=table_information_result['fmtopts'],
             external_options=table_information_result['options'],
             command=table_information_result['command'],

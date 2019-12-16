@@ -25,7 +25,7 @@ class ViewsUpdateTestCase(BaseTestGenerator):
     """This class will update the view/mview under schema node."""
     view_sql = "CREATE OR REPLACE VIEW %s.%s AS SELECT 'Hello World'; " \
                "ALTER TABLE %s.%s OWNER TO %s"
-    m_view_sql = "CREATE MATERIALIZED VIEW %s.%s TABLESPACE pg_default AS " \
+    m_view_sql = "CREATE MATERIALIZED VIEW %s.%s TABLESPACE sys_default AS " \
                  "SELECT 'test_pgadmin' WITH NO DATA;ALTER TABLE %s.%s OWNER" \
                  " TO %s"
     scenarios = [

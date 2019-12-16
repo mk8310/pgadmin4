@@ -1,7 +1,7 @@
 SELECT
     c.oid,
     c.relname AS name
-FROM pg_class c
+FROM sys_class c
 WHERE
   c.relkind = 'v'
 {% if (vid and datlastsysoid) %}

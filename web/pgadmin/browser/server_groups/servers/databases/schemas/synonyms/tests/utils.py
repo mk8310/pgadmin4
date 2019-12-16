@@ -35,10 +35,10 @@ def create_synonym(server, db_name, schema_name, synonym_name, sequence_name):
                                              server['db_password'],
                                              server['host'],
                                              server['port'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "CREATE OR REPLACE SYNONYM %s.%s FOR %s.%s" % (
             schema_name, synonym_name, schema_name, sequence_name)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
     except Exception:
         traceback.print_exc(file=sys.stderr)
@@ -62,10 +62,10 @@ def verify_synonym(server, db_name, synonym_name):
                                              server['db_password'],
                                              server['host'],
                                              server['port'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT * FROM pg_synonym WHERE synname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT * FROM sys_synonym WHERE synname='%s'" %
                           synonym_name)
-        synonym = pg_cursor.fetchone()
+        synonym = sys_cursor.fetchone()
         connection.close()
         return synonym
     except Exception:

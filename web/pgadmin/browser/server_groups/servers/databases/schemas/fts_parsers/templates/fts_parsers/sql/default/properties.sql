@@ -10,12 +10,12 @@ SELECT
     description,
     prs.prsnamespace AS schema
 FROM
-    pg_ts_parser prs
-    LEFT OUTER JOIN pg_description des
+    sys_ts_parser prs
+    LEFT OUTER JOIN sys_description des
 ON
     (
     des.objoid=prs.oid
-    AND des.classoid='pg_ts_parser'::regclass
+    AND des.classoid='sys_ts_parser'::regclass
     )
 WHERE
 {% if scid %}

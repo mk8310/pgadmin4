@@ -3,29 +3,29 @@ SELECT *,
 FROM (
 	SELECT rel.oid, rel.relname AS name, rel.reltablespace AS spcoid,rel.relacl AS relacl_str,
 		(CASE WHEN length(spc.spcname) > 0 THEN spc.spcname ELSE
-			(SELECT sp.spcname FROM pg_database dtb
-			JOIN pg_tablespace sp ON dtb.dattablespace=sp.oid
+			(SELECT sp.spcname FROM sys_database dtb
+			JOIN sys_tablespace sp ON dtb.dattablespace=sp.oid
 			WHERE dtb.oid = {{ did }}::oid)
 		END) as spcname,
-		(select nspname FROM pg_namespace WHERE oid = {{scid}}::oid ) as schema,
-		pg_get_userbyid(rel.relowner) AS relowner, rel.relhasoids,
+		(select nspname FROM sys_namespace WHERE oid = {{scid}}::oid ) as schema,
+		sys_get_userbyid(rel.relowner) AS relowner, rel.relhasoids,
 		rel.relhassubclass, rel.reltuples::bigint, des.description, con.conname, con.conkey,
-		EXISTS(select 1 FROM pg_trigger
-				JOIN pg_proc pt ON pt.oid=tgfoid AND pt.proname='logtrigger'
-				JOIN pg_proc pc ON pc.pronamespace=pt.pronamespace AND pc.proname='slonyversion'
+		EXISTS(select 1 FROM sys_trigger
+				JOIN sys_proc pt ON pt.oid=tgfoid AND pt.proname='logtrigger'
+				JOIN sys_proc pc ON pc.pronamespace=pt.pronamespace AND pc.proname='slonyversion'
 				WHERE tgrelid=rel.oid) AS isrepl,
-		(SELECT count(*) FROM pg_trigger WHERE tgrelid=rel.oid) AS triggercount,
+		(SELECT count(*) FROM sys_trigger WHERE tgrelid=rel.oid) AS triggercount,
 		(SELECT ARRAY(SELECT CASE WHEN (nspname NOT LIKE 'pg\_%') THEN
 							quote_ident(nspname)||'.'||quote_ident(c.relname)
 							ELSE quote_ident(c.relname) END AS inherited_tables
-			FROM pg_inherits i
-			JOIN pg_class c ON c.oid = i.inhparent
-			JOIN pg_namespace n ON n.oid=c.relnamespace
+			FROM sys_inherits i
+			JOIN sys_class c ON c.oid = i.inhparent
+			JOIN sys_namespace n ON n.oid=c.relnamespace
 			WHERE i.inhrelid = rel.oid ORDER BY inhseqno)) AS pre_coll_inherits,
 		(SELECT count(*)
-			FROM pg_inherits i
-				JOIN pg_class c ON c.oid = i.inhparent
-				JOIN pg_namespace n ON n.oid=c.relnamespace
+			FROM sys_inherits i
+				JOIN sys_class c ON c.oid = i.inhparent
+				JOIN sys_namespace n ON n.oid=c.relnamespace
 			WHERE i.inhrelid = rel.oid) AS inherited_tables_cnt,
 		false AS relpersistence,
 		substring(array_to_string(rel.reloptions, ',') FROM 'fillfactor=([0-9]*)') AS fillfactor,
@@ -63,11 +63,11 @@ FROM (
 		ARRAY[]::varchar[] AS seclabels,
 		(CASE WHEN rel.oid <= {{ datlastsysoid}}::oid THEN true ElSE false END) AS is_sys_table
 
-	FROM pg_class rel
-		LEFT OUTER JOIN pg_tablespace spc on spc.oid=rel.reltablespace
-		LEFT OUTER JOIN pg_description des ON (des.objoid=rel.oid AND des.objsubid=0 AND des.classoid='pg_class'::regclass)
-		LEFT OUTER JOIN pg_constraint con ON con.conrelid=rel.oid AND con.contype='p'
-		LEFT OUTER JOIN pg_class tst ON tst.oid = rel.reltoastrelid
+	FROM sys_class rel
+		LEFT OUTER JOIN sys_tablespace spc on spc.oid=rel.reltablespace
+		LEFT OUTER JOIN sys_description des ON (des.objoid=rel.oid AND des.objsubid=0 AND des.classoid='sys_class'::regclass)
+		LEFT OUTER JOIN sys_constraint con ON con.conrelid=rel.oid AND con.contype='p'
+		LEFT OUTER JOIN sys_class tst ON tst.oid = rel.reltoastrelid
 
 	 WHERE rel.relkind IN ('r','s','t') AND rel.relnamespace = {{ scid }}
 	{% if tid %}  AND rel.oid = {{ tid }}::oid {% endif %}

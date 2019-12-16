@@ -37,18 +37,18 @@ def create_type(server, db_name, schema_name, type_name):
                                              server['port'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = 'CREATE TYPE %s.%s AS  (one "char", two "char"[]); ' \
                 'ALTER TYPE %s.%s  OWNER TO %s' % (schema_name, type_name,
                                                    schema_name, type_name,
                                                    server['username'])
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get 'oid' from newly created type
-        pg_cursor.execute(
-            "select oid from pg_type where typname='%s'" % type_name)
-        schema_type = pg_cursor.fetchone()
+        sys_cursor.execute(
+            "select oid from sys_type where typname='%s'" % type_name)
+        schema_type = sys_cursor.fetchone()
         type_id = schema_type[0]
         connection.close()
         return type_id
@@ -74,10 +74,10 @@ def verify_type(server, db_name, type_name):
                                              server['db_password'],
                                              server['host'],
                                              server['port'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
-            "select oid from pg_type where typname='%s'" % type_name)
-        schema_type = pg_cursor.fetchone()
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
+            "select oid from sys_type where typname='%s'" % type_name)
+        schema_type = sys_cursor.fetchone()
         connection.close()
         return schema_type
     except Exception:

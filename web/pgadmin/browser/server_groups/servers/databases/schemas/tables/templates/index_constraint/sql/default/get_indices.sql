@@ -1,3 +1,3 @@
-SELECT relname FROM pg_class, pg_index
-WHERE pg_class.oid=indexrelid
+SELECT relname FROM sys_class, sys_index
+WHERE sys_class.oid=indexrelid
 AND indrelid={{ tid }}

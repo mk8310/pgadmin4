@@ -19,15 +19,15 @@ FROM
     END AS privilege_type
   FROM
     (SELECT nspacl
-  FROM pg_namespace
+  FROM sys_namespace
   WHERE nspparent = {{scid}}::oid
   AND oid = {{pkgid}}::oid
     ) acl,
     (SELECT (d).grantee AS grantee, (d).grantor AS grantor, (d).is_grantable
-        AS is_grantable, (d).privilege_type AS privilege_type FROM (SELECT aclexplode(nspacl) as d FROM pg_namespace
+        AS is_grantable, (d).privilege_type AS privilege_type FROM (SELECT aclexplode(nspacl) as d FROM sys_namespace
         WHERE nspparent = {{scid}}::oid
         AND oid = {{pkgid}}::oid) a) d
     ) d
-  LEFT JOIN pg_catalog.pg_roles g ON (d.grantor = g.oid)
-  LEFT JOIN pg_catalog.pg_roles gt ON (d.grantee = gt.oid)
+  LEFT JOIN sys_catalog.sys_roles g ON (d.grantor = g.oid)
+  LEFT JOIN sys_catalog.sys_roles gt ON (d.grantee = gt.oid)
 GROUP BY g.rolname, gt.rolname

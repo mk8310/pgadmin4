@@ -443,7 +443,7 @@ class TypeView(PGChildNodeView, DataTypeReader):
                     not row['collname'] or
                     (
                         row['collname'] == 'default' and
-                        row['collnspname'] == 'pg_catalog'
+                        row['collnspname'] == 'sys_catalog'
                     )
                 ):
                     full_collate = ''

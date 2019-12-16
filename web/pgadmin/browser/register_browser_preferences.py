@@ -96,7 +96,7 @@ def register_browser_preferences(self):
         category_label=gettext('Properties')
     )
 
-    self.pg_agent_row_threshold = self.preference.register(
+    self.sys_agent_row_threshold = self.preference.register(
         'properties', 'pgagent_row_threshold',
         gettext("Maximum job history rows"), 'integer', 250,
         category_label=gettext('Properties'),

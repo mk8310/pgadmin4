@@ -44,11 +44,11 @@ class BackupMessageTest(BaseTestGenerator):
                      '--database',
                      "postgres"
                  ],
-                 cmd="/test_path/pg_dump"
+                 cmd="/test_path/sys_dump"
              ),
              extected_msg="Backing up the server"
                           " 'test_backup_server (localhost:5444)'",
-             expetced_details_cmd='/test_path/pg_dump --file '
+             expetced_details_cmd='/test_path/sys_dump --file '
                                   '"backup_file" --host "localhost" '
                                   '--port "5444" --username "postgres" '
                                   '--no-password --database "postgres"'
@@ -77,11 +77,11 @@ class BackupMessageTest(BaseTestGenerator):
                      '--database',
                      'postgres'
                  ],
-                 cmd="/test_path/pg_dump"
+                 cmd="/test_path/sys_dump"
              ),
              extected_msg="Backing up the global objects on the server "
                           "'test_backup_server (localhost:5444)'",
-             expetced_details_cmd='/test_path/pg_dump --file "backup_file" '
+             expetced_details_cmd='/test_path/sys_dump --file "backup_file" '
                                   '--host "localhost"'
                                   ' --port "5444" --username "postgres" '
                                   '--no-password --database "postgres"'
@@ -110,12 +110,12 @@ class BackupMessageTest(BaseTestGenerator):
                      '--database',
                      'postgres'
                  ],
-                 cmd="/test_path/pg_dump"
+                 cmd="/test_path/sys_dump"
              ),
              extected_msg="Backing up an object on the server "
                           "'test_backup_server (localhost:5444)'"
                           " from database 'postgres'",
-             expetced_details_cmd='/test_path/pg_dump --file "backup_file" '
+             expetced_details_cmd='/test_path/sys_dump --file "backup_file" '
                                   '--host "localhost" '
                                   '--port "5444" --username "postgres" '
                                   '--no-password --database "postgres"'

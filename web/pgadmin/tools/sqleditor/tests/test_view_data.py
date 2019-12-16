@@ -62,11 +62,11 @@ class TestViewData(BaseTestGenerator):
                                            self.table_sql)
 
         # Fetch Table OID
-        pg_cursor = self.connection.cursor()
-        pg_cursor.execute("""Select oid FROM pg_class WHERE
+        sys_cursor = self.connection.cursor()
+        sys_cursor.execute("""Select oid FROM sys_class WHERE
          relname = '%s' AND relkind IN ('r','s','t')""" % self.table)
 
-        result = pg_cursor.fetchall()
+        result = sys_cursor.fetchall()
         table_id = result[0][0]
 
         # Initialize query tool

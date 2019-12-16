@@ -304,7 +304,7 @@ class RestoreCreateJobTest(BaseTestGenerator):
 
         binary_path = os.path.join(
             self.server['default_binary_paths'][self.server['type']],
-            'pg_restore')
+            'sys_restore')
 
         if os.name == 'nt':
             binary_path = binary_path + '.exe'

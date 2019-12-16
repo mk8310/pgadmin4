@@ -19,12 +19,12 @@ FROM
         END AS privilege_type
     FROM
         aclexplode((SELECT relacl
-            FROM pg_class cl
-            LEFT OUTER JOIN pg_description des ON (des.objoid=cl.oid AND des.classoid='pg_class'::regclass)
+            FROM sys_class cl
+            LEFT OUTER JOIN sys_description des ON (des.objoid=cl.oid AND des.classoid='sys_class'::regclass)
             WHERE relkind = 'S' AND relnamespace  = {{scid}}::oid
             AND cl.oid = {{seid}}::oid )) d
         ) d
-    LEFT JOIN pg_catalog.pg_roles g ON (d.grantor = g.oid)
-    LEFT JOIN pg_catalog.pg_roles gt ON (d.grantee = gt.oid)
+    LEFT JOIN sys_catalog.sys_roles g ON (d.grantor = g.oid)
+    LEFT JOIN sys_catalog.sys_roles gt ON (d.grantee = gt.oid)
 GROUP BY g.rolname, gt.rolname
 ORDER BY grantee

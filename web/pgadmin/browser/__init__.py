@@ -613,8 +613,8 @@ def utils():
 
     prefs = Preferences.module('paths')
 
-    pg_help_path_pref = prefs.preference('pg_help_path')
-    pg_help_path = pg_help_path_pref.get()
+    sys_help_path_pref = prefs.preference('sys_help_path')
+    sys_help_path = sys_help_path_pref.get()
 
     edbas_help_path_pref = prefs.preference('edbas_help_path')
     edbas_help_path = edbas_help_path_pref.get()
@@ -645,9 +645,9 @@ def utils():
         from config import PG_DEFAULT_DRIVER
         from pgadmin.utils.driver import get_driver
         driver = get_driver(PG_DEFAULT_DRIVER)
-        pg_libpq_version = driver.libpq_version()
+        sys_libpq_version = driver.libpq_version()
     except Exception as e:
-        pg_libpq_version = 0
+        sys_libpq_version = 0
 
     for submodule in current_blueprint.submodules:
         snippets.extend(submodule.jssnippets)
@@ -656,7 +656,7 @@ def utils():
             'browser/js/utils.js',
             layout=layout,
             jssnippets=snippets,
-            pg_help_path=pg_help_path,
+            sys_help_path=sys_help_path,
             edbas_help_path=edbas_help_path,
             editor_tab_size=editor_tab_size,
             editor_use_spaces=editor_use_spaces,
@@ -665,7 +665,7 @@ def utils():
             editor_insert_pair_brackets=insert_pair_brackets,
             editor_indent_with_tabs=editor_indent_with_tabs,
             app_name=config.APP_NAME,
-            pg_libpq_version=pg_libpq_version,
+            sys_libpq_version=sys_libpq_version,
             support_ssh_tunnel=config.SUPPORT_SSH_TUNNEL
         ),
         200, {'Content-Type': 'application/javascript'})

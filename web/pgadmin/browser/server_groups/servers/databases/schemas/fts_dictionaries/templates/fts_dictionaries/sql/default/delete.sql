@@ -6,13 +6,13 @@ SELECT
     SELECT
         nspname
     FROM
-        pg_namespace
+        sys_namespace
     WHERE
         oid = dict.dictnamespace
     ) as schema
 FROM
-    pg_ts_dict dict LEFT OUTER JOIN pg_description des
-    ON (des.objoid=dict.oid AND des.classoid='pg_ts_dict'::regclass)
+    sys_ts_dict dict LEFT OUTER JOIN sys_description des
+    ON (des.objoid=dict.oid AND des.classoid='sys_ts_dict'::regclass)
 WHERE
     dict.oid = {{dcid}}::OID;
 {% endif %}

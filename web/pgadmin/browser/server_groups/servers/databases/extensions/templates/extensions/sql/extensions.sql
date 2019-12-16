@@ -6,7 +6,7 @@ SELECT
     array_agg(av.superuser) as superuser,
     array_agg(av.relocatable) as relocatable
 FROM
-    pg_available_extensions a
-    LEFT JOIN pg_available_extension_versions av ON (a.name = av.name)
+    sys_available_extensions a
+    LEFT JOIN sys_available_extension_versions av ON (a.name = av.name)
 GROUP BY a.name, a.installed_version
 ORDER BY a.name

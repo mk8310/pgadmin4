@@ -1,1 +1,1 @@
-SELECT db.datname as name FROM pg_database as db WHERE db.oid = {{did}}
+SELECT db.datname as name FROM sys_database as db WHERE db.oid = {{did}}

@@ -4,10 +4,10 @@
 `Backup Dialog`:index:
 **********************
 
-Using the *pg_dump* utility, *pgAdmin* provides an easy way to create a backup
+Using the *sys_dump* utility, *pgAdmin* provides an easy way to create a backup
 in a plain-text or archived format.  You can then use a client application (like
 *psql* or the *Query Tool*) to restore a plain-text backup file, or use the
-Postgres *pg_restore* utility to restore an archived backup. The *pg_dump*
+Postgres *sys_restore* utility to restore an archived backup. The *sys_dump*
 utility must have read access to all database objects that you want to back up.
 
 You can backup a single table, a schema, or a complete database. Select the name
@@ -30,14 +30,14 @@ Use the fields in the *General* tab to specify parameters for the backup:
   disadvantages:
 
    * Select *Custom* to create a custom archive file that you can use with
-     *pg_restore* to create a copy of a database. Custom archive file formats
-     must be restored with *pg_restore*. This format offers the opportunity to
+     *sys_restore* to create a copy of a database. Custom archive file formats
+     must be restored with *sys_restore*. This format offers the opportunity to
      select which database objects to restore from the backup file. *Custom*
      archive format is recommended for medium to large databases as it is
      compressed by default.
 
    * Select *Tar* to generate a tar archive file that you can restore with
-     *pg_restore*. The tar format does not support compression.
+     *sys_restore*. The tar format does not support compression.
 
    * Select *Plain* to create a plain-text script file. A plain-text script file
      contains SQL statements and commands that you can execute at the *psql*
@@ -51,10 +51,10 @@ Use the fields in the *General* tab to specify parameters for the backup:
      modifications) on other architectures.
 
    * Select *Directory* to generate a directory-format archive suitable for use
-     with *pg_restore*.  This file format creates a directory with one file for
+     with *sys_restore*.  This file format creates a directory with one file for
      each table and blob being dumped, plus a *Table of Contents* file
      describing the dumped objects in a machine-readable format that
-     *pg_restore* can read.  This format is compressed by default.
+     *sys_restore* can read.  This format is compressed by default.
 
 * Use the *Compression Ratio* field to select a compression level for the
   backup. Specify a value of zero to mean use no compression; specify a maximum
@@ -68,7 +68,7 @@ Use the fields in the *General* tab to specify parameters for the backup:
   backup.
 
 Click the *Dump options* tab to continue. Use the box fields in the *Dump
-options* tab to provide options for *pg_dump*.
+options* tab to provide options for *sys_dump*.
 
 .. image:: images/backup_sections.png
     :alt: Sections option on backup dialog
@@ -182,7 +182,7 @@ options* tab to provide options for *pg_dump*.
      identifiers as part of the table data for each table.
 
    * Move the switch next to *Verbose messages* to the *No* position to instruct
-     *pg_dump* to exclude verbose messages.
+     *sys_dump* to exclude verbose messages.
 
    * Move the switch next to *Force double quotes on identifiers* to the *Yes*
      position to force the quoting of all identifiers.
@@ -191,7 +191,7 @@ options* tab to provide options for *pg_dump*.
      position to include a statement that will use a SET SESSION AUTHORIZATION
      command to determine object ownership (instead of an ALTER OWNER command).
 
-When you’ve specified the details that will be incorporated into the pg_dump
+When you’ve specified the details that will be incorporated into the sys_dump
 command:
 
 * Click the *Backup* button to build and execute a command that builds a backup

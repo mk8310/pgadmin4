@@ -8,7 +8,7 @@ CREATE FUNCTION public."Trig1_$%{}[]()&*^!@""'`\/#"()
     COST 123
     IMMUTABLE LEAKPROOF STRICT SECURITY DEFINER
     SET application_name='appname'
-    SET search_path=public, pg_temp
+    SET search_path=public, sys_temp
 AS $BODY$begin
 select 1;
 end;$BODY$;

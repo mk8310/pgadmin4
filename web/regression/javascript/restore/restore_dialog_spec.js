@@ -99,7 +99,7 @@ describe('RestoreDialog', () => {
     beforeEach(() => {
       networkMock = new MockAdapter(axios);
       alertifySpy = jasmine.createSpyObj('alertify', ['alert', 'dialog']);
-      alertifySpy['pg_restore'] = jasmine.createSpy('pg_restore');
+      alertifySpy['sys_restore'] = jasmine.createSpy('sys_restore');
       restoreDialog = new RestoreDialog(
         pgBrowser,
         jquerySpy,
@@ -118,7 +118,7 @@ describe('RestoreDialog', () => {
       it('does not create a dialog', () => {
         pgBrowser.treeMenu.selectNode([{id: 'root'}]);
         restoreDialog.draw(null, null, null);
-        expect(alertifySpy['pg_restore']).not.toHaveBeenCalled();
+        expect(alertifySpy['sys_restore']).not.toHaveBeenCalled();
       });
 
       it('display an alert with a Restore Error', () => {
@@ -141,7 +141,7 @@ describe('RestoreDialog', () => {
             restoreDialog.draw(null, [{id: 'serverTreeNode'}], null);
             expect(alertifySpy.alert).toHaveBeenCalledWith(
               'Restore Error',
-              'Failed to load preference pg_bin_dir of module paths'
+              'Failed to load preference sys_bin_dir of module paths'
             );
           });
         });
@@ -188,7 +188,7 @@ describe('RestoreDialog', () => {
           let spy;
           beforeEach(() => {
             spy = jasmine.createSpyObj('globals', ['resizeTo']);
-            alertifySpy['pg_restore'].and
+            alertifySpy['sys_restore'].and
               .returnValue(spy);
             pgBrowser.get_preference.and.returnValue({value: '/some/path'});
             pgBrowser.Nodes.server.label = 'some-server-label';
@@ -199,7 +199,7 @@ describe('RestoreDialog', () => {
           it('displays the dialog', (done) => {
             restoreDialog.draw(null, [{id: 'serverTreeNode'}], pgBrowser.stdW.md, pgBrowser.stdH.md);
             setTimeout(() => {
-              expect(alertifySpy['pg_restore']).toHaveBeenCalledWith(
+              expect(alertifySpy['sys_restore']).toHaveBeenCalledWith(
                 'Restore (some-server-label: some-tree-label)',
                 [{id: 'serverTreeNode'}],
                 {

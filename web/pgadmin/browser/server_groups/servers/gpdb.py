@@ -15,7 +15,7 @@ class GPDB(ServerType):
     UTILITY_PATH_LABEL = gettext("Greenplum Database Binary Path")
     UTILITY_PATH_HELP = gettext(
         "Path to the directory containing the Greenplum Database utility"
-        " programs (pg_dump, pg_restore etc)."
+        " programs (sys_dump, sys_restore etc)."
     )
 
     @property

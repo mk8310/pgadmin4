@@ -2,9 +2,9 @@
 SELECT
     d.typname as name, bn.nspname as basensp
 FROM
-    pg_type d
+    sys_type d
 JOIN
-    pg_namespace bn ON bn.oid=d.typnamespace
+    sys_namespace bn ON bn.oid=d.typnamespace
 WHERE
     d.typnamespace = {{scid}}::oid
 AND

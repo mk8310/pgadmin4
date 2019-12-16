@@ -4,8 +4,8 @@ UNION
 {% endif %}
 SELECT a1.attname as conattname,
     a2.attname as confattname
-FROM pg_attribute a1,
-    pg_attribute a2
+FROM sys_attribute a1,
+    sys_attribute a2
 WHERE a1.attrelid={{tid}}::oid
     AND a1.attnum={{keypair[1]}}
     AND a2.attrelid={{confrelid}}::oid

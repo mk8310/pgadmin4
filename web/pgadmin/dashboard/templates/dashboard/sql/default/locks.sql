@@ -16,9 +16,9 @@ SELECT
     granted,
     fastpath
 FROM
-    pg_locks l
-    LEFT OUTER JOIN pg_database d ON (l.database = d.oid)
+    sys_locks l
+    LEFT OUTER JOIN sys_database d ON (l.database = d.oid)
 {% if did %}WHERE
-    datname = (SELECT datname FROM pg_database WHERE oid = {{ did }}){% endif %}
+    datname = (SELECT datname FROM sys_database WHERE oid = {{ did }}){% endif %}
 ORDER BY
     pid, locktype

@@ -15,27 +15,27 @@ SELECT
     {### Default ACL for Tables ###}
     (SELECT array_to_string(ARRAY(
         SELECT array_to_string(defaclacl::text[], ', ')
-            FROM pg_default_acl
+            FROM sys_default_acl
         WHERE defaclobjtype = 'r' AND defaclnamespace = nsp.oid
     ), ', ')) AS tblacl,
     {### Default ACL for Sequnces ###}
     (SELECT array_to_string(ARRAY(
         SELECT array_to_string(defaclacl::text[], ', ')
-            FROM pg_default_acl
+            FROM sys_default_acl
         WHERE defaclobjtype = 'S' AND defaclnamespace = nsp.oid
     ), ', ')) AS seqacl,
     {### Default ACL for Functions ###}
     (SELECT array_to_string(ARRAY(
         SELECT array_to_string(defaclacl::text[], ', ')
-            FROM pg_default_acl
+            FROM sys_default_acl
         WHERE defaclobjtype = 'f' AND defaclnamespace = nsp.oid
     ), ', ')) AS funcacl,
-    (SELECT array_agg(provider || '=' || label) FROM pg_seclabels sl1 WHERE sl1.objoid=nsp.oid) AS seclabels
+    (SELECT array_agg(provider || '=' || label) FROM sys_seclabels sl1 WHERE sl1.objoid=nsp.oid) AS seclabels
 FROM
-    pg_namespace nsp
-    LEFT OUTER JOIN pg_description des ON
-        (des.objoid=nsp.oid AND des.classoid='pg_namespace'::regclass)
-    LEFT JOIN pg_roles r ON (r.oid = nsp.nspowner)
+    sys_namespace nsp
+    LEFT OUTER JOIN sys_description des ON
+        (des.objoid=nsp.oid AND des.classoid='sys_namespace'::regclass)
+    LEFT JOIN sys_roles r ON (r.oid = nsp.nspowner)
 WHERE
     {% if scid %}
     nsp.oid={{scid}}::oid AND

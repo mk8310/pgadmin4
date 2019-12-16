@@ -77,7 +77,7 @@ class TestSQLASCIIEncoding(BaseTestGenerator):
             self.server,
             self.encode_db_name,
             """CREATE TABLE {0}(
-                name character varying(200) COLLATE pg_catalog."default")
+                name character varying(200) COLLATE sys_catalog."default")
             """.format(self.table_name))
 
     def runTest(self):
@@ -93,16 +93,16 @@ class TestSQLASCIIEncoding(BaseTestGenerator):
         old_isolation_level = db_con.isolation_level
         db_con.set_isolation_level(0)
         db_con.set_client_encoding(self.db_encoding)
-        pg_cursor = db_con.cursor()
+        sys_cursor = db_con.cursor()
         query = """INSERT INTO {0} VALUES('{1}')""".format(
             self.table_name, self.test_str)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         db_con.set_isolation_level(old_isolation_level)
         db_con.commit()
 
         query = """SELECT * FROM {0}""".format(self.table_name)
-        pg_cursor.execute(query)
-        resp = pg_cursor.fetchone()
+        sys_cursor.execute(query)
+        resp = sys_cursor.fetchone()
 
         if sys.version_info < (3,):
             self.assertEqual(resp[0].encode("raw_unicode_escape"),

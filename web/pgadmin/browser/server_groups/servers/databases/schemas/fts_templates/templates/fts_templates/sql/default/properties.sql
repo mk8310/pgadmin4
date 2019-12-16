@@ -7,12 +7,12 @@ SELECT
     description,
     tmpl.tmplnamespace AS schema
 FROM
-    pg_ts_template tmpl
-    LEFT OUTER JOIN pg_description des
+    sys_ts_template tmpl
+    LEFT OUTER JOIN sys_description des
 ON
     (
     des.objoid=tmpl.oid
-    AND des.classoid='pg_ts_template'::regclass
+    AND des.classoid='sys_ts_template'::regclass
     )
 WHERE
 {% if scid %}

@@ -692,8 +692,8 @@ define('pgadmin.node.exclusion_constraint', [
           control: 'node-list-by-name', node: 'tablespace',
           select2:{allowClear:false},
           filter: function(m) {
-            // Don't show pg_global tablespace in selection.
-            if (m.label == 'pg_global') return false;
+            // Don't show sys_global tablespace in selection.
+            if (m.label == 'sys_global') return false;
             else return true;
           },
         },{

@@ -61,7 +61,7 @@ class FunctionAddTestCase(BaseTestGenerator):
             "seclabels": [],
             "variables": [{
                 "name": "search_path",
-                "value": "public, pg_temp"
+                "value": "public, sys_temp"
             }]
         }
 

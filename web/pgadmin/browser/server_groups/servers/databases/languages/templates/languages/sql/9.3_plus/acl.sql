@@ -8,13 +8,13 @@ FROM
         ELSE 'UNKNOWN'
         END AS privilege_type
     FROM
-        (SELECT lanacl FROM pg_language lan
-            LEFT OUTER JOIN pg_shdescription descr ON (lan.oid=descr.objoid AND descr.classoid='pg_language'::regclass)
+        (SELECT lanacl FROM sys_language lan
+            LEFT OUTER JOIN sys_shdescription descr ON (lan.oid=descr.objoid AND descr.classoid='sys_language'::regclass)
         WHERE lan.oid = {{ lid|qtLiteral }}::OID
         ) acl,
         aclexplode(lanacl) d
     ) d
-LEFT JOIN pg_catalog.pg_roles g ON (d.grantor = g.oid)
-LEFT JOIN pg_catalog.pg_roles gt ON (d.grantee = gt.oid)
+LEFT JOIN sys_catalog.sys_roles g ON (d.grantor = g.oid)
+LEFT JOIN sys_catalog.sys_roles gt ON (d.grantee = gt.oid)
 GROUP BY g.rolname, gt.rolname
 ORDER BY grantee

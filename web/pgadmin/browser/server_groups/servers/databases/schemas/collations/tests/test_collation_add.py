@@ -60,7 +60,7 @@ class CollationAddTestCase(BaseTestGenerator):
             raise Exception("Could not find the schema to add the collation.")
 
         data = {
-            "copy_collation": "pg_catalog.\"C\"",
+            "copy_collation": "sys_catalog.\"C\"",
             "name": "collation_add_%s" % str(uuid.uuid4())[1:8],
             "owner": self.server["username"],
             "schema": schema_name

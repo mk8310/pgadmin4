@@ -17,12 +17,12 @@ SELECT ct.oid,
       cr.relname as reftab,
       description as comment,
       convalidated
-FROM pg_constraint ct
-JOIN pg_class cl ON cl.oid=conrelid
-JOIN pg_namespace nl ON nl.oid=cl.relnamespace
-JOIN pg_class cr ON cr.oid=confrelid
-JOIN pg_namespace nr ON nr.oid=cr.relnamespace
-LEFT OUTER JOIN pg_description des ON (des.objoid=ct.oid AND des.classoid='pg_constraint'::regclass)
+FROM sys_constraint ct
+JOIN sys_class cl ON cl.oid=conrelid
+JOIN sys_namespace nl ON nl.oid=cl.relnamespace
+JOIN sys_class cr ON cr.oid=confrelid
+JOIN sys_namespace nr ON nr.oid=cr.relnamespace
+LEFT OUTER JOIN sys_description des ON (des.objoid=ct.oid AND des.classoid='sys_constraint'::regclass)
 WHERE contype='f' AND
 conrelid = {{tid}}::oid
 {% if cid %}

@@ -220,7 +220,7 @@ class Connection(BaseConnection):
             else:
                 return True, None
 
-        pg_conn = None
+        sys_conn = None
         password = None
         passfile = None
         manager = self.manager
@@ -297,7 +297,7 @@ class Connection(BaseConnection):
             os.environ['PGAPPNAME'] = '{0} - {1}'.format(
                 config.APP_NAME, conn_id)
 
-            pg_conn = psycopg2.connect(
+            sys_conn = psycopg2.connect(
                 host=manager.local_bind_host if manager.use_ssh_tunnel
                 else manager.host,
                 hostaddr=manager.local_bind_host if manager.use_ssh_tunnel
@@ -322,7 +322,7 @@ class Connection(BaseConnection):
             # If connection is asynchronous then we will have to wait
             # until the connection is ready to use.
             if self.async_ == 1:
-                self._wait(pg_conn)
+                self._wait(sys_conn)
 
         except psycopg2.Error as e:
             manager.stop_ssh_tunnel()
@@ -345,9 +345,9 @@ class Connection(BaseConnection):
 
         # Overwrite connection notice attr to support
         # more than 50 notices at a time
-        pg_conn.notices = deque([], self.ASYNC_NOTICE_MAXLENGTH)
+        sys_conn.notices = deque([], self.ASYNC_NOTICE_MAXLENGTH)
 
-        self.conn = pg_conn
+        self.conn = sys_conn
         self.wasConnected = True
         try:
             status, msg = self._initialize(conn_id, **kwargs)
@@ -409,14 +409,14 @@ class Connection(BaseConnection):
         postgres_encoding, self.python_encoding, typecast_encoding = \
             getEncoding(self.conn.encoding)
 
-        # Note that we use 'UPDATE pg_settings' for setting bytea_output as a
+        # Note that we use 'UPDATE sys_settings' for setting bytea_output as a
         # convenience hack for those running on old, unsupported versions of
         # PostgreSQL 'cos we're nice like that.
         status = _execute(
             cur,
             "SET DateStyle=ISO; "
             "SET client_min_messages=notice; "
-            "SELECT set_config('bytea_output','escape',false) FROM pg_settings"
+            "SELECT set_config('bytea_output','escape',false) FROM sys_settings"
             " WHERE name = 'bytea_output'; "
             "SET client_encoding='{0}';".format(postgres_encoding)
         )
@@ -473,10 +473,10 @@ class Connection(BaseConnection):
         status = _execute(cur, """
 SELECT
     db.oid as did, db.datname, db.datallowconn,
-    pg_encoding_to_char(db.encoding) AS serverencoding,
+    sys_encoding_to_char(db.encoding) AS serverencoding,
     has_database_privilege(db.oid, 'CREATE') as cancreate, datlastsysoid
 FROM
-    pg_database db
+    sys_database db
 WHERE db.datname = current_database()""")
 
         if status is None:
@@ -495,7 +495,7 @@ SELECT
     CASE WHEN rolsuper THEN true ELSE rolcreaterole END as can_create_role,
     CASE WHEN rolsuper THEN true ELSE rolcreatedb END as can_create_db
 FROM
-    pg_catalog.pg_roles
+    sys_catalog.sys_roles
 WHERE
     rolname = current_user""")
 
@@ -1281,7 +1281,7 @@ WHERE
         if self.conn:
             if self.conn.closed:
                 self.conn = None
-        pg_conn = None
+        sys_conn = None
         manager = self.manager
 
         password = getattr(manager, 'password', None)
@@ -1300,7 +1300,7 @@ WHERE
             password = decrypt(password, crypt_key).decode()
 
         try:
-            pg_conn = psycopg2.connect(
+            sys_conn = psycopg2.connect(
                 host=manager.local_bind_host if manager.use_ssh_tunnel
                 else manager.host,
                 hostaddr=manager.local_bind_host if manager.use_ssh_tunnel
@@ -1335,9 +1335,9 @@ Failed to reset the connection to the server due to following error:
             )
             return False, msg
 
-        pg_conn.notices = deque([], self.ASYNC_NOTICE_MAXLENGTH)
-        self.conn = pg_conn
-        self.__backend_pid = pg_conn.get_backend_pid()
+        sys_conn.notices = deque([], self.ASYNC_NOTICE_MAXLENGTH)
+        self.conn = sys_conn
+        self.__backend_pid = sys_conn.get_backend_pid()
 
         return True, None
 
@@ -1558,14 +1558,14 @@ Failed to reset the connection to the server due to following error:
         """
         This function is used to cancel the running transaction
         of the given connection id and database id using
-        PostgreSQL's pg_cancel_backend.
+        PostgreSQL's sys_cancel_backend.
 
         Args:
             conn_id: Connection id
             did: Database id (optional)
         """
         cancel_conn = self.manager.connection(did=did, conn_id=conn_id)
-        query = """SELECT pg_cancel_backend({0});""".format(
+        query = """SELECT sys_cancel_backend({0});""".format(
             cancel_conn.__backend_pid)
 
         status = True
@@ -1589,7 +1589,7 @@ Failed to reset the connection to the server due to following error:
                     .decode()
 
             try:
-                pg_conn = psycopg2.connect(
+                sys_conn = psycopg2.connect(
                     host=self.manager.local_bind_host if
                     self.manager.use_ssh_tunnel else self.manager.host,
                     hostaddr=self.manager.local_bind_host if
@@ -1615,12 +1615,12 @@ Failed to reset the connection to the server due to following error:
                 )
 
                 # Get the cursor and run the query
-                cur = pg_conn.cursor()
+                cur = sys_conn.cursor()
                 cur.execute(query)
 
                 # Close the connection
-                pg_conn.close()
-                pg_conn = None
+                sys_conn.close()
+                sys_conn = None
 
             except psycopg2.Error as e:
                 status = False

@@ -2661,10 +2661,10 @@ define('tools.querytool', [
           primary_keys = data.primary_keys,
           columns = [],
           self = this;
-        // Store pg_types in an array
-        var pg_types = new Array();
+        // Store sys_types in an array
+        var sys_types = new Array();
         _.each(data.types, function(r) {
-          pg_types[r.oid] = [r.typname];
+          sys_types[r.oid] = [r.typname];
         });
 
         // Create columns required by slick grid to render
@@ -2686,13 +2686,13 @@ define('tools.querytool', [
           var col_type = '',
             column_label = '',
             col_cell;
-          var type = pg_types[c.type_code] ?
-            pg_types[c.type_code][0] :
+          var type = sys_types[c.type_code] ?
+            sys_types[c.type_code][0] :
             // This is the case where user might
             // have use casting so we will use type
             // returned by cast function
-            pg_types[pg_types.length - 1][0] ?
-              pg_types[pg_types.length - 1][0] : 'unknown';
+            sys_types[sys_types.length - 1][0] ?
+              sys_types[sys_types.length - 1][0] : 'unknown';
 
           if (!is_primary_key)
             col_type += type;

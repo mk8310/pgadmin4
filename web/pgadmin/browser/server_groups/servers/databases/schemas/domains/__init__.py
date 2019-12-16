@@ -482,9 +482,9 @@ It may have been removed by another user or moved to another schema.
         """
 
         condition = """typisdefined AND typtype IN ('b', 'c', 'd', 'e', 'r')
-AND NOT EXISTS (SELECT 1 FROM pg_class WHERE relnamespace=typnamespace
+AND NOT EXISTS (SELECT 1 FROM sys_class WHERE relnamespace=typnamespace
 AND relname = typname AND relkind != 'c') AND
-(typname NOT LIKE '_%' OR NOT EXISTS (SELECT 1 FROM pg_class WHERE
+(typname NOT LIKE '_%' OR NOT EXISTS (SELECT 1 FROM sys_class WHERE
 relnamespace=typnamespace AND relname = substring(typname FROM 2)::name
 AND relkind != 'c'))"""
 

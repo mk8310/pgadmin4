@@ -8,7 +8,7 @@ WITH (
     autovacuum_analyze_scale_factor = 0.2,
     autovacuum_enabled = true
 )
-TABLESPACE pg_default
+TABLESPACE sys_default
 AS
  SELECT 12
 WITH DATA;

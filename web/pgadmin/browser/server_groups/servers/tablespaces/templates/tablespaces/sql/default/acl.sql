@@ -10,19 +10,19 @@ FROM
     END AS privilege_type
   FROM
     (SELECT ts.spcacl
-        FROM pg_tablespace ts
+        FROM sys_tablespace ts
         {% if tsid %}
         WHERE ts.oid={{ tsid|qtLiteral }}::OID
         {% endif %}
     ) acl,
     (SELECT (d).grantee AS grantee, (d).grantor AS grantor, (d).is_grantable
         AS is_grantable, (d).privilege_type AS privilege_type FROM (SELECT
-        aclexplode(ts.spcacl) as d FROM pg_tablespace ts
+        aclexplode(ts.spcacl) as d FROM sys_tablespace ts
         {% if tsid %}
         WHERE ts.oid={{ tsid|qtLiteral }}::OID
         {% endif %}
         ) a) d
     ) d
-  LEFT JOIN pg_catalog.pg_roles g ON (d.grantor = g.oid)
-  LEFT JOIN pg_catalog.pg_roles gt ON (d.grantee = gt.oid)
+  LEFT JOIN sys_catalog.sys_roles g ON (d.grantor = g.oid)
+  LEFT JOIN sys_catalog.sys_roles gt ON (d.grantee = gt.oid)
 GROUP BY g.rolname, gt.rolname

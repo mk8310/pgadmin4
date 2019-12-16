@@ -99,7 +99,7 @@ the *Foreign Data Wrapper* dialog:
 
 The example creates a foreign data wrapper named *libpq_debug* that uses
 pre-existing validator and handler functions, *dblink_fdw_validator* and
-*libpg_fdw_handler*.  Selections on the *Options* tab set *debug* equal to
+*libsys_fdw_handler*.  Selections on the *Options* tab set *debug* equal to
 *true*.  The foreign data wrapper is owned by *postgres*.
 
 * Click the *Help* button (?) to access online help.

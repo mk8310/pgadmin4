@@ -1,6 +1,6 @@
 SELECT opcname
-FROM pg_opclass opc,
-pg_am am
+FROM sys_opclass opc,
+sys_am am
 WHERE opcmethod=am.oid AND
       am.amname ={{indextype|qtLiteral}} AND
       NOT opcdefault

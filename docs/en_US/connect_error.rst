@@ -39,19 +39,19 @@ connections on any IP interface.
 For further information, please refer to the PostgreSQL documentation about
 `runtime configuration <https://www.postgresql.org/docs/current/runtime-config.html>`_.
 
-**FATAL: no pg_hba.conf entry**
+**FATAL: no sys_hba.conf entry**
 
 .. image:: images/ce_error_hba.png
-    :alt: No pg_hba.conf entry
+    :alt: No sys_hba.conf entry
     :align: center
 
 If pgAdmin displays this message when connecting, your server can be contacted
 correctly over the network, but is not configured to accept your connection.
 Your client has not been detected as a legal user for the database.
 
-To connect to a server, the pg_hba.conf file on the database server must be
+To connect to a server, the sys_hba.conf file on the database server must be
 configured to accept connections from the host of the pgAdmin client. Modify
-the pg_hba.conf file on the database server host, and add an entry in the form:
+the sys_hba.conf file on the database server host, and add an entry in the form:
 
  * **host template1 postgres 192.168.0.0/24 md5** for an IPV4 network
  * **host template1 postgres ::ffff:192.168.0.0/120 md5** for an IPV6 network

@@ -24,16 +24,16 @@ def create_collation(server, schema_name, coll_name, db_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute('CREATE COLLATION %s.%s FROM pg_catalog."C"' %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute('CREATE COLLATION %s.%s FROM sys_catalog."C"' %
                           (schema_name, coll_name))
         connection.commit()
 
         # Get 'oid' from newly created database
-        pg_cursor.execute("SELECT coll.oid, coll.collname FROM"
-                          " pg_collation coll WHERE coll.collname='%s'" %
+        sys_cursor.execute("SELECT coll.oid, coll.collname FROM"
+                          " sys_collation coll WHERE coll.collname='%s'" %
                           coll_name)
-        collation = pg_cursor.fetchone()
+        collation = sys_cursor.fetchone()
         connection.close()
         return collation
     except Exception:
@@ -49,12 +49,12 @@ def verify_collation(server, db_name, coll_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         # Get 'oid' from newly created database
-        pg_cursor.execute("SELECT coll.oid, coll.collname FROM"
-                          " pg_collation coll WHERE coll.collname='%s'" %
+        sys_cursor.execute("SELECT coll.oid, coll.collname FROM"
+                          " sys_collation coll WHERE coll.collname='%s'" %
                           coll_name)
-        collation = pg_cursor.fetchone()
+        collation = sys_cursor.fetchone()
         connection.close()
         return collation
     except Exception:

@@ -52,7 +52,7 @@ class IndexesAddTestCase(BaseTestGenerator):
         """This function will add index to existing table column."""
         self.index_name = "test_index_add_%s" % (str(uuid.uuid4())[1:8])
         data = {"name": self.index_name,
-                "spcname": "pg_default",
+                "spcname": "sys_default",
                 "amname": "btree",
                 "columns": [
                     {"colname": "id", "sort_order": False, "nulls": False}],

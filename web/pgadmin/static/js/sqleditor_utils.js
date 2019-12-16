@@ -46,10 +46,10 @@ define(['jquery', 'underscore', 'sources/gettext', 'sources/url_for'],
         // Create a temporary element with given label, append to body
         // calculate its width and remove the element.
         $('body').append(
-          '<span id="pg_text" style="visibility: hidden;">'+ text + '</span>'
+          '<span id="sys_text" style="visibility: hidden;">'+ text + '</span>'
         );
-        var width = $('#pg_text').width() + 23;
-        $('#pg_text').remove(); // remove element
+        var width = $('#sys_text').width() + 23;
+        $('#sys_text').remove(); // remove element
 
         return width;
       },

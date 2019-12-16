@@ -1,17 +1,17 @@
 {% macro LIST(tbl) -%}
-    ({{ tbl }}.nspname = 'pg_catalog' AND EXISTS
-        (SELECT 1 FROM pg_class WHERE relname = 'pg_class' AND
+    ({{ tbl }}.nspname = 'sys_catalog' AND EXISTS
+        (SELECT 1 FROM sys_class WHERE relname = 'sys_class' AND
             relnamespace = {{ tbl }}.oid LIMIT 1)) OR
     ({{ tbl }}.nspname = 'pgagent' AND EXISTS
-        (SELECT 1 FROM pg_class WHERE relname = 'pga_job' AND
+        (SELECT 1 FROM sys_class WHERE relname = 'pga_job' AND
             relnamespace = {{ tbl }}.oid LIMIT 1)) OR
     ({{ tbl }}.nspname = 'information_schema' AND EXISTS
-        (SELECT 1 FROM pg_class WHERE relname = 'tables' AND
+        (SELECT 1 FROM sys_class WHERE relname = 'tables' AND
             relnamespace = {{ tbl }}.oid LIMIT 1))
 {%- endmacro %}
 {% macro LABELS(tbl, _) -%}
     CASE {{ tbl }}.nspname
-    WHEN 'pg_catalog' THEN '{{ _( 'PostgreSQL Catalog' ) }} (pg_catalog)'
+    WHEN 'sys_catalog' THEN '{{ _( 'PostgreSQL Catalog' ) }} (sys_catalog)'
     WHEN 'pgagent' THEN '{{ _( 'pgAgent Job Scheduler' ) }} (pgagent)'
     WHEN 'information_schema' THEN '{{ _( 'ANSI' ) }} (information_schema)'
     ELSE {{ tbl }}.nspname

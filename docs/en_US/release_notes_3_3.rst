@@ -12,7 +12,7 @@ Features
 ********
 
 | `Issue #1407 <https://redmine.postgresql.org/issues/1407>`_ - Add a geometry viewer that can render PostGIS data on a blank canvas or various map sources.
-| `Issue #3503 <https://redmine.postgresql.org/issues/3503>`_ - Added new backup/restore options for PostgreSQL 11. Added dump options for 'pg_dumpall'.
+| `Issue #3503 <https://redmine.postgresql.org/issues/3503>`_ - Added new backup/restore options for PostgreSQL 11. Added dump options for 'sys_dumpall'.
 | `Issue #3553 <https://redmine.postgresql.org/issues/3553>`_ - Add a Spanish translation.
 
 Bug fixes

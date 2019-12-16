@@ -5,7 +5,7 @@
 CREATE FOREIGN TABLE public."FT1_$%{}[]()&*^!@""'`\/#"(
     col1 integer NULL,
     col3 bigint NULL,
-    col4 text NULL COLLATE pg_catalog."default"
+    col4 text NULL COLLATE sys_catalog."default"
 )
     SERVER test_fs_for_foreign_table;
 

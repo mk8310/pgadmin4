@@ -107,8 +107,8 @@ define('pgadmin.node.collation', [
           id: 'schema', label: gettext('Schema'), cell: 'string',
           type: 'text', mode: ['create', 'edit'], node: 'schema',
           disabled: 'inSchema', filter: function(d) {
-            // If schema name start with pg_* then we need to exclude them
-            if(d && d.label.match(/^pg_/))
+            // If schema name start with sys_* then we need to exclude them
+            if(d && d.label.match(/^sys_/))
             {
               return false;
             }

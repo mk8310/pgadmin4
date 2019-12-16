@@ -1234,7 +1234,7 @@ define('pgadmin.browser.node', [
           // Construct the URL
           var server = that.getTreeNodeHierarchy(item).server;
 
-          var url = pgBrowser.utils.pg_help_path;
+          var url = pgBrowser.utils.sys_help_path;
           if (server.server_type == 'ppas') {
             url = pgBrowser.utils.edbas_help_path;
           }

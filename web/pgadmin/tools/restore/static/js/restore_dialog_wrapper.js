@@ -23,9 +23,9 @@ export class RestoreDialogWrapper extends DialogWrapper {
 
   main(title, item, data, node) {
     this.set('title', title);
-    this.setting('pg_node', node);
-    this.setting('pg_item', item);
-    this.setting('pg_item_data', data);
+    this.setting('sys_node', node);
+    this.setting('sys_item', item);
+    this.setting('sys_item_data', data);
   }
 
   setup() {

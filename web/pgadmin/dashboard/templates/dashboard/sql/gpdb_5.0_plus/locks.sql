@@ -15,8 +15,8 @@ SELECT
     mode,
     granted
 FROM
-    pg_locks l
-    LEFT OUTER JOIN pg_database d ON (l.database = d.oid)
+    sys_locks l
+    LEFT OUTER JOIN sys_database d ON (l.database = d.oid)
 {% if did %}WHERE
     database = {{ did }}{% endif %}
 ORDER BY

@@ -25,7 +25,7 @@ class PGUtilitiesBackupFeatureTest(BaseFeatureTest):
 
     scenarios = [
         ("Test for PG utilities - Backup and Restore", dict(
-            database_name="pg_utility_test_db",
+            database_name="sys_utility_test_db",
             is_xss_check=False,
         )),
         ("Test for XSS in Backup and Restore", dict(
@@ -134,13 +134,13 @@ class PGUtilitiesBackupFeatureTest(BaseFeatureTest):
                 text
 
             self.assertIn(self.server['name'], str(command))
-            self.assertIn("from database 'pg_utility_test_db'", str(command))
+            self.assertIn("from database 'sys_utility_test_db'", str(command))
 
             # On windows a modified path may be shown so skip this test
             if os.name is not 'nt':
                 self.assertIn("test_backup", str(command))
 
-            self.assertIn("pg_dump", str(command))
+            self.assertIn("sys_dump", str(command))
 
             if command:
                 backup_file = command[int(command.find('--file')) +
@@ -206,7 +206,7 @@ class PGUtilitiesBackupFeatureTest(BaseFeatureTest):
             if os.name is not 'nt':
                 self.assertIn("test_backup", str(command))
 
-            self.assertIn("pg_restore", str(command))
+            self.assertIn("sys_restore", str(command))
 
         test_gui_helper.close_process_watcher(self)
 

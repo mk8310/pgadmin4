@@ -3,7 +3,7 @@
 SELECT
     nspname
 FROM
-    pg_namespace
+    sys_namespace
 WHERE
     oid = {{data.schema}}::OID
 
@@ -11,8 +11,8 @@ WHERE
 SELECT
     nspname
 FROM
-    pg_namespace nsp
-    LEFT JOIN pg_ts_parser prs
+    sys_namespace nsp
+    LEFT JOIN sys_ts_parser prs
     ON prs.prsnamespace = nsp.oid
 WHERE
     prs.oid = {{data.id}}::OID

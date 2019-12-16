@@ -40,16 +40,16 @@ def create_rule(server, db_name, schema_name, table_name, rule_name):
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "CREATE OR REPLACE RULE %s AS ON UPDATE TO %s.%s DO NOTHING" %\
                 (rule_name, schema_name, table_name)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get role oid of newly added rule
-        pg_cursor.execute("select oid from pg_rewrite where rulename='%s'" %
+        sys_cursor.execute("select oid from sys_rewrite where rulename='%s'" %
                           rule_name)
-        rule = pg_cursor.fetchone()
+        rule = sys_cursor.fetchone()
         rule_id = ''
         if rule:
             rule_id = rule[0]
@@ -79,10 +79,10 @@ def verify_rule(server, db_name, rule_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("select * from pg_rewrite where rulename='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("select * from sys_rewrite where rulename='%s'" %
                           rule_name)
-        rule = pg_cursor.fetchone()
+        rule = sys_cursor.fetchone()
         connection.close()
         return rule
     except Exception:

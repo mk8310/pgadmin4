@@ -428,7 +428,7 @@ def init_function(node_type, sid, did, scid, fid, trid=None):
             )
         else:
             status_in, rid_tar = conn.execute_scalar(
-                "SELECT count(*) FROM pg_proc WHERE "
+                "SELECT count(*) FROM sys_proc WHERE "
                 "proname = 'pldbg_get_target_info'"
             )
             if not status_in:
@@ -442,7 +442,7 @@ def init_function(node_type, sid, did, scid, fid, trid=None):
             # We also need to check to make sure that the debugger library is
             # also available.
             status_in, ret_oid = conn.execute_scalar(
-                "SELECT count(*) FROM pg_proc WHERE "
+                "SELECT count(*) FROM sys_proc WHERE "
                 "proname = 'plpgsql_oid_debug'"
             )
             if not status_in:
@@ -686,7 +686,7 @@ def initialize_target(debug_type, trans_id, sid, did,
     # If it is 1.0 then return error to upgrade the extension.
     if manager.server_type == 'ppas' and manager.sversion >= 110000:
         status, ext_version = conn.execute_scalar(
-            "SELECT installed_version FROM pg_catalog.pg_available_extensions "
+            "SELECT installed_version FROM sys_catalog.sys_available_extensions "
             "WHERE name = 'pldbgapi'"
         )
 
@@ -720,8 +720,8 @@ def initialize_target(debug_type, trans_id, sid, did,
 
     # Find out the debugger version and store it in session variables
     status, rid = conn.execute_scalar(
-        "SELECT COUNT(*) FROM pg_catalog.pg_proc p"
-        " LEFT JOIN pg_catalog.pg_namespace n ON p.pronamespace = n.oid"
+        "SELECT COUNT(*) FROM sys_catalog.sys_proc p"
+        " LEFT JOIN sys_catalog.sys_namespace n ON p.pronamespace = n.oid"
         " WHERE n.nspname = ANY(current_schemas(false)) AND"
         " p.proname = 'pldbg_get_proxy_info';"
     )

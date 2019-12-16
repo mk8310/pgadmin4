@@ -1,5 +1,5 @@
 SELECT
     typcategory
 FROM
-    pg_type
+    sys_type
 WHERE typname = {{datatype}};

@@ -1445,7 +1445,7 @@ define('pgadmin.dashboard', [
       var active_sessions = m.collection.where({
           'state': 'active',
         }),
-        pg_version = this.get('postgres_version') || null,
+        sys_version = this.get('postgres_version') || null,
         cell_action = this.get('cell_action') || null,
         is_cancel_session = cell_action === 'cancel',
         txtAction = is_cancel_session ? gettext('cancel') : gettext('terminate');
@@ -1455,7 +1455,7 @@ define('pgadmin.dashboard', [
       // anyway, so better usability we will throw our on notification
 
       // Background processes do not have database field populated
-      if (pg_version && pg_version >= 100000 && !m.get('datname')) {
+      if (sys_version && sys_version >= 100000 && !m.get('datname')) {
         Alertify.info(
           gettext('You cannot ') +
           txtAction +

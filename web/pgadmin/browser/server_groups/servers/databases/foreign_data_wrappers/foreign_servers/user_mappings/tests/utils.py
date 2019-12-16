@@ -37,21 +37,21 @@ def create_user_mapping(server, db_name, fsrv_name):
                                        server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "CREATE USER MAPPING FOR %s SERVER %s OPTIONS" \
                 " (user '%s', password '%s')" % (server['username'],
                                                  fsrv_name,
                                                  server['username'],
                                                  server['db_password']
                                                  )
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get 'oid' from newly created user mapping
-        pg_cursor.execute(
-            "select umid from pg_user_mappings where srvname = '%s' order by"
+        sys_cursor.execute(
+            "select umid from sys_user_mappings where srvname = '%s' order by"
             " umid asc limit 1" % fsrv_name)
-        oid = pg_cursor.fetchone()
+        oid = sys_cursor.fetchone()
         um_id = ''
         if oid:
             um_id = oid[0]
@@ -80,11 +80,11 @@ def verify_user_mapping(server, db_name, fsrv_name):
                                        server['host'],
                                        server['port'],
                                        server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute(
-            "select umid from pg_user_mappings where srvname = '%s' order by"
+        sys_cursor = connection.cursor()
+        sys_cursor.execute(
+            "select umid from sys_user_mappings where srvname = '%s' order by"
             " umid asc limit 1" % fsrv_name)
-        user_mapping = pg_cursor.fetchone()
+        user_mapping = sys_cursor.fetchone()
         connection.close()
         return user_mapping
     except Exception:

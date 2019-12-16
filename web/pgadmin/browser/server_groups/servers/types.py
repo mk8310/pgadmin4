@@ -30,7 +30,7 @@ class ServerType(object):
     UTILITY_PATH_LABEL = _("PostgreSQL Binary Path")
     UTILITY_PATH_HELP = _(
         "Path to the directory containing the PostgreSQL utility programs"
-        " (pg_dump, pg_restore etc)."
+        " (sys_dump, sys_restore etc)."
     )
 
     def __init__(self, server_type, description, priority):
@@ -106,11 +106,11 @@ class ServerType(object):
         res = None
 
         if operation == 'backup':
-            res = 'pg_dump'
+            res = 'sys_dump'
         elif operation == 'backup_server':
-            res = 'pg_dumpall'
+            res = 'sys_dumpall'
         elif operation == 'restore':
-            res = 'pg_restore'
+            res = 'sys_restore'
         elif operation == 'sql':
             res = 'psql'
         else:

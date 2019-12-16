@@ -1212,7 +1212,7 @@ class ServerNode(PGChildNodeView):
 
         if conn.connected():
             # Execute the command for reload configuration for the server
-            status, rid = conn.execute_scalar("SELECT pg_reload_conf();")
+            status, rid = conn.execute_scalar("SELECT sys_reload_conf();")
 
             if not status:
                 return internal_server_error(
@@ -1252,7 +1252,7 @@ class ServerNode(PGChildNodeView):
             if conn.connected():
                 if restore_point_name:
                     status, res = conn.execute_scalar(
-                        "SELECT pg_create_restore_point('{0}');".format(
+                        "SELECT sys_create_restore_point('{0}');".format(
                             restore_point_name
                         )
                     )
@@ -1422,9 +1422,9 @@ class ServerNode(PGChildNodeView):
             # Execute SQL to pause or resume WAL replay
             if conn.connected():
                 if pause:
-                    sql = "SELECT pg_xlog_replay_pause();"
+                    sql = "SELECT sys_xlog_replay_pause();"
                     if manager.version >= 100000:
-                        sql = "SELECT pg_wal_replay_pause();"
+                        sql = "SELECT sys_wal_replay_pause();"
 
                     status, res = conn.execute_scalar(sql)
                     if not status:
@@ -1432,9 +1432,9 @@ class ServerNode(PGChildNodeView):
                             errormsg=str(res)
                         )
                 else:
-                    sql = "SELECT pg_xlog_replay_resume();"
+                    sql = "SELECT sys_xlog_replay_resume();"
                     if manager.version >= 100000:
-                        sql = "SELECT pg_wal_replay_resume();"
+                        sql = "SELECT sys_wal_replay_resume();"
 
                     status, res = conn.execute_scalar(sql)
                     if not status:

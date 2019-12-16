@@ -30,7 +30,7 @@ def create_trigger_function(server, db_name, schema_name, func_name,
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         r_type = "event_trigger"
         if server_version != 0:
             r_type = "trigger"
@@ -40,13 +40,13 @@ def create_trigger_function(server, db_name, schema_name, func_name,
                 " SECURITY DEFINER SET enable_sort=true AS $BODY$ BEGIN" \
                 " NULL; END; $BODY$".format(
                     r_type)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
         # Get 'oid' from newly created function
-        pg_cursor.execute("SELECT pro.oid, pro.proname FROM"
-                          " pg_proc pro WHERE pro.proname='%s'" %
+        sys_cursor.execute("SELECT pro.oid, pro.proname FROM"
+                          " sys_proc pro WHERE pro.proname='%s'" %
                           func_name)
-        functions = pg_cursor.fetchone()
+        functions = sys_cursor.fetchone()
         connection.close()
         return functions
     except Exception:
@@ -63,19 +63,19 @@ def create_trigger_function_with_trigger(server, db_name, schema_name,
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "CREATE FUNCTION " + schema_name + "." + func_name + \
                 "()" \
                 " RETURNS trigger LANGUAGE 'plpgsql' STABLE LEAKPROOF" \
                 " SECURITY DEFINER SET enable_sort=true AS $BODY$ BEGIN" \
                 " NULL; END; $BODY$"
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
         # Get 'oid' from newly created function
-        pg_cursor.execute("SELECT pro.oid, pro.proname FROM"
-                          " pg_proc pro WHERE pro.proname='%s'" %
+        sys_cursor.execute("SELECT pro.oid, pro.proname FROM"
+                          " sys_proc pro WHERE pro.proname='%s'" %
                           func_name)
-        functions = pg_cursor.fetchone()
+        functions = sys_cursor.fetchone()
         connection.close()
         return functions
     except Exception:
@@ -90,11 +90,11 @@ def verify_trigger_function(server, db_name, func_name):
                                          server['host'],
                                          server['port'],
                                          server['sslmode'])
-    pg_cursor = connection.cursor()
-    pg_cursor.execute("SELECT pro.oid, pro.proname FROM"
-                      " pg_proc pro WHERE pro.proname='%s'" %
+    sys_cursor = connection.cursor()
+    sys_cursor.execute("SELECT pro.oid, pro.proname FROM"
+                      " sys_proc pro WHERE pro.proname='%s'" %
                       func_name)
-    functions = pg_cursor.fetchone()
+    functions = sys_cursor.fetchone()
     connection.close()
     return functions
 
@@ -109,7 +109,7 @@ def create_procedure(server, db_name, schema_name, func_name, s_type,
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         if s_type == 'pg':
             query = "CREATE PROCEDURE {0}.{1}" \
                     "({2})" \
@@ -130,13 +130,13 @@ def create_procedure(server, db_name, schema_name, func_name, s_type,
                         " NULL; END; $BODY$".format(schema_name, func_name,
                                                     args)
 
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
         # Get 'oid' from newly created function
-        pg_cursor.execute("SELECT pro.oid, pro.proname FROM"
-                          " pg_proc pro WHERE pro.proname='%s'" %
+        sys_cursor.execute("SELECT pro.oid, pro.proname FROM"
+                          " sys_proc pro WHERE pro.proname='%s'" %
                           func_name)
-        functions = pg_cursor.fetchone()
+        functions = sys_cursor.fetchone()
         connection.close()
         return functions
     except Exception:
@@ -152,19 +152,19 @@ def create_function(server, db_name, schema_name, func_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "CREATE FUNCTION " + schema_name + "." + func_name + \
                 "()" \
                 " RETURNS integer LANGUAGE 'sql' STABLE" \
                 " SECURITY DEFINER AS $$" \
                 " SELECT 1; $$;"
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
         # Get 'oid' from newly created function
-        pg_cursor.execute("SELECT pro.oid, pro.proname FROM"
-                          " pg_proc pro WHERE pro.proname='%s'" %
+        sys_cursor.execute("SELECT pro.oid, pro.proname FROM"
+                          " sys_proc pro WHERE pro.proname='%s'" %
                           func_name)
-        functions = pg_cursor.fetchone()
+        functions = sys_cursor.fetchone()
         connection.close()
         return functions
     except Exception:
@@ -181,18 +181,18 @@ def create_support_internal_function(server, db_name, schema_name, func_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "CREATE FUNCTION " + schema_name + "." + func_name + \
                 "(internal)" \
                 " RETURNS internal LANGUAGE 'internal'" \
                 " AS $BODY$cidr_abbrev$BODY$;"
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
         # Get 'oid' from newly created function
-        pg_cursor.execute("SELECT pro.oid, pro.proname FROM"
-                          " pg_proc pro WHERE pro.proname='%s'" %
+        sys_cursor.execute("SELECT pro.oid, pro.proname FROM"
+                          " sys_proc pro WHERE pro.proname='%s'" %
                           func_name)
-        functions = pg_cursor.fetchone()
+        functions = sys_cursor.fetchone()
         connection.close()
         return functions
     except Exception:
@@ -207,11 +207,11 @@ def verify_procedure(server, db_name, proc_name):
                                          server['host'],
                                          server['port'],
                                          server['sslmode'])
-    pg_cursor = connection.cursor()
-    pg_cursor.execute("SELECT pro.oid, pro.proname FROM"
-                      " pg_proc pro WHERE pro.proname='%s'" %
+    sys_cursor = connection.cursor()
+    sys_cursor.execute("SELECT pro.oid, pro.proname FROM"
+                      " sys_proc pro WHERE pro.proname='%s'" %
                       proc_name)
-    procs = pg_cursor.fetchone()
+    procs = sys_cursor.fetchone()
     connection.close()
     return procs
 
@@ -260,6 +260,6 @@ def execute_procedure(server, db_name, proc_exec_sql):
                                          server['host'],
                                          server['port'],
                                          server['sslmode'])
-    pg_cursor = connection.cursor()
-    pg_cursor.execute(proc_exec_sql)
+    sys_cursor = connection.cursor()
+    sys_cursor.execute(proc_exec_sql)
     connection.close()

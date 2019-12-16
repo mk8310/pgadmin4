@@ -8,8 +8,8 @@ SELECT proname, nspname,
     ELSE '' END AS func
 FROM (
     SELECT proname, nspname, max(proargtypes[0]) AS arg0, max(proargtypes[1]) AS arg1
-FROM pg_proc p
-    JOIN pg_namespace n ON n.oid=pronamespace
+FROM sys_proc p
+    JOIN sys_namespace n ON n.oid=pronamespace
 GROUP BY proname, nspname
 HAVING count(proname) = 1) AS uniquefunc
 WHERE arg0 <> 0 AND (arg1 IS NULL OR arg1 <> 0);
@@ -20,10 +20,10 @@ SELECT proname, nspname,
     CASE WHEN length(nspname) > 0 AND length(proname) > 0  THEN
         concat(quote_ident(nspname), '.', quote_ident(proname))
     ELSE '' END AS func
-FROM pg_proc p
-    JOIN pg_namespace n ON n.oid=pronamespace
-WHERE prorettype=(SELECT oid FROM pg_type WHERE typname='int4')
-    AND proargtypes[0]=(SELECT oid FROM pg_type WHERE typname='_cstring')
+FROM sys_proc p
+    JOIN sys_namespace n ON n.oid=pronamespace
+WHERE prorettype=(SELECT oid FROM sys_type WHERE typname='int4')
+    AND proargtypes[0]=(SELECT oid FROM sys_type WHERE typname='_cstring')
     AND proargtypes[1] IS NULL
 ORDER BY nspname, proname;
 {% endif %}
@@ -33,10 +33,10 @@ SELECT proname, nspname,
     CASE WHEN length(nspname) > 0 AND length(proname) > 0  THEN
         concat(quote_ident(nspname), '.', quote_ident(proname))
     ELSE '' END AS func
-FROM pg_proc p
-    JOIN pg_namespace n ON n.oid=pronamespace
-WHERE prorettype=(SELECT oid FROM pg_type WHERE typname='cstring')
-    AND proargtypes[0]=(SELECT oid FROM pg_type WHERE typname='int4')
+FROM sys_proc p
+    JOIN sys_namespace n ON n.oid=pronamespace
+WHERE prorettype=(SELECT oid FROM sys_type WHERE typname='cstring')
+    AND proargtypes[0]=(SELECT oid FROM sys_type WHERE typname='int4')
     AND proargtypes[1] IS NULL
 ORDER BY nspname, proname;
 {% endif %}

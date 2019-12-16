@@ -1,6 +1,6 @@
 {#============================Drop/Cascade Extension by name=========================#}
 {% if eid %}
-SELECT x.extname from pg_extension x
+SELECT x.extname from sys_extension x
     WHERE x.oid = {{ eid }}::oid
 {% endif %}
 {% if name %}

@@ -43,17 +43,17 @@ def create_trigger(server, db_name, schema_name, table_name, trigger_name,
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "CREATE TRIGGER %s BEFORE INSERT ON %s.%s FOR EACH ROW " \
                 "EXECUTE PROCEDURE %s.%s()" % (trigger_name, schema_name,
                                                table_name, schema_name,
                                                trigger_func_name)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
-        pg_cursor.execute("SELECT oid FROM pg_trigger where tgname='%s'" %
+        sys_cursor.execute("SELECT oid FROM sys_trigger where tgname='%s'" %
                           trigger_name)
-        trigger = pg_cursor.fetchone()
+        trigger = sys_cursor.fetchone()
         trigger_id = ''
         if trigger:
             trigger_id = trigger[0]
@@ -83,10 +83,10 @@ def verify_trigger(server, db_name, trigger_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT oid FROM pg_trigger where tgname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT oid FROM sys_trigger where tgname='%s'" %
                           trigger_name)
-        trigger = pg_cursor.fetchone()
+        trigger = sys_cursor.fetchone()
         connection.close()
         return trigger
     except Exception:

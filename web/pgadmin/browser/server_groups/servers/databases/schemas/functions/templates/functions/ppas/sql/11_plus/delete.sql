@@ -1,14 +1,14 @@
 {% if scid and fnid %}
 SELECT
-    pr.proname as name, '(' || COALESCE(pg_catalog
-    .pg_get_function_identity_arguments(pr.oid), '') || ')' as func_args,
+    pr.proname as name, '(' || COALESCE(sys_catalog
+    .sys_get_function_identity_arguments(pr.oid), '') || ')' as func_args,
     nspname
 FROM
-    pg_proc pr
+    sys_proc pr
 JOIN
-    pg_type typ ON typ.oid=prorettype
+    sys_type typ ON typ.oid=prorettype
 JOIN
-    pg_namespace nsp ON nsp.oid=pr.pronamespace
+    sys_namespace nsp ON nsp.oid=pr.pronamespace
 WHERE
     pr.prokind IN ('f', 'w')
     AND pronamespace = {{scid}}::oid

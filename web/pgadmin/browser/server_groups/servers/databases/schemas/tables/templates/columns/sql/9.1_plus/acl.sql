@@ -19,17 +19,17 @@ FROM
     END AS privilege_type
   FROM
     (SELECT attacl
-        FROM pg_attribute att
+        FROM sys_attribute att
         WHERE att.attrelid = {{tid}}::oid
         AND att.attnum = {{clid}}::int
     ) acl,
     (SELECT (d).grantee AS grantee, (d).grantor AS grantor, (d).is_grantable
         AS is_grantable, (d).privilege_type AS privilege_type FROM (SELECT
-        aclexplode(attacl) as d FROM pg_attribute att
+        aclexplode(attacl) as d FROM sys_attribute att
         WHERE att.attrelid = {{tid}}::oid
         AND att.attnum = {{clid}}::int) a) d
     ) d
-  LEFT JOIN pg_catalog.pg_roles g ON (d.grantor = g.oid)
-  LEFT JOIN pg_catalog.pg_roles gt ON (d.grantee = gt.oid)
+  LEFT JOIN sys_catalog.sys_roles g ON (d.grantor = g.oid)
+  LEFT JOIN sys_catalog.sys_roles gt ON (d.grantee = gt.oid)
 GROUP BY g.rolname, gt.rolname
 ORDER BY grantee

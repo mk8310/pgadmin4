@@ -8,7 +8,7 @@ SELECT
     ELSE ARRAY['UNKNOWN OPTION' || i.indoption[i.attnum - 1]::text, '']
     END::text[] AS options,
     i.attnum,
-    pg_get_indexdef(i.indexrelid, i.attnum, true) as attdef,
+    sys_get_indexdef(i.indexrelid, i.attnum, true) as attdef,
     CASE WHEN (o.opcdefault = FALSE) THEN o.opcname ELSE null END AS opcname,
     NULL AS oprname,
 	  '' AS collnspname
@@ -17,9 +17,9 @@ FROM (
           indexrelid, i.indoption, i.indclass,
           unnest(ARRAY(SELECT generate_series(1, i.indnatts) AS n)) AS attnum
       FROM
-          pg_index i
+          sys_index i
       WHERE i.indexrelid = {{idx}}::OID
 ) i
-    LEFT JOIN pg_opclass o ON (o.oid = i.indclass[i.attnum - 1])
-    LEFT JOIN pg_attribute a ON (a.attrelid = i.indexrelid AND a.attnum = i.attnum)
+    LEFT JOIN sys_opclass o ON (o.oid = i.indclass[i.attnum - 1])
+    LEFT JOIN sys_attribute a ON (a.attrelid = i.indexrelid AND a.attnum = i.attnum)
 ORDER BY i.attnum;

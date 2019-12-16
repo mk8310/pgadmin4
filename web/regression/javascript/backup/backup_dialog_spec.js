@@ -153,7 +153,7 @@ describe('BackupDialog', () => {
             backupDialog.draw(null, [{id: 'some_database'}], null);
             expect(alertifySpy.alert).toHaveBeenCalledWith(
               'Backup Error',
-              'Failed to load preference pg_bin_dir of module paths'
+              'Failed to load preference sys_bin_dir of module paths'
             );
           });
         });

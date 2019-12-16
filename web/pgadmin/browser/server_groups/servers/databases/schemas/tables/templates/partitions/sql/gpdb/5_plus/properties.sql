@@ -1,32 +1,32 @@
 SELECT rel.oid, rel.relname AS name, rel.reltablespace AS spcoid,rel.relacl AS relacl_str,
   (CASE WHEN length(spc.spcname) > 0 THEN spc.spcname ELSE
-    (SELECT sp.spcname FROM pg_database dtb
-    JOIN pg_tablespace sp ON dtb.dattablespace=sp.oid
+    (SELECT sp.spcname FROM sys_database dtb
+    JOIN sys_tablespace sp ON dtb.dattablespace=sp.oid
     WHERE dtb.oid = {{ did }}::oid)
   END) as spcname,
-  (select nspname FROM pg_namespace WHERE oid = {{scid}}::oid ) as parent_schema,
+  (select nspname FROM sys_namespace WHERE oid = {{scid}}::oid ) as parent_schema,
   nsp.nspname as schema,
-  pg_get_userbyid(rel.relowner) AS relowner, rel.relhasoids,
+  sys_get_userbyid(rel.relowner) AS relowner, rel.relhasoids,
   (CASE WHEN partitions.number_of_partitions > 0 THEN true ELSE false END) AS relispartition,
   rel.relhassubclass, rel.reltuples::bigint, des.description, con.conname, con.conkey,
-	EXISTS(select 1 FROM pg_trigger
-			JOIN pg_proc pt ON pt.oid=tgfoid AND pt.proname='logtrigger'
-			JOIN pg_proc pc ON pc.pronamespace=pt.pronamespace AND pc.proname='slonyversion'
+	EXISTS(select 1 FROM sys_trigger
+			JOIN sys_proc pt ON pt.oid=tgfoid AND pt.proname='logtrigger'
+			JOIN sys_proc pc ON pc.pronamespace=pt.pronamespace AND pc.proname='slonyversion'
 			WHERE tgrelid=rel.oid) AS isrepl,
 	(SELECT count(*)
-   FROM pg_trigger
+   FROM sys_trigger
    WHERE tgrelid = rel.oid AND tgisconstraint = FALSE) AS triggercount,
 	(SELECT ARRAY(SELECT CASE WHEN (nspname NOT LIKE 'pg\_%') THEN
             quote_ident(nspname)||'.'||quote_ident(c.relname)
             ELSE quote_ident(c.relname) END AS inherited_tables
-    FROM pg_inherits i
-    JOIN pg_class c ON c.oid = i.inhparent
-    JOIN pg_namespace n ON n.oid=c.relnamespace
+    FROM sys_inherits i
+    JOIN sys_class c ON c.oid = i.inhparent
+    JOIN sys_namespace n ON n.oid=c.relnamespace
     WHERE i.inhrelid = rel.oid ORDER BY inhseqno)) AS coll_inherits,
   (SELECT count(*)
-		FROM pg_inherits i
-      JOIN pg_class c ON c.oid = i.inhparent
-      JOIN pg_namespace n ON n.oid=c.relnamespace
+		FROM sys_inherits i
+      JOIN sys_class c ON c.oid = i.inhparent
+      JOIN sys_namespace n ON n.oid=c.relnamespace
 		WHERE i.inhrelid = rel.oid) AS inherited_tables_cnt,
   false AS relpersistence,
 	substring(array_to_string(rel.reloptions, ',') FROM 'fillfactor=([0-9]*)') AS fillfactor,
@@ -67,20 +67,20 @@ SELECT rel.oid, rel.relname AS name, rel.reltablespace AS spcoid,rel.relacl AS r
 	'' AS partition_scheme,
 	{% if ptid %}
 	  (CASE WHEN partitions.number_of_partitions > 0 THEN partitions.expression ELSE '' END) AS partition_value,
-	  (SELECT relname FROM pg_class WHERE oid = {{ tid }}::oid) AS partitioned_table_name
+	  (SELECT relname FROM sys_class WHERE oid = {{ tid }}::oid) AS partitioned_table_name
 	{% else %}
 	  partitions.expression AS partition_value
 	{% endif %}
 
-FROM pg_class rel
-  LEFT OUTER JOIN pg_tablespace spc on spc.oid=rel.reltablespace
-  LEFT OUTER JOIN pg_description des ON (des.objoid=rel.oid AND des.objsubid=0 AND des.classoid='pg_class'::regclass)
-  LEFT OUTER JOIN pg_constraint con ON con.conrelid=rel.oid AND con.contype='p'
-  LEFT OUTER JOIN pg_class tst ON tst.oid = rel.reltoastrelid
-  LEFT JOIN pg_type typ ON rel.reltype=typ.oid
-  LEFT JOIN pg_inherits inh ON inh.inhrelid = rel.oid
-  LEFT JOIN pg_namespace nsp ON rel.relnamespace = nsp.oid
-  LEFT JOIN (SELECT tablename, partitionboundary as expression, count(*) number_of_partitions FROM pg_partitions GROUP BY tablename, expression) partitions ON rel.relname = tablename
+FROM sys_class rel
+  LEFT OUTER JOIN sys_tablespace spc on spc.oid=rel.reltablespace
+  LEFT OUTER JOIN sys_description des ON (des.objoid=rel.oid AND des.objsubid=0 AND des.classoid='sys_class'::regclass)
+  LEFT OUTER JOIN sys_constraint con ON con.conrelid=rel.oid AND con.contype='p'
+  LEFT OUTER JOIN sys_class tst ON tst.oid = rel.reltoastrelid
+  LEFT JOIN sys_type typ ON rel.reltype=typ.oid
+  LEFT JOIN sys_inherits inh ON inh.inhrelid = rel.oid
+  LEFT JOIN sys_namespace nsp ON rel.relnamespace = nsp.oid
+  LEFT JOIN (SELECT tablename, partitionboundary as expression, count(*) number_of_partitions FROM sys_partitions GROUP BY tablename, expression) partitions ON rel.relname = tablename
 WHERE inh.inhparent = {{ tid }}::oid
 {% if ptid %}  AND rel.oid = {{ ptid }}::oid {% endif %}
 ORDER BY rel.relname;

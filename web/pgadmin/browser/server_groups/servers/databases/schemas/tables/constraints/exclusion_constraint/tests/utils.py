@@ -41,17 +41,17 @@ def create_exclusion_constraint(server, db_name, schema_name, table_name,
                                              server['sslmode'])
         old_isolation_level = connection.isolation_level
         connection.set_isolation_level(0)
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "ALTER TABLE %s.%s ADD CONSTRAINT %s EXCLUDE USING btree(" \
                 "id ASC NULLS FIRST WITH =)" % \
                 (schema_name, table_name, key_name)
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.set_isolation_level(old_isolation_level)
         connection.commit()
         # Get oid of newly added index constraint
-        pg_cursor.execute(
-            "SELECT conindid FROM pg_constraint where conname='%s'" % key_name)
-        index_constraint = pg_cursor.fetchone()
+        sys_cursor.execute(
+            "SELECT conindid FROM sys_constraint where conname='%s'" % key_name)
+        index_constraint = sys_cursor.fetchone()
         connection.close()
         oid = index_constraint[0]
         return oid
@@ -78,10 +78,10 @@ def verify_exclusion_constraint(server, db_name, index_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("select * from pg_class where relname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("select * from sys_class where relname='%s'" %
                           index_name)
-        index_record = pg_cursor.fetchone()
+        index_record = sys_cursor.fetchone()
         connection.close()
         return index_record
     except Exception:

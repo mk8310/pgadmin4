@@ -3,7 +3,7 @@ SELECT --nspname, collname,
     concat(nspname, '."', collname,'"')
     ELSE '' END AS copy_collation
 FROM
-    pg_collation c, pg_namespace n
+    sys_collation c, sys_namespace n
 WHERE
     c.collnamespace=n.oid
 ORDER BY

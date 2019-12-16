@@ -1,14 +1,14 @@
 SELECT
     'DOMAIN' AS objectkind, c.oid as conoid, conname, typname as relname, nspname, description,
-    regexp_replace(pg_get_constraintdef(c.oid, true), E'CHECK \\((.*)\\).*', E'\\1') as cons
+    regexp_replace(sys_get_constraintdef(c.oid, true), E'CHECK \\((.*)\\).*', E'\\1') as cons
 FROM
-    pg_constraint c
+    sys_constraint c
 JOIN
-    pg_type t ON t.oid=contypid
+    sys_type t ON t.oid=contypid
 JOIN
-    pg_namespace nl ON nl.oid=typnamespace
+    sys_namespace nl ON nl.oid=typnamespace
 LEFT OUTER JOIN
-    pg_description des ON (des.objoid=t.oid AND des.classoid='pg_constraint'::regclass)
+    sys_description des ON (des.objoid=t.oid AND des.classoid='sys_constraint'::regclass)
 WHERE
     contype = 'c'
     AND contypid =  {{doid}}::oid

@@ -82,7 +82,7 @@
       "endpoint": "NODE-foreign_data_wrapper.obj_id",
       "sql_endpoint": "NODE-foreign_data_wrapper.sql_id",
       "data": {
-        "fdwvalue": "pg_catalog.postgresql_fdw_validator"
+        "fdwvalue": "sys_catalog.postgresql_fdw_validator"
       },
       "expected_sql_file": "alter_fdw_validator.sql"
     },{

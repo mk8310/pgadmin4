@@ -37,7 +37,7 @@ Bug fixes
 | `Issue #1835 <https://redmine.postgresql.org/issues/1835>`_ - Allow users to choose SELECT permissions for tables and sequences in the grant wizard
 | `Issue #1837 <https://redmine.postgresql.org/issues/1837>`_ - Fix refreshing of FTS dictionaries which was causing error "Connection to the server has been lost"
 | `Issue #1838 <https://redmine.postgresql.org/issues/1838>`_ - Don't append new objects with the wrong parent in tree browser if the correct one isn't loaded
-| `Issue #1843 <https://redmine.postgresql.org/issues/1843>`_ - Function definition matches value returned from pg_get_functiondef()
+| `Issue #1843 <https://redmine.postgresql.org/issues/1843>`_ - Function definition matches value returned from sys_get_functiondef()
 | `Issue #1845 <https://redmine.postgresql.org/issues/1845>`_ - Allow refreshing synonym node.  Does not display message "Unimplemented method (node) for this url (/browser/synonym/nodes/1/7/14301/2200/test)"
 | `Issue #1847 <https://redmine.postgresql.org/issues/1847>`_ - Identify the collation correctly when reverse engineering table SQL.  ERROR:  schema "default" does not exist no longer displayed
 | `Issue #1849 <https://redmine.postgresql.org/issues/1849>`_ - Remove security keys from config.py/config_local.py

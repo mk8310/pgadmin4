@@ -5,13 +5,13 @@ SELECT  nsp.nspname schema_name,
         att.attname column_name,
         att.atttypid::regtype::text type_name,
         att.atthasdef AS has_default,
-        pg_get_expr(def.adbin, def.adrelid) as default
-FROM    pg_catalog.pg_attribute att
-        INNER JOIN pg_catalog.pg_class cls
+        sys_get_expr(def.adbin, def.adrelid) as default
+FROM    sys_catalog.sys_attribute att
+        INNER JOIN sys_catalog.sys_class cls
             ON att.attrelid = cls.oid
-        INNER JOIN pg_catalog.pg_namespace nsp
+        INNER JOIN sys_catalog.sys_namespace nsp
             ON cls.relnamespace = nsp.oid
-        LEFT OUTER JOIN pg_attrdef def
+        LEFT OUTER JOIN sys_attrdef def
             ON def.adrelid = att.attrelid
             AND def.adnum = att.attnum
 WHERE   nsp.nspname IN ({{schema_names}})
@@ -26,13 +26,13 @@ SELECT  nsp.nspname schema_name,
         att.attname column_name,
         att.atttypid::regtype::text type_name,
         att.atthasdef AS has_default,
-        pg_get_expr(def.adbin, def.adrelid) as default
-FROM    pg_catalog.pg_attribute att
-        INNER JOIN pg_catalog.pg_class cls
+        sys_get_expr(def.adbin, def.adrelid) as default
+FROM    sys_catalog.sys_attribute att
+        INNER JOIN sys_catalog.sys_class cls
             ON att.attrelid = cls.oid
-        INNER JOIN pg_catalog.pg_namespace nsp
+        INNER JOIN sys_catalog.sys_namespace nsp
             ON cls.relnamespace = nsp.oid
-        LEFT OUTER JOIN pg_attrdef def
+        LEFT OUTER JOIN sys_attrdef def
             ON def.adrelid = att.attrelid
             AND def.adnum = att.attnum
 WHERE   nsp.nspname IN ({{schema_names}})

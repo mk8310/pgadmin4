@@ -6,14 +6,14 @@
 
 The *Restore* dialog provides an easy way to use a Custom, tar, or Directory
 format backup taken with the pgAdmin *Backup* dialog to recreate a database or
-database object.  The *Backup* dialog invokes options of the pg_dump client
-utility; the *Restore* dialog invokes options of the pg_restore client utility.
+database object.  The *Backup* dialog invokes options of the sys_dump client
+utility; the *Restore* dialog invokes options of the sys_restore client utility.
 
 You can use the *Query Tool* to play back the script created during a plain-text
 backup made with the *Backup* dialog.  For more information about backing up or
 restoring, please refer to the documentation for
-`pg_dump <https://www.postgresql.org/docs/current/app-pgdump.html>`_ or
-`pg_restore <https://www.postgresql.org/docs/current/app-pgrestore.html>`_.
+`sys_dump <https://www.postgresql.org/docs/current/app-pgdump.html>`_ or
+`sys_restore <https://www.postgresql.org/docs/current/app-pgrestore.html>`_.
 
 .. image:: images/restore_general.png
     :alt: Restore dialog general tab
@@ -32,14 +32,14 @@ restore process:
 * Enter the complete path to the backup file in the *Filename* field.
   Optionally, select the *Browser* icon (ellipsis) to the right to navigate
   into a directory and select the file that contains the archive.
-* Use the *Number of Jobs* field to specify if pg_restore should use multiple
+* Use the *Number of Jobs* field to specify if sys_restore should use multiple
   (concurrent) jobs to process the restore.  Each job uses a separate connection
   to the server.
 * Use the drop-down listbox next to *Rolename* to specify the role that will be
   used to authenticate with the server during the restore process.
 
 Click the *Restore options* tab to continue. Use the fields on the *Restore
-options* tab to specify options that correspond to *pg_restore* options.
+options* tab to specify options that correspond to *sys_restore* options.
 
 .. image:: images/restore_sections.png
     :alt: Restore dialog options section
@@ -124,17 +124,17 @@ options* tab to specify options that correspond to *pg_restore* options.
   miscellaneous restore options:
 
    * Move the switch next to *Verbose messages* to the *No* position to instruct
-     *pg_restore* to exclude verbose messages.
+     *sys_restore* to exclude verbose messages.
    * Move the switch next to *Use SET SESSION AUTHORIZATION* to the *Yes*
      position to include a statement that will use a SET SESSION AUTHORIZATION
      command to determine object ownership (instead of an ALTER OWNER command).
 
    * Move the switch next to *Exit on error* to the *Yes* position to instruct
-     *pg_restore* to exit restore if there is an error in sending SQL commands.
+     *sys_restore* to exit restore if there is an error in sending SQL commands.
      The default is to continue and to display a count of errors at the end of
      the restore.
 
-When you’ve specified the details that will be incorporated into the pg_restore
+When you’ve specified the details that will be incorporated into the sys_restore
 command, click the *Restore* button to start the process, or click the *Cancel*
 button to exit without saving your work. A popup will confirm if the restore is
 successful.

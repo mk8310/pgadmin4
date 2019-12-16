@@ -1,6 +1,6 @@
 SELECT amname
-FROM pg_am
+FROM sys_am
 WHERE EXISTS (SELECT 1
-              FROM pg_proc
+              FROM sys_proc
               WHERE oid=amhandler)
 ORDER BY amname;

@@ -107,7 +107,7 @@ Use the fields in the *General* tab to specify the following:
      identifiers as part of the table data for each table.
 
    * Move the switch next to *Verbose messages* to the *No* position to instruct
-     *pg_dump* to exclude verbose messages.
+     *sys_dump* to exclude verbose messages.
 
    * Move the switch next to *Force double quotes on identifiers* to the *Yes*
      position to force the quoting of all identifiers.

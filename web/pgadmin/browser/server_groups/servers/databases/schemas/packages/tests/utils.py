@@ -36,7 +36,7 @@ def create_package(server, db_name, schema_name, pkg_name, proc_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
+        sys_cursor = connection.cursor()
         query = "CREATE OR REPLACE PACKAGE %s.%s IS PROCEDURE %s(); END %s; " \
                 "CREATE OR REPLACE PACKAGE BODY %s.%s IS PROCEDURE %s() IS " \
                 "BEGIN dbms_output.put_line('Test_pkg.Proc...'); END; " \
@@ -44,12 +44,12 @@ def create_package(server, db_name, schema_name, pkg_name, proc_name):
                 (schema_name, pkg_name, proc_name, pkg_name, schema_name,
                  pkg_name, proc_name, pkg_name)
 
-        pg_cursor.execute(query)
+        sys_cursor.execute(query)
         connection.commit()
         # Get 'oid' from newly created package
-        pg_cursor.execute("SELECT oid FROM pg_namespace WHERE nspname='%s'" %
+        sys_cursor.execute("SELECT oid FROM sys_namespace WHERE nspname='%s'" %
                           pkg_name)
-        package_id = pg_cursor.fetchone()[0]
+        package_id = sys_cursor.fetchone()[0]
         connection.close()
         return package_id
     except Exception:
@@ -75,10 +75,10 @@ def verify_package(server, db_name, pkg_name):
                                              server['host'],
                                              server['port'],
                                              server['sslmode'])
-        pg_cursor = connection.cursor()
-        pg_cursor.execute("SELECT oid FROM pg_namespace WHERE nspname='%s'" %
+        sys_cursor = connection.cursor()
+        sys_cursor.execute("SELECT oid FROM sys_namespace WHERE nspname='%s'" %
                           pkg_name)
-        package = pg_cursor.fetchone()
+        package = sys_cursor.fetchone()
         connection.close()
         return package
     except Exception:
