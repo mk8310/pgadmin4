@@ -68,6 +68,7 @@ FROM (
 		LEFT OUTER JOIN sys_description des ON (des.objoid=rel.oid AND des.objsubid=0 AND des.classoid='sys_class'::regclass)
 		LEFT OUTER JOIN sys_constraint con ON con.conrelid=rel.oid AND con.contype='p'
 		LEFT OUTER JOIN sys_class tst ON tst.oid = rel.reltoastrelid
+        LEFT OUTER JOIN sys_type typ ON typ.typrelid = rel.oid
 
 	 WHERE rel.relkind IN ('r','s','t') AND rel.relnamespace = {{ scid }}
 	{% if tid %}  AND rel.oid = {{ tid }}::oid {% endif %}

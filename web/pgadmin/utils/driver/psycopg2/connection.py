@@ -1160,7 +1160,8 @@ WHERE
         self.row_count = cur.rowcount
         if cur.rowcount > 0:
             for row in cur:
-                rows.append(row)
+                row_dict = self.column_to_dict(row)
+                rows.append(row_dict)
 
         return True, {'columns': columns, 'rows': rows}
 
@@ -1218,13 +1219,17 @@ WHERE
         self.row_count = cur.rowcount
         if cur.rowcount > 0:
             for row in cur:
-                # row_dict = dict()
-                # if isinstance(row, dict):
-                #     for k, v in row.items():
-                #         row_dict[k.lower()] = v
-                rows.append(dict(row))
+                row_dict = self.column_to_dict(row)
+                rows.append(dict(row_dict))
 
         return True, {'columns': columns, 'rows': rows}
+
+    def column_to_dict(self, row):
+        row_dict = dict()
+        if isinstance(row, dict):
+            for k, v in row.items():
+                row_dict[k.lower()] = v
+        return row_dict
 
     def async_fetchmany_2darray(self, records=2000,
                                 formatted_exception_msg=False):
